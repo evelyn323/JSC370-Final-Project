@@ -29,9 +29,9 @@ bikes20_11 <- read.csv(zip20[11])
 bikes20_12 <- read.csv(zip20[12])
 
 # Change mismatching variable types 
-bikes20_10$Start.Station.Id <- as.numeric(bikes20_10$Start.Station.Id)
-bikes20_10$Bike.Id <- as.numeric(bikes20_10$Bike.Id)
-bikes20_12$Bike.Id <- as.numeric(bikes20_12$Bike.Id)
+bikes20_10$Start.Station.Id <- suppressWarnings(as.numeric(bikes20_10$Start.Station.Id))
+bikes20_10$Bike.Id <- suppressWarnings(as.numeric(bikes20_10$Bike.Id))
+bikes20_12$Bike.Id <- suppressWarnings(as.numeric(bikes20_12$Bike.Id))
 
 bikes20 <- bind_rows(bikes20_1, bikes20_2, bikes20_3, bikes20_4, bikes20_5, bikes20_6,
                      bikes20_7, bikes20_8, bikes20_9, bikes20_10, bikes20_11, bikes20_12)
@@ -59,8 +59,7 @@ bikes21_11 <- read.csv(zip21[11])
 bikes21_12 <- read.csv(zip21[12])
 
 # Change mismatching variable types
-bikes21_1$Bike.Id <- as.numeric(bikes21_1$Bike.Id)
-
+bikes21_1$Bike.Id <- suppressWarnings(as.numeric(bikes21_1$Bike.Id))
 bikes21 <- bind_rows(bikes21_1, bikes21_2, bikes21_3, bikes21_4, bikes21_5, bikes21_6, 
                      bikes21_7, bikes21_8, bikes21_9, bikes21_10, bikes21_11, bikes21_12)
 
@@ -192,11 +191,11 @@ weatherdata <- weatherdata %>%
 # Convert columns from char to numeric
 weatherdata <- weatherdata %>%
   mutate(
-    Max_temp = as.numeric(Max_temp),
-    Min_temp = as.numeric(Min_temp),
-    Mean_temp = as.numeric(Mean_temp),
-    Precipitation = as.numeric(Precipitation),
-    Snow = as.numeric(Snow))
+    Max_temp = suppressWarnings(as.numeric(Max_temp)),
+    Min_temp = suppressWarnings(as.numeric(Min_temp)),
+    Mean_temp = suppressWarnings(as.numeric(Mean_temp)),
+    Precipitation = suppressWarnings(as.numeric(Precipitation)),
+    Snow = suppressWarnings(as.numeric(Snow)))
 
 df <- merge(count, weatherdata, by = "Date")
 df <- df %>% 
