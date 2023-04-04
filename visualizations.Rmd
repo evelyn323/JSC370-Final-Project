@@ -78,6 +78,11 @@ plot4 <- df %>% ggplot(aes(x = Snow, y = Rental_count, color = Weekday)) +
 ggplotly(plot4)
 ```
 
+
+## {-}
+
+From the Figure 3 and 4 above, we can observe that the day of the week doesn't seem to change the relationship between precipitation and bike ridership and snow and bike ridership. On the other hand, in Figure 2, there does appear to be a slight tendency toward more bike share ridership on weekends verus weekdays. 
+
 ## Effect of Weather Interactions {.tabset}
 
 Now we will explore whether interactions between weather variables affects (e.g. will rain on a warm or cold day be more likely to affect rental count)
@@ -95,7 +100,7 @@ plot5 <- df %>%
           marker = list(sizemode='diameter', opacity=0.5),
           hoverinfo = 'text',
           text = ~paste( paste(Date, ":", sep=""), 
-                         paste(" Precipitation: ", Precipitation, sep="") , 
+                         paste(" Precipitation (mm): ", Precipitation, sep="") , 
                          paste(" Mean Temperature (°C): ", Mean_temp, sep=""), sep = "<br>")) %>%
   layout(title = "Rental count vs Mean Temperature (°C)",
          yaxis = list(title = "Rental Count"), 
@@ -106,3 +111,5 @@ plot5 <- df %>%
 ```{r show figure 5}
 plot5
 ```
+
+In Figure 5, notice that when temperature is held constant, the precipitation does decrease rental count, however having a higher mean temperature means that even if there is precipitation, the rental count is still higher than with a significantly lower mean temperature and no precipitation.

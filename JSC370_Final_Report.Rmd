@@ -1,0 +1,643 @@
+---
+title: "JSC370 Midterm Report"
+output:
+  html_document:
+    fig_width: 15
+    fig_height: 15
+author: Evelyn Chou
+date: "2023-03-09"
+---
+
+<style>
+.vscroll-plot {
+    width: 1000px;
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
+
+```{r eval = TRUE, include = FALSE}
+knitr::opts_chunk$set(eval = T, echo = F, warning = F)
+```
+
+```{r include = FALSE}
+library(rvest)
+library(xml2)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(GGally)
+```
+
+## Introduction
+Bike share systems are programs that offer short term bike rentals to inhabitants of a city, providing a convenient and cheaper alternative to purchasing a bike for thousands of dollars. Bike Share Toronto, Toronto's bike share system, offers both one time bike rentals, and annual memberships for a considerably cheaper alternative to purchasing a new bike. In a city such as Toronto, where bike thefts are rampant, they also offer the security of not having to worry about storing your bike in a secure location. Bike Share Toronto has over 600 stations across the city where you can rent and dock bikes. This program is utilized for a multitude of purposes including commute and leisure. 
+
+Toronto's Open Data repository offers monthly data on Bike Share Toronto's ridership, including variables such as the start and end time of the rental, the bike dock the rental was from, and so much more. Of particular interest in this report is the start date of the rental, which will be used to count the total number of bike rentals in a given day. 
+
+Canada's government website stores data on the historical weather for all weather stations in Canada. Of particular interest in this report is the historical daily weather in Toronto's weather station. Weather variables in this dataset include maximum, minimum, and average daily temperature (°C), total daily precipitation (mm), and total daily snow (cm).
+
+This study investigates if weather conditions and temporal factors influence the number of bike share users on a given day in Toronto. By understanding the relationship between weather factors, temporal factors, and bike share ridership, the city can understand when maintenance should be performed to avoid inconveniencing members, and when promotions would be viable. 
+
+To do this, we will collect Toronto's Open data repository data on Bike Share Toronto, and Canada's government on historical daily weather in Toronto's weather station from January 2020 to December 2022.
+
+
+
+
+```{r read 2020 bike data}
+# Read 2020 bike data
+# Download zip file and unzip into csv
+zip20link <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/e534141d-92c6-4dd7-8ba1-bb061674d943/download/bikeshare-ridership-2020.zip"
+temp <- tempfile()
+options(timeout = max(1000, getOption("timeout")))
+download.file(zip20link, temp)
+zip20 <- unzip(temp)
+unlink(temp)
+
+# Read all csv
+bikes20_1 <- read.csv(zip20[1])
+bikes20_2 <- read.csv(zip20[2])
+bikes20_3 <- read.csv(zip20[3])
+bikes20_4 <- read.csv(zip20[4])
+bikes20_5 <- read.csv(zip20[5])
+bikes20_6 <- read.csv(zip20[6])
+bikes20_7 <- read.csv(zip20[7])
+bikes20_8 <- read.csv(zip20[8])
+bikes20_9 <- read.csv(zip20[9])
+bikes20_10 <- read.csv(zip20[10])
+bikes20_11 <- read.csv(zip20[11])
+bikes20_12 <- read.csv(zip20[12])
+
+# Change mismatching variable types 
+bikes20_10$Start.Station.Id <- as.numeric(bikes20_10$Start.Station.Id)
+bikes20_10$Bike.Id <- as.numeric(bikes20_10$Bike.Id)
+bikes20_12$Bike.Id <- as.numeric(bikes20_12$Bike.Id)
+
+bikes20 <- bind_rows(bikes20_1, bikes20_2, bikes20_3, bikes20_4, bikes20_5, bikes20_6,
+                     bikes20_7, bikes20_8, bikes20_9, bikes20_10, bikes20_11, bikes20_12)
+```
+
+```{r read 2021 bike data}
+# Read 2021 bike data
+# Download zip file and unzip into csv
+zip21link <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/ddc039f6-07fa-47a3-a707-0121ade3b307/download/bikeshare-ridership-2021.zip"
+temp <- tempfile()
+download.file(zip21link, temp)
+zip21 <- unzip(temp)
+unlink(temp)
+
+# Read all csv
+bikes21_1 <- read.csv(zip21[1])
+bikes21_2 <- read.csv(zip21[2])
+bikes21_3 <- read.csv(zip21[3])
+bikes21_4 <- read.csv(zip21[4])
+bikes21_5 <- read.csv(zip21[5])
+bikes21_6 <- read.csv(zip21[6])
+bikes21_7 <- read.csv(zip21[7])
+bikes21_8 <- read.csv(zip21[8])
+bikes21_9 <- read.csv(zip21[9])
+bikes21_10 <- read.csv(zip21[10])
+bikes21_11 <- read.csv(zip21[11])
+bikes21_12 <- read.csv(zip21[12])
+
+# Change mismatching variable types
+bikes21_1$Bike.Id <- as.numeric(bikes21_1$Bike.Id)
+
+bikes21 <- bind_rows(bikes21_1, bikes21_2, bikes21_3, bikes21_4, bikes21_5, bikes21_6, 
+                      bikes21_7, bikes21_8, bikes21_9, bikes21_10, bikes21_11, bikes21_12)
+```
+
+```{r read 2022 bike data}
+
+# Read 2022 bike data
+# Download zip file and unzip into csv
+zip22link <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/db10a7b1-2702-481c-b7f0-0c67070104bb/download/bikeshare-ridership-2022.zip"
+temp <- tempfile()
+download.file(zip22link, temp)
+zip22 <- unzip(temp)
+unlink(temp)
+
+# Read all csv
+bikes22_1 <- read.csv(zip22[1])
+bikes22_2 <- read.csv(zip22[2])
+bikes22_3 <- read.csv(zip22[3])
+bikes22_4 <- read.csv(zip22[4])
+bikes22_5 <- read.csv(zip22[5])
+bikes22_6 <- read.csv(zip22[6])
+bikes22_7 <- read.csv(zip22[7])
+bikes22_8 <- read.csv(zip22[8])
+bikes22_9 <- read.csv(zip22[9])
+bikes22_10 <- read.csv(zip22[10])
+bikes22_11 <- read.csv(unzip(zip22[11]))
+bikes22_12 <- read.csv(zip22[12])
+
+bikes22 <- bind_rows(bikes22_1, bikes22_2, bikes22_3, bikes22_4, bikes22_5, bikes22_6,
+                     bikes22_7, bikes22_8, bikes22_9, bikes22_10, bikes22_11, bikes22_12)
+```
+
+```{r combine bike data}
+bikedata <- bind_rows(bikes20, bikes21, bikes22)
+```
+## Methods
+Firstly, we begin by collecting the data necessary to answer the question of interest.
+
+### Data Collection
+
+From the Toronto's Open Data repository, we can obtain the data on Bike Share Toronto's ridership. On the page, there are several buttons, one for each year. We inspect the buttons for 2020, 2021, and 2022, and obtain the links to download the zipped files for each year. Each file contains twelve csv files, one for each month. Using R, download the zipped files and unzip them using the `download.file` and `unzip`, then read in the csvs. After reading in the twelve csvs for each year 2020-2022, ensure that all the variable types are consistent. Some variables such as the bike id appeared as integers in one file, and characters in another. Such variables were converted to a suitable type for consistency. In the case of bike id's, all were converted to integers. Then, combine the data for each month into one large dataframe for the bikeshare data using `bind_rows`. 
+
+Table 1, shown below, depicts the top 5 rows of the combined bikeshare data. The rows in this dataframe are sorted according to column "Start.Time", the starting time of the bike rental.
+<br>
+<div class="vscroll-plot">
+```{r Table 1 First Five Rows of Bike Share Toronto Ridership Data}
+knitr::kable(head(bikedata), 
+             caption = "Table 1: First Five Rows of Bike Share Toronto Ridership Data",
+             style = "html") %>%
+  kableExtra::kable_styling()
+# kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+```
+</div>
+<br>
+
+```{r Read 2020 weather data}
+weatherdata <- data.frame()
+for (i in 1:12){
+
+weather20url <- paste(paste("https://climate.weather.gc.ca/climate_data/daily_data_e.html?hlyRange=2002-06-04%7C2023-03-03&dlyRange=2002-06-04%7C2023-03-02&mlyRange=2003-07-01%7C2006-12-01&StationID=31688&Prov=ON&urlExtension=_e.html&searchType=stnName&optLimit=yearRange&StartYear=2020&EndYear=2023&selRowPerPage=25&Line=1&searchMethod=contains&txtStationName=Toronto&timeframe=2&Day=3&Year=2020&Month=", i, sep = ""), "#", sep = "")
+
+# Downloading the website
+weather <- xml2::read_html(weather20url)
+
+# Finding the table
+weather <- xml2::xml_find_first(weather, "/html/body/main/div[5]/table")
+
+# Convert to r dataframe
+weather <- rvest::html_table(weather)
+
+# Add month and year variable
+weather <- weather %>% mutate(month = i)
+weather <- weather %>% mutate(year = 2020)
+
+weatherdata <- bind_rows(weatherdata, weather)
+}
+```
+
+```{r Read 2021 weather data}
+for (i in 1:12){
+
+weather21url <- paste(paste("https://climate.weather.gc.ca/climate_data/daily_data_e.html?hlyRange=2002-06-04%7C2023-03-03&dlyRange=2002-06-04%7C2023-03-02&mlyRange=2003-07-01%7C2006-12-01&StationID=31688&Prov=ON&urlExtension=_e.html&searchType=stnName&optLimit=yearRange&StartYear=2020&EndYear=2023&selRowPerPage=25&Line=1&searchMethod=contains&txtStationName=Toronto&timeframe=2&Day=3&Year=2021&Month=", i, sep = ""), "#", sep = "")
+
+# Downloading the website
+weather <- xml2::read_html(weather21url)
+
+# Finding the table
+weather <- xml2::xml_find_first(weather, "/html/body/main/div[5]/table")
+
+# Convert to r dataframe
+weather <- rvest::html_table(weather)
+
+# Add month and year variable
+weather <- weather %>% mutate(month = i)
+weather <- weather %>% mutate(year = 2021)
+
+weatherdata <- bind_rows(weatherdata, weather)
+}
+```
+
+```{r Read 2022 weather data}
+for (i in 1:12){
+
+weather22url <- paste(paste("https://climate.weather.gc.ca/climate_data/daily_data_e.html?hlyRange=2002-06-04%7C2023-03-03&dlyRange=2002-06-04%7C2023-03-02&mlyRange=2003-07-01%7C2006-12-01&StationID=31688&Prov=ON&urlExtension=_e.html&searchType=stnName&optLimit=yearRange&StartYear=2020&EndYear=2023&selRowPerPage=25&Line=1&searchMethod=contains&txtStationName=Toronto&timeframe=2&Day=3&Year=2022&Month=", i, sep = ""), "#", sep = "")
+
+# Downloading the website
+weather <- xml2::read_html(weather22url)
+
+# Finding the table
+weather <- xml2::xml_find_first(weather, "/html/body/main/div[5]/table")
+
+# Convert to r dataframe
+weather <- rvest::html_table(weather)
+
+# Add month and year variable
+weather <- weather %>% mutate(month = i)
+weather <- weather %>% mutate(year = 2022)
+
+weatherdata <- bind_rows(weatherdata, weather)
+}
+```
+
+
+From the Canada government webpage, we can access the historical weather data and select Toronto's weather station. From there, we select the month and year we wish to obtain. Start with January 2020. The page has a table with the daily weather data for that month. Inspect the table and obtain the xml path for it. Then, using R's `xml2` package, we can read in the html table. We then convert that table to an R dataframe using the `rvest` package. After obtaining the dataframe for that month, note that the table does not include which month or year it was from, it only includes the day of the month. Thus, we add the month and year of the table we just scraped to the dataframe.  Repeat this for all months from January 2020 to December 2022. Finally, merge all of these dataframes to obtain the combined Toronto weather data.
+
+Table 2, shown below, shows the first five rows of the combined Toronto weather data. 
+
+<br>
+<div class="vscroll-plot">
+```{r Table 2 First Five Rows of Toronto Weather Data}
+knitr::kable(head(weatherdata), 
+             caption = "Table 2: First Five Rows of Toronto Weather Data",
+             style = "html") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%")
+```
+</div>
+<br>
+
+### Data Cleaning and Wrangling
+
+Tables 1 and 2, from the previous "Data Collection" subsection, provide us with an overview of the data we will be using to answer the question of interest. However, before that can be done, some data cleaning and data wrangling needs to be done. We will start with the bikeshare data.
+
+We are not actually using most of the variables in the bikeshare data, we only wish to obtain the number of daily bike rentals. Thus we will not clean the variables in the bikeshare dataset, instead we will wrangle the data to obtain our variable of interest: daily rental count. We will use the start date of each bike rental as the day it was rented. So if a bike was rented at on January 1st, and returned on January 2nd, we will count this bike in the January 1st rentals. 
+
+To do this, first convert the start date of each rental into a Date object. Then, count the number of rows for each date (this is the number of rentals for each date) and save this in a separate dataframe "count". 
+
+Table 3, shown below, shows the first five rows of this new dataframe. Column "n" is the number of bike rentals on that date. 
+
+```{r}
+# Create date variable using the trip start time
+bikedata$Start.Date.Time <- as.POSIXct(bikedata$Start.Time, format="%m/%d/%Y %H:%M")
+bikedata$Date <- as.Date(bikedata$Start.Date.Time)
+
+```
+
+```{r}
+# Count the number of bikes per date
+count  <- bikedata %>% count(Date)
+```
+<br>
+<div class="vscroll-plot">
+```{r Table 3 First Five Rows of Bikeshare Daily Rental Count }
+knitr::kable(head(count), 
+             caption = "Table 3: First Five Rows of Bikeshare Daily Rental Count",
+             style = "html") %>%
+  kableExtra::kable_styling()
+```
+</div>
+
+
+After wrangling the bikeshare data, we now clean and wrangle the weather data.
+
+First, consider some rows of the current dataframe. Table 4 below shows the 101-105th rows of the weather dataframe, which have some problematic entries. 
+<br>
+<div class="vscroll-plot">
+
+```{r Table 4 Rows 101-105 of Toronto Weather Data}
+knitr::kable(weatherdata[101:105,], 
+             caption = "Table 4: Rows 101-105 of Toronto Weather Data",
+             style = "html") %>%
+  kableExtra::kable_styling() 
+```
+
+</div>
+<br>
+
+From Table 4, observe that in rows 101-103, the entries in column "DAY" are not actually the day of the month, but are summary statistics of that month instead. We remove all such columns in the data. Then, observe that in column "Snow on Grnd Definitioncm", there are many missing entries. Since this variable is of interest, we check the data to see why, and notice that missing entries mostly occur in the warmer months with no snow. Thus, we replace all such empty entries in the column with "0". Problematic entries in other columns such as "Grnd Definitioncm" are not of concern, since we are not using those variables. In fact, we will soon be dropping those unused variables from the dataframe.
+
+```{r}
+weatherdata <- weatherdata %>% filter(DAY != "Avg",
+                              DAY != "Xtrm",
+                              DAY != "Sum",
+                              DAY != "Summary, average and extreme values are based on the data above.",
+                              DAY != "LegendMM")
+
+# Add 0 for Snow when there is no entry
+
+weatherdata$"Snow on Grnd Definitioncm" <- ifelse(weatherdata$"Snow on Grnd Definitioncm" == "", "0", weatherdata$"Snow on Grnd Definitioncm")
+```
+
+Then, create a Date variable using the variables containing the month, day, and year (the "month", "DAY", and "year" columns in Table 2 and Table 4). Then unused variables (such as flags indicating status of data collection) were removed, and only the date, maximum, minimum, and average temperature, amount of precipitation, and amount of snow were kept. Rename these variables (aside from date) as "Max_temp", "Min_temp", "Mean_temp", "Precipitation", and "Snow" respectively. 
+
+```{r}
+# Create date for weather data
+weatherdata$Date <- paste(weatherdata$year, weatherdata$month, weatherdata$DAY, sep = "-")
+weatherdata$Date <- ymd(weatherdata$Date)
+```
+
+```{r}
+# Drop unnecessary columns
+weatherdata <- weatherdata %>%
+  dplyr::select(Date, "Max Temp Definition°C", "Min Temp Definition°C", "Mean Temp Definition°C",
+                "Total Precip Definitionmm", "Snow on Grnd Definitioncm" )
+```
+
+```{r}
+# Rename columns
+weatherdata <- weatherdata %>%
+  rename(
+    Max_temp = "Max Temp Definition°C",
+    Min_temp = "Min Temp Definition°C",
+    Mean_temp = "Mean Temp Definition°C",
+    Precipitation = "Total Precip Definitionmm",
+    Snow = "Snow on Grnd Definitioncm")
+```
+
+
+Then, new temporal variables (such as the day of the week, and whether a day is on the weekend, etc.) were created for the weather dataframe using the date variable.
+
+
+```{r warning = FALSE}
+# Convert columns from char to numeric
+weatherdata <- weatherdata %>%
+  mutate(
+    Max_temp = as.numeric(Max_temp),
+    Min_temp = as.numeric(Min_temp),
+    Mean_temp = as.numeric(Mean_temp),
+    Precipitation = as.numeric(Precipitation),
+    Snow = as.numeric(Snow))
+```
+
+```{r}
+df <- merge(count, weatherdata, by = "Date")
+df <- df %>% 
+  rename(
+    Rental_count = n)
+```
+
+```{r}
+# Weekday and weekend variables
+df$Weekday <- weekdays(df$Date)
+df$Weekday_num <- ifelse(df$Weekday == "Monday", 1, 
+                               ifelse(df$Weekday == "Tuesday", 2,
+                                      ifelse(df$Weekday == "Wednesday", 3,
+                                             ifelse(df$Weekday == "Thursday", 4,
+                                                    ifelse(df$Weekday == "Friday", 5,
+                                                           ifelse(df$Weekday == "Saturday", 6, 
+                                                                  7))))))
+                                                        
+df$is_weekday <- ifelse(df$Weekday_num < 6, 1, 0)
+```
+
+
+```{r}
+df <- tidyr::drop_na(df)
+```
+
+### Data Merging
+
+After cleaning and wrangling the bikeshare daily rental counts and weather data, we now merge the two dataframes by their dates. Beginning at this point in the report, we shall refer to this as our dataset.
+
+Table 5 below shows the first five rows of our dataset that we will be using to answer our question of interest.
+<br>
+<div class="vscroll-plot">
+```{r Table 5 First Five Rows of Dataset}
+knitr::kable(head(df), 
+             caption = "Table 5: First Five Rows of Dataset",
+             style = "html") %>%
+  kableExtra::kable_styling() 
+```
+</div>
+
+### Data Exploration
+
+Finally, now that our datasets have been cleaned, wrangled, and merged, we will begin to explore the data in greater detail.
+
+Begin by looking at univariate summary statistics of our variable in Table 6 below.
+<br>
+```{r Table 6 univariate summary statistics, warning = FALSE}
+sum  <- df %>% dplyr::select(Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow) %>%
+  vtable::sumtable(summ = list(c("min(x)",
+                                      "pctile(x)[25]",
+                                      "median(x)",
+                                      "mean(x)",
+                                      "pctile(x)[75]",
+                                      "max(x)")),
+                        summ.names = list(c("Min",
+                                            "Q1",
+                                            "Median",
+                                            "Mean",
+                                            "Q3",
+                                            "Max")),
+                        out = "return")
+
+sum$Min <- format(round(as.numeric(sum$Min), 1), nsmall = 1)
+sum$Q1 <- format(round(as.numeric(sum$Q1), 1), nsmall = 1)
+sum$Median <- format(round(as.numeric(sum$Median), 1), nsmall = 1)
+sum$Mean <- format(round(as.numeric(sum$Mean), 1), nsmall = 1)
+sum$Q3 <- format(round(as.numeric(sum$Q3), 1), nsmall = 1)
+sum$Max <- format(round(as.numeric(sum$Max), 1), nsmall = 1)
+
+sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
+sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
+sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
+sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
+sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
+sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
+
+sum$Variable <- c("Rental Count", 
+                           "Max Temperature (°C)",
+                           "Min Temperature (°C)",
+                           "Mean Temperature (°C)",
+                           "Precipitation (mm)",
+                           "Snow (cm)")
+                                             
+                                             
+knitr::kable(sum, 
+             caption = "Table 6: Univariate summary statistics") %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kableExtra::add_footnote(c("numerical summaries for the Date and day of the week are omitted, as it does not provide meaningful information.")) 
+
+```
+
+From Table 6, notice that the maximum rental count in a day is 28307, which is vastly more than the minimum rental count of 425 in a day. The rental count aslo appears to be right skewed. Notice that variables for precipitation and snow also appear severely right skewed. 
+
+Now let us take a closer look at Figure 1 below, which is a visualization of the variables of interest in the data. Note that variable "Weekday" is omitted as "Weekday_num" contains the same information in a numerical manner. Note that along the diagonal of Figure 1 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
+
+<br>
+<div class="vscroll-plot">
+```{r, height = 20, width = 20}
+ggpairs(df[, -8], progress = FALSE) +
+  theme_minimal() + 
+  labs(title = "Figure 1") + 
+  theme(plot.title = element_text(size = 10))
+```
+</div>
+<br>
+
+Note that the correlation coefficient in Figure 1 is calculated using Pearson's correlation coefficient, which is not reliable for nonlinear relationships.
+
+From Figure 1, note that the "Rental_count", "Precipitation", and "Snow" are all severely right skewed, as noted before. Also notice significant levels of correlation between the "Rental_count" and all variables. Note that the presence of a linear correlation in the other variables does not mean their actual relationship with "Rental_count" is linear. More in depth investigation would need to be conducted to determine the exact nature.
+
+There is also significant correlation between the minimum, mean, and maximum temperatures (which is expected), so perhaps if we were to fit a model we would only want to select one of the temperature variables. Also notice the periodic relationship between temperature and date. 
+
+There is also a significant imbalance in the "is_Weekday" variable, which is expected, as there are more weekdays than weekends in a year. This is something to note as it may skew any results concerning this variable.
+
+A further point of interest is the scatter plot between "Precipitation" and "Snow", where we notice a few outlier points with both large amount of rain and large amounts of snow. This is interesting, as rain and snow do not usually occur together in such large amounts on the same day. 
+
+Additionally, there are so many data points that it is impossible to tell the relationship between some pairs of variables using these scatter plots. For example, between Weekday_num and Date. This is acceptable for our purposes, as we are not specifically interested in the relationship between these variables, just if there are any major issues that could affect our ability to answer the question of interest. However, in the future it may be necessary to redo the plots with perhaps a subset of the data if we desire to model these relationships. 
+
+## Preliminary Results
+<br>
+```{r Table 7 conditions for maximum bike share riders}
+max <- df %>% 
+  dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_max(order_by = Rental_count, n = 5)
+
+knitr::kable(max,
+             caption = "Table 7: Summary of top five days by rental count",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+   kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+   kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm")
+```
+<br>
+
+From Table 7, notice that all the days have a reasonable minimum and maximum temperature (not too cold and not too hot), no (or very little) rain, no snow, and most interestingly, most days are on a Saturday. Also note that the Monday was a holiday. Furthermore, four of the top 5 days are in 2022, only one is in 2021, and there are none in 2020. This may be due to increase in ridership over time, or the COVID situation in 2020. 
+
+<br>
+```{r Table 8 conditions for minimum bike share riders}
+min <- df %>% dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_min(order_by = Rental_count, n = 5) 
+knitr::kable(min,
+             caption = "Table 8: Summary of bottom five days by rental count",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+  kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm") 
+```
+<br>
+
+From Table 8, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 7, as there is a wide range here. Notice that these dates also all occur in Dec-Feb winter months. 
+
+```{r Figure 2: Rental count vs Temperature, fig.align="center"}
+library(ggplot2)
+colors <- c("Mean" = "blue", "Max" = "red", "Min" = "orange")
+plot1 <- df %>% 
+  ggplot() +
+  geom_line(aes(x = Mean_temp, y = Rental_count), color = "navyblue") +
+  labs(title = "Figure 2A",
+       x = "Mean Temperature (°C)",
+       y = "Rental Count") +
+  theme_minimal()+
+  theme(plot.title = element_text(size = 10)) +
+  theme(legend.position = "none") +
+  xlim(-20, 40) +
+  ylim(0, 30000)
+  
+plot2 <- df %>% 
+  ggplot() +
+  geom_line(aes(x = Max_temp, y = Rental_count), color = "navyblue") +
+  labs(title = "Figure 2B",
+       x = "Max Temperature (°C)",
+       y = "Rental Count") +
+  theme_minimal()+
+  theme(plot.title = element_text(size = 10)) +
+  theme(legend.position = "none")   +
+  xlim(-20, 40) +
+  ylim(0, 30000)
+  
+plot3 <- df %>% 
+  ggplot() +
+  geom_line(aes(x = Mean_temp, y = Rental_count), color = "navyblue") +
+  labs(title = "Figure 2C",
+       x = "Min Temperature (°C)",
+       y = "Rental Count") +
+  theme_minimal()+
+  theme(plot.title = element_text(size = 10)) +
+  theme(legend.position = "none") +
+  xlim(-20, 40) +
+  ylim(0, 30000)
+  
+
+gridExtra::grid.arrange(plot1, plot2, plot3, ncol = 1, top=grid::textGrob("Figure 2",gp=grid::gpar(fontsize=15)))
+```
+
+<br>
+In Figure 2, notice that the trend appears to be relatively similar for both mean, max, and min temperatures (Figure 2A, Figure 2B, and Figure 2C respectively). Also notice large fluctuations in rental count as the temperature increases, indicating that much of the variation in the rental count is still not explained by the temperature. However, there is a clear trend that increase in temperature increases rental count, at least up to a certain point. Once max temperature is too high (roughly above 30°C), then the rental count starts to fall again (see Figure 2B). Also notice that as the temperature increases, the variation in rental count also increases.
+
+
+```{r Figure 3A: Rental count vs Date}
+library(ggplot2)
+fig2 <- df %>% 
+  ggplot(aes(x = Date, y = Rental_count,)) +
+  geom_line(size = 0.7, color = "navyblue") +
+  labs(title = "Figure 3A",
+       x = "Date",
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10))
+```
+
+
+```{r Figure 3B: Rental count vs Is Weekday}
+fig3 <- df %>% 
+  ggplot(
+    aes(x = ifelse(is_weekday == 1, "Weekday", "Weekend"), y = Rental_count)) +
+  geom_boxplot(color = "navyblue") +
+  labs(title = "Figure 3B",
+       x = NULL,
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10)) +
+  theme(legend.position = "none")    
+```
+
+```{r Figure 3C: Rental count vs Precipitation}
+
+fig4 <- df %>% 
+  ggplot(aes(x = Precipitation, y = Rental_count)) +
+  geom_line(size = 0.7, color = "navyblue") +
+  labs(title = "Figure 3C",
+       x = "Precipitation (mm)",
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10))
+```
+
+```{r Figure 3D: Rental count vs Snow}
+fig5 <- df %>% 
+  ggplot(aes(x = Snow, y = Rental_count)) +
+  geom_line(size = 0.7, color = "navyblue") +
+  labs(title = "Figure 3D",
+       x = "Snow (cm)",
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10))
+```
+
+
+```{r fig.align="center"}
+gridExtra::grid.arrange(fig2, fig3, fig4, fig5, ncol = 2, top=grid::textGrob("Figure 3",gp=grid::gpar(fontsize=15)))
+```
+<br>
+In figure 3A, notice the clear trend of increasing ridership count in the summer months, then decreasing ridership count in the winter months. Also note that date and temperature are correlated, so the relationship seen here could be a reflection of the relationship seen in Figure 2. Again note the large variations in rental count across the dates. For example, in the middle of 2022, there are a few very large dips in the rental count. Also note how the variation in rental count is higher in the summer months than in winter months.
+
+From Figure 3B, notice that the median of the rental counts for the weekday and weekend are actually relatively similar (differing by about 1500) whereas the third quantile differs greatly (by about 5000), indicating that there tends to be a higher rental count more often on the weekend. Recall from Figure 2 and 3A how when the temperature is lower (i.e. in the winter months), there is less variation in the rental counts, and there is also lower rental count. This is reflected here in Figure 3B, where being on the weekend or not has less impact on the rental count when the rental count is low. Perhaps being on the weekend or not instead explains the variation in rental counts when the temperature is high (i.e. in the summer months).
+
+From Figure 3C, notice that when precipitation is low, there is very large variation in rental count, however when the precipitation increases, the rental count also tends to decrease somewhat. Do note that there are not many data points with more than 30 mm of precipitation, so trends seen may not be generalizeable. Also note that rain does not tend to fall in the colder winter months, where there is less bike ridership (as seen in Figure 2 and Figure 3A).
+
+From Figure 3D, first notice that for nonzero values of snow, the variation in rental count is not very large, especially as the amount of snow increases. Do note that there is not a lot of nonzero data on snow, so this may not be generalizable. However, from the data that we do have, even a little amount of snow appears to cap the rental count at 12000 per day. Also note that snow is correlated with temperature, in that it generally only appears in the cold winter months, where there is less bike ridership (as seen in Figure 2 and Figure 3A).
+
+Some lingering issues with Figure 3C and Figure 3D is that the precipitation and snow is recorded for the entire day, and it is unknown whether this occurred late at night and/or for a very short amount of time, resulting in less impact on ridership for that rainfall/snowfall. To investigate this, hourly data would need to be used instead. 
+
+## Conclusions
+The question of interest an investigation on if weather factors and temporal factors influence the number of bike share users on a given day in Toronto. From the preliminary analysis of the data, we have gained several insights. First, from the tables we see that days with high ridership count tend to have a comfortable temperature, be on a weekend or holiday, and have no rain or snow (see Table 7). On the other hand, days with low ridership count tend to be cold days (below 0°C), likely with precipitation or snow (see Table 8). Then, more generally, as the temperature increases, the ridership count increases, and the variation in the ridership count also increases (see Figure 2). Furthermore, in the summer months the ridership count increases (and has higher variation), and in the winter months the ridership count decreases (and has lower variation) (see Figure 3A). These two insights reflect themselves in Figure 3B, where lower ridership counts appear evenly spread between weekdays and weekends, but higher ridership counts occur more often in weekends. Finally, both the occurrence of snow and/or precipitation (that is, a nonzero value), tends to decrease the ridership count (see Figure 3C and Figure 3D). 
+
+## Limitations
+Since the weather data used is daily weather data, this does not capture any patterns within the day. For example, there may be both large amounts of snow and a large bike rental count for some day if the snow occurs late at night, after many people have already rented bikes earlier that day. For the temperature variables, we also do not know exactly when an extreme low or high temperature us (although we can make inferences based on our own knowledge). Thus, there is an underlying assumption that the weather variables are representative of the entire day. 
+
+There is also an underlying assumption that the weather data we collected from the Toronto weather station is representative of Toronto as a whole, while that may not be the case. Bike Share Toronto has bike stations over almost 200 km<sup>2</sup>. That is a very large area, and weather conditions within the areas may also vary. 
+
+
+
+
+
+

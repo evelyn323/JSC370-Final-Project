@@ -1,0 +1,2263 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Evelyn Chou" />
+
+<meta name="date" content="2023-03-09" />
+
+<title>JSC370 Midterm Report</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">JSC370 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="visualizations.html">Visualizations</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">JSC370 Midterm Report</h1>
+<h4 class="author">Evelyn Chou</h4>
+<h4 class="date">2023-03-09</h4>
+
+</div>
+
+
+<style>
+.vscroll-plot {
+    width: 1000px;
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Bike share systems are programs that offer short term bike rentals to
+inhabitants of a city, providing a convenient and cheaper alternative to
+purchasing a bike for thousands of dollars. Bike Share Toronto,
+Toronto’s bike share system, offers both one time bike rentals, and
+annual memberships for a considerably cheaper alternative to purchasing
+a new bike. In a city such as Toronto, where bike thefts are rampant,
+they also offer the security of not having to worry about storing your
+bike in a secure location. Bike Share Toronto has over 600 stations
+across the city where you can rent and dock bikes. This program is
+utilized for a multitude of purposes including commute and leisure.</p>
+<p>Toronto’s Open Data repository offers monthly data on Bike Share
+Toronto’s ridership, including variables such as the start and end time
+of the rental, the bike dock the rental was from, and so much more. Of
+particular interest in this report is the start date of the rental,
+which will be used to count the total number of bike rentals in a given
+day.</p>
+<p>Canada’s government website stores data on the historical weather for
+all weather stations in Canada. Of particular interest in this report is
+the historical daily weather in Toronto’s weather station. Weather
+variables in this dataset include maximum, minimum, and average daily
+temperature (°C), total daily precipitation (mm), and total daily snow
+(cm).</p>
+<p>This study investigates if weather conditions and temporal factors
+influence the number of bike share users on a given day in Toronto. By
+understanding the relationship between weather factors, temporal
+factors, and bike share ridership, the city can understand when
+maintenance should be performed to avoid inconveniencing members, and
+when promotions would be viable.</p>
+<p>To do this, we will collect Toronto’s Open data repository data on
+Bike Share Toronto, and Canada’s government on historical daily weather
+in Toronto’s weather station from January 2020 to December 2022.</p>
+</div>
+<div id="methods" class="section level2">
+<h2>Methods</h2>
+<p>Firstly, we begin by collecting the data necessary to answer the
+question of interest.</p>
+<div id="data-collection" class="section level3">
+<h3>Data Collection</h3>
+<p>From the Toronto’s Open Data repository, we can obtain the data on
+Bike Share Toronto’s ridership. On the page, there are several buttons,
+one for each year. We inspect the buttons for 2020, 2021, and 2022, and
+obtain the links to download the zipped files for each year. Each file
+contains twelve csv files, one for each month. Using R, download the
+zipped files and unzip them using the <code>download.file</code> and
+<code>unzip</code>, then read in the csvs. After reading in the twelve
+csvs for each year 2020-2022, ensure that all the variable types are
+consistent. Some variables such as the bike id appeared as integers in
+one file, and characters in another. Such variables were converted to a
+suitable type for consistency. In the case of bike id’s, all were
+converted to integers. Then, combine the data for each month into one
+large dataframe for the bikeshare data using <code>bind_rows</code>.</p>
+Table 1, shown below, depicts the top 5 rows of the combined bikeshare
+data. The rows in this dataframe are sorted according to column
+“Start.Time”, the starting time of the bike rental. <br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 1: First Five Rows of Bike Share Toronto Ridership Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Trip.Id
+</th>
+<th style="text-align:right;">
+Trip..Duration
+</th>
+<th style="text-align:right;">
+Start.Station.Id
+</th>
+<th style="text-align:left;">
+Start.Time
+</th>
+<th style="text-align:left;">
+Start.Station.Name
+</th>
+<th style="text-align:left;">
+End.Station.Id
+</th>
+<th style="text-align:left;">
+End.Time
+</th>
+<th style="text-align:left;">
+End.Station.Name
+</th>
+<th style="text-align:right;">
+Bike.Id
+</th>
+<th style="text-align:left;">
+User.Type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+7334128
+</td>
+<td style="text-align:right;">
+648
+</td>
+<td style="text-align:right;">
+7003
+</td>
+<td style="text-align:left;">
+01/01/2020 00:08
+</td>
+<td style="text-align:left;">
+Madison Ave / Bloor St W
+</td>
+<td style="text-align:left;">
+7271
+</td>
+<td style="text-align:left;">
+01/01/2020 00:19
+</td>
+<td style="text-align:left;">
+Yonge St / Alexander St - SMART
+</td>
+<td style="text-align:right;">
+3104
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334129
+</td>
+<td style="text-align:right;">
+419
+</td>
+<td style="text-align:right;">
+7007
+</td>
+<td style="text-align:left;">
+01/01/2020 00:10
+</td>
+<td style="text-align:left;">
+College St / Huron St
+</td>
+<td style="text-align:left;">
+7163
+</td>
+<td style="text-align:left;">
+01/01/2020 00:17
+</td>
+<td style="text-align:left;">
+Yonge St / Wood St
+</td>
+<td style="text-align:right;">
+2126
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334130
+</td>
+<td style="text-align:right;">
+566
+</td>
+<td style="text-align:right;">
+7113
+</td>
+<td style="text-align:left;">
+01/01/2020 00:13
+</td>
+<td style="text-align:left;">
+Parliament St / Aberdeen Ave
+</td>
+<td style="text-align:left;">
+7108
+</td>
+<td style="text-align:left;">
+01/01/2020 00:22
+</td>
+<td style="text-align:left;">
+Front St E / Cherry St
+</td>
+<td style="text-align:right;">
+4425
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334131
+</td>
+<td style="text-align:right;">
+1274
+</td>
+<td style="text-align:right;">
+7333
+</td>
+<td style="text-align:left;">
+01/01/2020 00:17
+</td>
+<td style="text-align:left;">
+King St E / Victoria St
+</td>
+<td style="text-align:left;">
+7311
+</td>
+<td style="text-align:left;">
+01/01/2020 00:38
+</td>
+<td style="text-align:left;">
+Sherbourne St / Isabella St
+</td>
+<td style="text-align:right;">
+4233
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334132
+</td>
+<td style="text-align:right;">
+906
+</td>
+<td style="text-align:right;">
+7009
+</td>
+<td style="text-align:left;">
+01/01/2020 00:19
+</td>
+<td style="text-align:left;">
+King St E / Jarvis St
+</td>
+<td style="text-align:left;">
+7004
+</td>
+<td style="text-align:left;">
+01/01/2020 00:34
+</td>
+<td style="text-align:left;">
+University Ave / Elm St
+</td>
+<td style="text-align:right;">
+2341
+</td>
+<td style="text-align:left;">
+Casual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334133
+</td>
+<td style="text-align:right;">
+1098
+</td>
+<td style="text-align:right;">
+7041
+</td>
+<td style="text-align:left;">
+01/01/2020 00:20
+</td>
+<td style="text-align:left;">
+Edward St / Yonge St
+</td>
+<td style="text-align:left;">
+7134
+</td>
+<td style="text-align:left;">
+01/01/2020 00:38
+</td>
+<td style="text-align:left;">
+Marlborough Ave / Yonge St
+</td>
+<td style="text-align:right;">
+314
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p>From the Canada government webpage, we can access the historical
+weather data and select Toronto’s weather station. From there, we select
+the month and year we wish to obtain. Start with January 2020. The page
+has a table with the daily weather data for that month. Inspect the
+table and obtain the xml path for it. Then, using R’s <code>xml2</code>
+package, we can read in the html table. We then convert that table to an
+R dataframe using the <code>rvest</code> package. After obtaining the
+dataframe for that month, note that the table does not include which
+month or year it was from, it only includes the day of the month. Thus,
+we add the month and year of the table we just scraped to the dataframe.
+Repeat this for all months from January 2020 to December 2022. Finally,
+merge all of these dataframes to obtain the combined Toronto weather
+data.</p>
+<p>Table 2, shown below, shows the first five rows of the combined
+Toronto weather data.</p>
+<br>
+<div class="vscroll-plot">
+<div
+style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 2: First Five Rows of Toronto Weather Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+DAY
+</th>
+<th style="text-align:left;">
+Max Temp Definition°C
+</th>
+<th style="text-align:left;">
+Min Temp Definition°C
+</th>
+<th style="text-align:left;">
+Mean Temp Definition°C
+</th>
+<th style="text-align:left;">
+Heat Deg Days Definition
+</th>
+<th style="text-align:left;">
+Cool Deg Days Definition
+</th>
+<th style="text-align:left;">
+Total Rain Definitionmm
+</th>
+<th style="text-align:left;">
+Total Snow Definitioncm
+</th>
+<th style="text-align:left;">
+Total Precip Definitionmm
+</th>
+<th style="text-align:left;">
+Snow on Grnd Definitioncm
+</th>
+<th style="text-align:left;">
+Dir of Max Gust Definition10’s deg
+</th>
+<th style="text-align:left;">
+Spd of Max Gust Definitionkm/h
+</th>
+<th style="text-align:right;">
+month
+</th>
+<th style="text-align:right;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+01
+</td>
+<td style="text-align:left;">
+1.0
+</td>
+<td style="text-align:left;">
+-1.2
+</td>
+<td style="text-align:left;">
+-0.1
+</td>
+<td style="text-align:left;">
+18.1
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+02
+</td>
+<td style="text-align:left;">
+6.2
+</td>
+<td style="text-align:left;">
+0.9
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:left;">
+14.4
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+03
+</td>
+<td style="text-align:left;">
+7.7
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:left;">
+5.7
+</td>
+<td style="text-align:left;">
+12.3
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+04
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:left;">
+0.3
+</td>
+<td style="text-align:left;">
+2.0
+</td>
+<td style="text-align:left;">
+16.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+1.5
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+1.9
+</td>
+<td style="text-align:left;">
+-1.2
+</td>
+<td style="text-align:left;">
+0.3
+</td>
+<td style="text-align:left;">
+17.7
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+06
+</td>
+<td style="text-align:left;">
+2.9
+</td>
+<td style="text-align:left;">
+-1.7
+</td>
+<td style="text-align:left;">
+0.6
+</td>
+<td style="text-align:left;">
+17.4
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+</div>
+<div id="data-cleaning-and-wrangling" class="section level3">
+<h3>Data Cleaning and Wrangling</h3>
+<p>Tables 1 and 2, from the previous “Data Collection” subsection,
+provide us with an overview of the data we will be using to answer the
+question of interest. However, before that can be done, some data
+cleaning and data wrangling needs to be done. We will start with the
+bikeshare data.</p>
+<p>We are not actually using most of the variables in the bikeshare
+data, we only wish to obtain the number of daily bike rentals. Thus we
+will not clean the variables in the bikeshare dataset, instead we will
+wrangle the data to obtain our variable of interest: daily rental count.
+We will use the start date of each bike rental as the day it was rented.
+So if a bike was rented at on January 1st, and returned on January 2nd,
+we will count this bike in the January 1st rentals.</p>
+<p>To do this, first convert the start date of each rental into a Date
+object. Then, count the number of rows for each date (this is the number
+of rentals for each date) and save this in a separate dataframe
+“count”.</p>
+<p>Table 3, shown below, shows the first five rows of this new
+dataframe. Column “n” is the number of bike rentals on that date.</p>
+<br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 3: First Five Rows of Bikeshare Daily Rental Count
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020-01-01
+</td>
+<td style="text-align:right;">
+1153
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-02
+</td>
+<td style="text-align:right;">
+3425
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-03
+</td>
+<td style="text-align:right;">
+4311
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-04
+</td>
+<td style="text-align:right;">
+2620
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-05
+</td>
+<td style="text-align:right;">
+2278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-06
+</td>
+<td style="text-align:right;">
+3249
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>After wrangling the bikeshare data, we now clean and wrangle the
+weather data.</p>
+First, consider some rows of the current dataframe. Table 4 below shows
+the 101-105th rows of the weather dataframe, which have some problematic
+entries. <br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 4: Rows 101-105 of Toronto Weather Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+DAY
+</th>
+<th style="text-align:left;">
+Max Temp Definition°C
+</th>
+<th style="text-align:left;">
+Min Temp Definition°C
+</th>
+<th style="text-align:left;">
+Mean Temp Definition°C
+</th>
+<th style="text-align:left;">
+Heat Deg Days Definition
+</th>
+<th style="text-align:left;">
+Cool Deg Days Definition
+</th>
+<th style="text-align:left;">
+Total Rain Definitionmm
+</th>
+<th style="text-align:left;">
+Total Snow Definitioncm
+</th>
+<th style="text-align:left;">
+Total Precip Definitionmm
+</th>
+<th style="text-align:left;">
+Snow on Grnd Definitioncm
+</th>
+<th style="text-align:left;">
+Dir of Max Gust Definition10’s deg
+</th>
+<th style="text-align:left;">
+Spd of Max Gust Definitionkm/h
+</th>
+<th style="text-align:right;">
+month
+</th>
+<th style="text-align:right;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+101
+</td>
+<td style="text-align:left;">
+Avg
+</td>
+<td style="text-align:left;">
+7.4
+</td>
+<td style="text-align:left;">
+0.5
+</td>
+<td style="text-align:left;">
+4.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+102
+</td>
+<td style="text-align:left;">
+Xtrm
+</td>
+<td style="text-align:left;">
+18.4
+</td>
+<td style="text-align:left;">
+-7.7
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+12.1
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+103
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+104
+</td>
+<td style="text-align:left;">
+01
+</td>
+<td style="text-align:left;">
+9.4
+</td>
+<td style="text-align:left;">
+2.7
+</td>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:left;">
+11.9
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.6
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+105
+</td>
+<td style="text-align:left;">
+02
+</td>
+<td style="text-align:left;">
+14.1
+</td>
+<td style="text-align:left;">
+3.5
+</td>
+<td style="text-align:left;">
+8.8
+</td>
+<td style="text-align:left;">
+9.2
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+1.1
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p>From Table 4, observe that in rows 101-103, the entries in column
+“DAY” are not actually the day of the month, but are summary statistics
+of that month instead. We remove all such columns in the data. Then,
+observe that in column “Snow on Grnd Definitioncm”, there are many
+missing entries. Since this variable is of interest, we check the data
+to see why, and notice that missing entries mostly occur in the warmer
+months with no snow. Thus, we replace all such empty entries in the
+column with “0”. Problematic entries in other columns such as “Grnd
+Definitioncm” are not of concern, since we are not using those
+variables. In fact, we will soon be dropping those unused variables from
+the dataframe.</p>
+<p>Then, create a Date variable using the variables containing the
+month, day, and year (the “month”, “DAY”, and “year” columns in Table 2
+and Table 4). Then unused variables (such as flags indicating status of
+data collection) were removed, and only the date, maximum, minimum, and
+average temperature, amount of precipitation, and amount of snow were
+kept. Rename these variables (aside from date) as “Max_temp”,
+“Min_temp”, “Mean_temp”, “Precipitation”, and “Snow” respectively.</p>
+<p>Then, new temporal variables (such as the day of the week, and
+whether a day is on the weekend, etc.) were created for the weather
+dataframe using the date variable.</p>
+</div>
+<div id="data-merging" class="section level3">
+<h3>Data Merging</h3>
+<p>After cleaning and wrangling the bikeshare daily rental counts and
+weather data, we now merge the two dataframes by their dates. Beginning
+at this point in the report, we shall refer to this as our dataset.</p>
+Table 5 below shows the first five rows of our dataset that we will be
+using to answer our question of interest. <br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 5: First Five Rows of Dataset
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+Rental_count
+</th>
+<th style="text-align:right;">
+Max_temp
+</th>
+<th style="text-align:right;">
+Min_temp
+</th>
+<th style="text-align:right;">
+Mean_temp
+</th>
+<th style="text-align:right;">
+Precipitation
+</th>
+<th style="text-align:right;">
+Snow
+</th>
+<th style="text-align:left;">
+Weekday
+</th>
+<th style="text-align:right;">
+Weekday_num
+</th>
+<th style="text-align:right;">
+is_weekday
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020-01-01
+</td>
+<td style="text-align:right;">
+1153
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+-1.2
+</td>
+<td style="text-align:right;">
+-0.1
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Wednesday
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-02
+</td>
+<td style="text-align:right;">
+3425
+</td>
+<td style="text-align:right;">
+6.2
+</td>
+<td style="text-align:right;">
+0.9
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Thursday
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-03
+</td>
+<td style="text-align:right;">
+4311
+</td>
+<td style="text-align:right;">
+7.7
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+5.7
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Friday
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-04
+</td>
+<td style="text-align:right;">
+2620
+</td>
+<td style="text-align:right;">
+3.6
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+2.0
+</td>
+<td style="text-align:right;">
+1.5
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Saturday
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-05
+</td>
+<td style="text-align:right;">
+2278
+</td>
+<td style="text-align:right;">
+1.9
+</td>
+<td style="text-align:right;">
+-1.2
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+5.6
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Sunday
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-06
+</td>
+<td style="text-align:right;">
+3249
+</td>
+<td style="text-align:right;">
+2.9
+</td>
+<td style="text-align:right;">
+-1.7
+</td>
+<td style="text-align:right;">
+0.6
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+Monday
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="data-exploration" class="section level3">
+<h3>Data Exploration</h3>
+<p>Finally, now that our datasets have been cleaned, wrangled, and
+merged, we will begin to explore the data in greater detail.</p>
+Begin by looking at univariate summary statistics of our variable in
+Table 6 below. <br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 6: Univariate summary statistics
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Min
+</th>
+<th style="text-align:left;">
+Q1
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+Q3
+</th>
+<th style="text-align:left;">
+Max
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rental Count
+</td>
+<td style="text-align:left;">
+425
+</td>
+<td style="text-align:left;">
+3692
+</td>
+<td style="text-align:left;">
+8846
+</td>
+<td style="text-align:left;">
+10137
+</td>
+<td style="text-align:left;">
+15302
+</td>
+<td style="text-align:left;">
+28307
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Max Temperature (°C)
+</td>
+<td style="text-align:left;">
+-12.6
+</td>
+<td style="text-align:left;">
+4.9
+</td>
+<td style="text-align:left;">
+14.4
+</td>
+<td style="text-align:left;">
+14.3
+</td>
+<td style="text-align:left;">
+24.0
+</td>
+<td style="text-align:left;">
+35.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Min Temperature (°C)
+</td>
+<td style="text-align:left;">
+-20.4
+</td>
+<td style="text-align:left;">
+-0.6
+</td>
+<td style="text-align:left;">
+6.6
+</td>
+<td style="text-align:left;">
+6.5
+</td>
+<td style="text-align:left;">
+15.2
+</td>
+<td style="text-align:left;">
+24.1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mean Temperature (°C)
+</td>
+<td style="text-align:left;">
+-16.5
+</td>
+<td style="text-align:left;">
+2.2
+</td>
+<td style="text-align:left;">
+10.2
+</td>
+<td style="text-align:left;">
+10.4
+</td>
+<td style="text-align:left;">
+19.7
+</td>
+<td style="text-align:left;">
+29.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precipitation (mm)
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.1
+</td>
+<td style="text-align:left;">
+2.1
+</td>
+<td style="text-align:left;">
+1.3
+</td>
+<td style="text-align:left;">
+55.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snow (cm)
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1.4
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+32.0
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>a</sup> numerical summaries for the Date and day of the week are
+omitted, as it does not provide meaningful information.
+</td>
+</tr>
+</tfoot>
+</table>
+<p>From Table 6, notice that the maximum rental count in a day is 28307,
+which is vastly more than the minimum rental count of 425 in a day. The
+rental count aslo appears to be right skewed. Notice that variables for
+precipitation and snow also appear severely right skewed.</p>
+<p>Now let us take a closer look at Figure 1 below, which is a
+visualization of the variables of interest in the data. Note that
+variable “Weekday” is omitted as “Weekday_num” contains the same
+information in a numerical manner. Note that along the diagonal of
+Figure 1 is a line graph of the number of observations. The top right
+corner contains the Pearson correlation coefficient between each pair of
+variables. The more significant the correlation coefficient is, the more
+stars there are. For example, “*” is “slightly significant” (alpha =
+0.05) while “***” is “very significant” (alpha = 0.001). The bottom left
+corner contains the scatter plots between each pair of variables.</p>
+<br>
+<div class="vscroll-plot">
+<p><img src="JSC370_Final_Report_files/figure-html/unnamed-chunk-13-1.png" width="1440" /></p>
+</div>
+<p><br></p>
+<p>Note that the correlation coefficient in Figure 1 is calculated using
+Pearson’s correlation coefficient, which is not reliable for nonlinear
+relationships.</p>
+<p>From Figure 1, note that the “Rental_count”, “Precipitation”, and
+“Snow” are all severely right skewed, as noted before. Also notice
+significant levels of correlation between the “Rental_count” and all
+variables. Note that the presence of a linear correlation in the other
+variables does not mean their actual relationship with “Rental_count” is
+linear. More in depth investigation would need to be conducted to
+determine the exact nature.</p>
+<p>There is also significant correlation between the minimum, mean, and
+maximum temperatures (which is expected), so perhaps if we were to fit a
+model we would only want to select one of the temperature variables.
+Also notice the periodic relationship between temperature and date.</p>
+<p>There is also a significant imbalance in the “is_Weekday” variable,
+which is expected, as there are more weekdays than weekends in a year.
+This is something to note as it may skew any results concerning this
+variable.</p>
+<p>A further point of interest is the scatter plot between
+“Precipitation” and “Snow”, where we notice a few outlier points with
+both large amount of rain and large amounts of snow. This is
+interesting, as rain and snow do not usually occur together in such
+large amounts on the same day.</p>
+<p>Additionally, there are so many data points that it is impossible to
+tell the relationship between some pairs of variables using these
+scatter plots. For example, between Weekday_num and Date. This is
+acceptable for our purposes, as we are not specifically interested in
+the relationship between these variables, just if there are any major
+issues that could affect our ability to answer the question of interest.
+However, in the future it may be necessary to redo the plots with
+perhaps a subset of the data if we desire to model these
+relationships.</p>
+</div>
+</div>
+<div id="preliminary-results" class="section level2">
+<h2>Preliminary Results</h2>
+<br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 7: Summary of top five days by rental count
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+Rental Count
+</th>
+<th style="text-align:right;">
+Max Temperature (°C)
+</th>
+<th style="text-align:right;">
+Min Temperature (°C)
+</th>
+<th style="text-align:right;">
+Mean Temperature (°C)
+</th>
+<th style="text-align:right;">
+Precipitation (mm)
+</th>
+<th style="text-align:right;">
+Snow (cm)
+</th>
+<th style="text-align:left;">
+Weekday
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2022-08-13
+</td>
+<td style="text-align:right;width: 1cm; ">
+28307
+</td>
+<td style="text-align:right;width: 2cm; ">
+25.2
+</td>
+<td style="text-align:right;width: 2cm; ">
+13.6
+</td>
+<td style="text-align:right;width: 2cm; ">
+19.4
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.0
+</td>
+<td style="text-align:right;width: 1cm; ">
+0
+</td>
+<td style="text-align:left;width: 2cm; ">
+Saturday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022-07-16
+</td>
+<td style="text-align:right;width: 1cm; ">
+27785
+</td>
+<td style="text-align:right;width: 2cm; ">
+29.2
+</td>
+<td style="text-align:right;width: 2cm; ">
+18.4
+</td>
+<td style="text-align:right;width: 2cm; ">
+23.8
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.0
+</td>
+<td style="text-align:right;width: 1cm; ">
+0
+</td>
+<td style="text-align:left;width: 2cm; ">
+Saturday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2021-05-24
+</td>
+<td style="text-align:right;width: 1cm; ">
+27636
+</td>
+<td style="text-align:right;width: 2cm; ">
+20.9
+</td>
+<td style="text-align:right;width: 2cm; ">
+13.0
+</td>
+<td style="text-align:right;width: 2cm; ">
+16.9
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.0
+</td>
+<td style="text-align:right;width: 1cm; ">
+0
+</td>
+<td style="text-align:left;width: 2cm; ">
+Monday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022-08-20
+</td>
+<td style="text-align:right;width: 1cm; ">
+27505
+</td>
+<td style="text-align:right;width: 2cm; ">
+30.0
+</td>
+<td style="text-align:right;width: 2cm; ">
+19.5
+</td>
+<td style="text-align:right;width: 2cm; ">
+24.8
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.8
+</td>
+<td style="text-align:right;width: 1cm; ">
+0
+</td>
+<td style="text-align:left;width: 2cm; ">
+Saturday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022-06-25
+</td>
+<td style="text-align:right;width: 1cm; ">
+27501
+</td>
+<td style="text-align:right;width: 2cm; ">
+29.6
+</td>
+<td style="text-align:right;width: 2cm; ">
+18.4
+</td>
+<td style="text-align:right;width: 2cm; ">
+24.0
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.0
+</td>
+<td style="text-align:right;width: 1cm; ">
+0
+</td>
+<td style="text-align:left;width: 2cm; ">
+Saturday
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>From Table 7, notice that all the days have a reasonable minimum and
+maximum temperature (not too cold and not too hot), no (or very little)
+rain, no snow, and most interestingly, most days are on a Saturday. Also
+note that the Monday was a holiday. Furthermore, four of the top 5 days
+are in 2022, only one is in 2021, and there are none in 2020. This may
+be due to increase in ridership over time, or the COVID situation in
+2020.</p>
+<br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 8: Summary of bottom five days by rental count
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+Rental Count
+</th>
+<th style="text-align:right;">
+Max Temperature (°C)
+</th>
+<th style="text-align:right;">
+Min Temperature (°C)
+</th>
+<th style="text-align:right;">
+Mean Temperature (°C)
+</th>
+<th style="text-align:right;">
+Precipitation (mm)
+</th>
+<th style="text-align:right;">
+Snow (cm)
+</th>
+<th style="text-align:left;">
+Weekday
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2022-01-18
+</td>
+<td style="text-align:right;width: 1cm; ">
+425
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.2
+</td>
+<td style="text-align:right;width: 2cm; ">
+-10.1
+</td>
+<td style="text-align:right;width: 2cm; ">
+-5.0
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.8
+</td>
+<td style="text-align:right;width: 1cm; ">
+32
+</td>
+<td style="text-align:left;width: 2cm; ">
+Tuesday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2022-01-17
+</td>
+<td style="text-align:right;width: 1cm; ">
+482
+</td>
+<td style="text-align:right;width: 2cm; ">
+-2.3
+</td>
+<td style="text-align:right;width: 2cm; ">
+-5.0
+</td>
+<td style="text-align:right;width: 2cm; ">
+-3.6
+</td>
+<td style="text-align:right;width: 2cm; ">
+36.2
+</td>
+<td style="text-align:right;width: 1cm; ">
+25
+</td>
+<td style="text-align:left;width: 2cm; ">
+Monday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-01-19
+</td>
+<td style="text-align:right;width: 1cm; ">
+676
+</td>
+<td style="text-align:right;width: 2cm; ">
+1.3
+</td>
+<td style="text-align:right;width: 2cm; ">
+-10.4
+</td>
+<td style="text-align:right;width: 2cm; ">
+-4.5
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.3
+</td>
+<td style="text-align:right;width: 1cm; ">
+14
+</td>
+<td style="text-align:left;width: 2cm; ">
+Sunday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2021-02-16
+</td>
+<td style="text-align:right;width: 1cm; ">
+702
+</td>
+<td style="text-align:right;width: 2cm; ">
+-6.4
+</td>
+<td style="text-align:right;width: 2cm; ">
+-12.0
+</td>
+<td style="text-align:right;width: 2cm; ">
+-9.2
+</td>
+<td style="text-align:right;width: 2cm; ">
+5.5
+</td>
+<td style="text-align:right;width: 1cm; ">
+16
+</td>
+<td style="text-align:left;width: 2cm; ">
+Tuesday
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-12-25
+</td>
+<td style="text-align:right;width: 1cm; ">
+720
+</td>
+<td style="text-align:right;width: 2cm; ">
+0.2
+</td>
+<td style="text-align:right;width: 2cm; ">
+-4.7
+</td>
+<td style="text-align:right;width: 2cm; ">
+-2.2
+</td>
+<td style="text-align:right;width: 2cm; ">
+5.1
+</td>
+<td style="text-align:right;width: 1cm; ">
+4
+</td>
+<td style="text-align:left;width: 2cm; ">
+Friday
+</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>From Table 8, notice that all days are very cold, and often have some
+snow or precipitation. The day of the week appears to have less effect
+here than in Table 7, as there is a wide range here. Notice that these
+dates also all occur in Dec-Feb winter months.</p>
+<p><img src="JSC370_Final_Report_files/figure-html/Figure%202:%20Rental%20count%20vs%20Temperature-1.png" width="1440" style="display: block; margin: auto;" /></p>
+<p><br> In Figure 2, notice that the trend appears to be relatively
+similar for both mean, max, and min temperatures (Figure 2A, Figure 2B,
+and Figure 2C respectively). Also notice large fluctuations in rental
+count as the temperature increases, indicating that much of the
+variation in the rental count is still not explained by the temperature.
+However, there is a clear trend that increase in temperature increases
+rental count, at least up to a certain point. Once max temperature is
+too high (roughly above 30°C), then the rental count starts to fall
+again (see Figure 2B). Also notice that as the temperature increases,
+the variation in rental count also increases.</p>
+<p><img src="JSC370_Final_Report_files/figure-html/unnamed-chunk-14-1.png" width="1440" style="display: block; margin: auto;" />
+<br> In figure 3A, notice the clear trend of increasing ridership count
+in the summer months, then decreasing ridership count in the winter
+months. Also note that date and temperature are correlated, so the
+relationship seen here could be a reflection of the relationship seen in
+Figure 2. Again note the large variations in rental count across the
+dates. For example, in the middle of 2022, there are a few very large
+dips in the rental count. Also note how the variation in rental count is
+higher in the summer months than in winter months.</p>
+<p>From Figure 3B, notice that the median of the rental counts for the
+weekday and weekend are actually relatively similar (differing by about
+1500) whereas the third quantile differs greatly (by about 5000),
+indicating that there tends to be a higher rental count more often on
+the weekend. Recall from Figure 2 and 3A how when the temperature is
+lower (i.e. in the winter months), there is less variation in the rental
+counts, and there is also lower rental count. This is reflected here in
+Figure 3B, where being on the weekend or not has less impact on the
+rental count when the rental count is low. Perhaps being on the weekend
+or not instead explains the variation in rental counts when the
+temperature is high (i.e. in the summer months).</p>
+<p>From Figure 3C, notice that when precipitation is low, there is very
+large variation in rental count, however when the precipitation
+increases, the rental count also tends to decrease somewhat. Do note
+that there are not many data points with more than 30 mm of
+precipitation, so trends seen may not be generalizeable. Also note that
+rain does not tend to fall in the colder winter months, where there is
+less bike ridership (as seen in Figure 2 and Figure 3A).</p>
+<p>From Figure 3D, first notice that for nonzero values of snow, the
+variation in rental count is not very large, especially as the amount of
+snow increases. Do note that there is not a lot of nonzero data on snow,
+so this may not be generalizable. However, from the data that we do
+have, even a little amount of snow appears to cap the rental count at
+12000 per day. Also note that snow is correlated with temperature, in
+that it generally only appears in the cold winter months, where there is
+less bike ridership (as seen in Figure 2 and Figure 3A).</p>
+<p>Some lingering issues with Figure 3C and Figure 3D is that the
+precipitation and snow is recorded for the entire day, and it is unknown
+whether this occurred late at night and/or for a very short amount of
+time, resulting in less impact on ridership for that rainfall/snowfall.
+To investigate this, hourly data would need to be used instead.</p>
+</div>
+<div id="conclusions" class="section level2">
+<h2>Conclusions</h2>
+<p>The question of interest an investigation on if weather factors and
+temporal factors influence the number of bike share users on a given day
+in Toronto. From the preliminary analysis of the data, we have gained
+several insights. First, from the tables we see that days with high
+ridership count tend to have a comfortable temperature, be on a weekend
+or holiday, and have no rain or snow (see Table 7). On the other hand,
+days with low ridership count tend to be cold days (below 0°C), likely
+with precipitation or snow (see Table 8). Then, more generally, as the
+temperature increases, the ridership count increases, and the variation
+in the ridership count also increases (see Figure 2). Furthermore, in
+the summer months the ridership count increases (and has higher
+variation), and in the winter months the ridership count decreases (and
+has lower variation) (see Figure 3A). These two insights reflect
+themselves in Figure 3B, where lower ridership counts appear evenly
+spread between weekdays and weekends, but higher ridership counts occur
+more often in weekends. Finally, both the occurrence of snow and/or
+precipitation (that is, a nonzero value), tends to decrease the
+ridership count (see Figure 3C and Figure 3D).</p>
+</div>
+<div id="limitations" class="section level2">
+<h2>Limitations</h2>
+<p>Since the weather data used is daily weather data, this does not
+capture any patterns within the day. For example, there may be both
+large amounts of snow and a large bike rental count for some day if the
+snow occurs late at night, after many people have already rented bikes
+earlier that day. For the temperature variables, we also do not know
+exactly when an extreme low or high temperature us (although we can make
+inferences based on our own knowledge). Thus, there is an underlying
+assumption that the weather variables are representative of the entire
+day.</p>
+<p>There is also an underlying assumption that the weather data we
+collected from the Toronto weather station is representative of Toronto
+as a whole, while that may not be the case. Bike Share Toronto has bike
+stations over almost 200 km<sup>2</sup>. That is a very large area, and
+weather conditions within the areas may also vary.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
