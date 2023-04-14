@@ -6,3 +6,5 @@
 *.csv
 *.zip
 visualizations_cache/
+methods_cache/
+results_cache/
