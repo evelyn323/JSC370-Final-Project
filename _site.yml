@@ -5,5 +5,9 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Visualizations"
-      href: visualizations.html
+    - text: "Methods"
+      href: methods.html
+    - text: "Results"
+      href: results.html
+    - text: "Conclusions"
+      href: conclusions.html

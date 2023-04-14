@@ -1,0 +1,385 @@
+---
+title: "Results"
+output: 
+    html_document: 
+        toc: TRUE
+        toc_float: TRUE
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = FALSE,
+  cache = TRUE,
+  cache.lazy = FALSE)
+library(ggplot2)
+library(tidyverse)
+library(plotly)
+```
+
+```{r source bike data}
+# Run all lines of the code in process_COVID_data.R
+source("ReadBikeData.R")
+```
+
+## Preliminary Results
+
+### Maximum and Minimum Rental Days
+<br>
+```{r Table 11 conditions for maximum bike share riders (all stations)}
+max <- df %>% 
+  dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_max(order_by = Rental_count, n = 5)
+
+knitr::kable(max,
+             caption = "Table 11: Summary of top five days by rental count (all stations)",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+   kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+   kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm")
+```
+<br>
+
+From Table 11, notice that all the days have a reasonable minimum and maximum temperature (not too cold and not too hot), no (or very little) rain, no snow, and most interestingly, most days are on a Saturday. Furthermore, four of the top 5 days are in 2022, only one is in 2021, and there are none in 2020. This may be due to increase in ridership over time, or the COVID situation in 2020. 
+
+<br>
+```{r Table 12 conditions for maximum bike share riders (most popular)}
+max <- df_most %>% 
+  dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_max(order_by = Rental_count, n = 5)
+
+knitr::kable(max,
+             caption = "Table 12: Summary of top five days by rental count (most popular)",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+   kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+   kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm")
+```
+<br>
+From Table 12, notice that similar to Table 11, all the days have a reasonable minimum and maximum temperature (not too cold and not too hot), no (or very little) rain, no snow. One difference is that the top five days also includes Sundays, unlike Table 11, and also a Monday that is not a holiday. 
+
+<br>
+```{r Table 13 conditions for maximum bike share riders (median popular)}
+max <- df_med %>% 
+  dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_max(order_by = Rental_count, n = 5)
+
+knitr::kable(max,
+             caption = "Table 13: Summary of top five days by rental count (median popularity)",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+   kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+   kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm")
+```
+<br>
+
+In Table 13, again, similar to Table 11 and Table 12, all the days have a reasonable minimum and maximum temperature (not too cold and not too hot), no (or very little) rain, no snow. The most major difference is that similar to Table 12, here we see a Wednesday (not a holiday or weekend) included.  
+
+
+<br>
+```{r Table 14 conditions for minimum bike share riders (all stations)}
+min <- df %>% dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_min(order_by = Rental_count, n = 5) 
+knitr::kable(min,
+             caption = "Table 14: Summary of bottom five days by rental count (all stations)",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+  kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm") 
+```
+<br>
+
+From Table 14, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 10, as there is a wide range here. Notice that these dates also all occur in Dec-Feb winter months. 
+
+
+<br>
+```{r Table 15 conditions for minimum bike share riders (most popular)}
+min <- df_most %>% dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_min(order_by = Rental_count, n = 5) 
+knitr::kable(min,
+             caption = "Table 15: Summary of bottom five days by rental count (most popular)",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+  kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm") 
+```
+<br>
+
+From Table 15, notice that the minimum daily rental counts are very small. Similar to Table 14, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 10, as there is a wide range here.
+
+<br>
+```{r Table 16 conditions for minimum bike share riders (median popular)}
+min <- df_med %>% dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
+  slice_min(order_by = Rental_count, n = 5) 
+knitr::kable(min,
+             caption = "Table 16: Summary of bottom five days by rental count (median popular)",
+             col.names = c(
+               "Date",
+               "Rental Count", 
+               "Max Temperature (°C)",
+               "Min Temperature (°C)",
+               "Mean Temperature (°C)",
+               "Precipitation (mm)",
+               "Snow (cm)",
+               "Weekday"
+             ),
+             escape = FALSE) %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
+  kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm") 
+```
+<br>
+
+From Table 16, notice that the minimum daily rental counts are all ones. Recall from previous data exploration that the days with no rental counts are not included here, so it is very likely that there are many days with no rental counts that is not in this table. Aside from that, similar to Table 14 and Table 15, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 10, as there is a wide range here. Notice that these dates also all occur in Dec-Feb winter months. 
+
+From the above six tables, observe that the general relationship between bike share ridership and temporal and weather factors is very similar even when we consider stations separately, so there is likely no unique pattern of ridership count for each station. Thus, below, we will only consider the total daily counts of bike rentals, not the individual counts for the most popular and median popular station. 
+
+
+### Rental Count Associations
+<br>
+```{r Figure 5: Rental count vs Temperature, fig.align="center"}
+# plot the rental count against max, mean, and minimum temperature
+plot2 <- df %>% ggplot() +
+  geom_line(aes(x = Max_temp, y = Rental_count, color = "Max Temperature")) +
+  geom_line(aes(x = Mean_temp, y = Rental_count, color = "Mean Temperature")) +
+  geom_line(aes(x = Min_temp, y = Rental_count, color = "Min Temperature")) +
+  labs(x = "Temperature (°C)", y = "Rental Count", color = "Legend", title = "Figure 5") 
+
+ggplotly(plot2)
+```
+<br>
+
+In Figure 5, notice that the trend appears to be relatively similar for both mean, max, and min temperatures. Also notice large fluctuations in rental count as the temperature increases, indicating that much of the variation in the rental count is still not explained by the temperature. However, there is a clear trend that increase in temperature increases rental count, at least up to a certain point. Once max temperature is too high (roughly above 30°C), then the rental count starts to fall again. Also notice that as the temperature increases, the variation in rental count also increases.
+
+
+```{r Figure 6A: Rental count vs Date}
+library(ggplot2)
+fig2 <- df %>% 
+  ggplot(aes(x = Date, y = Rental_count,)) +
+  geom_line(size = 0.7, color = "navyblue") +
+  labs(title = "Figure 6A",
+       x = "Date",
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10))
+```
+
+
+```{r Figure 6B: Rental count vs Is Weekday}
+fig3 <- df %>% 
+  ggplot(
+    aes(x = ifelse(is_weekday == 1, "Weekday", "Weekend"), y = Rental_count)) +
+  geom_boxplot(color = "navyblue") +
+  labs(title = "Figure 6B",
+       x = NULL,
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10)) +
+  theme(legend.position = "none")    
+```
+
+```{r Figure 6C: Rental count vs Precipitation}
+
+fig4 <- df %>% 
+  ggplot(aes(x = Precipitation, y = Rental_count)) +
+  geom_line(size = 0.7, color = "navyblue") +
+  labs(title = "Figure 6C",
+       x = "Precipitation (mm)",
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10))
+```
+
+```{r Figure 6D: Rental count vs Snow}
+fig5 <- df %>% 
+  ggplot(aes(x = Snow, y = Rental_count)) +
+  geom_line(size = 0.7, color = "navyblue") +
+  labs(title = "Figure 6D",
+       x = "Snow (cm)",
+       y = "Rental Count") + 
+  theme_minimal()+
+  theme(plot.title = element_text(hjust = 0.5, size = 10))
+```
+
+
+```{r fig.align="center"}
+gridExtra::grid.arrange(fig2, fig3, fig4, fig5, ncol = 2, top=grid::textGrob("Figure 3",gp=grid::gpar(fontsize=15)))
+```
+<br>
+In figure 6A, notice the clear trend of increasing ridership count in the summer months, then decreasing ridership count in the winter months. Also note that date and temperature are correlated, so the relationship seen here could be a reflection of the relationship seen in Figure 5. Again note the large variations in rental count across the dates. For example, in the middle of 2022, there are a few very large dips in the rental count. Also note how the variation in rental count is higher in the summer months than in winter months.
+
+From Figure 6B, notice that the median of the rental counts for the weekday and weekend are actually relatively similar (differing by about 1500) whereas the third quantile differs greatly (by about 5000), indicating that there tends to be a higher rental count more often on the weekend. Recall from Figure 2 and 6A how when the temperature is lower (i.e. in the winter months), there is less variation in the rental counts, and there is also lower rental count. This is reflected here in Figure 6B, where being on the weekend or not has less impact on the rental count when the rental count is low. Perhaps being on the weekend or not instead explains the variation in rental counts when the temperature is high (i.e. in the summer months).
+
+From Figure 6C, notice that when precipitation is low, there is very large variation in rental count, however when the precipitation increases, the rental count also tends to decrease somewhat. Do note that there are not many data points with more than 30 mm of precipitation, so trends seen may not be generalizeable. Also note that rain does not tend to fall in the colder winter months, where there is less bike ridership (as seen in Figure 5 and Figure 6A).
+
+From Figure 6D, first notice that for nonzero values of snow, the variation in rental count is not very large, especially as the amount of snow increases. Do note that there is not a lot of nonzero data on snow, so this may not be generalizeable. However, from the data that we do have, even a little amount of snow appears to cap the rental count at 12000 per day. Also note that snow is correlated with temperature, in that it generally only appears in the cold winter months, where there is less bike ridership (as seen in Figure 5 and Figure 6A).
+
+Some lingering issues with Figure 6C and Figure 6D is that the precipitation and snow is recorded for the entire day, and it is unknown whether this occurred late at night and/or for a very short amount of time, resulting in less impact on ridership for that rainfall/snowfall. To investigate this, hourly data would need to be used instead. 
+
+
+### Rental Count Associations with Day of Week {.tabset}
+
+Now, let's take a look at the variables again, this time taking into account the day of the week. 
+
+In the plots below, we will examine whether the relationship between daily bike rental counts in Toronto and other weather variables is influenced by the day of the week. 
+
+#### Rental Count vs Mean Temp with Weekday
+
+```{r figure 7}
+# plot the rental count against mean temp for each weekday
+plot2 <- df %>% ggplot(aes(x = Mean_temp, y = Rental_count, color = Weekday)) +
+  labs(x = "Mean Temperature (°C)" ,y = "Rental Count", title = "Figure 7") +
+  geom_line()
+
+ggplotly(plot2)
+```
+
+#### Rental Count vs Precipitation with Weekday
+
+```{r figure 8}
+# plot the rental count against precipitation for each weekday
+plot3 <- df %>% ggplot(aes(x = Precipitation, y = Rental_count, color = Weekday)) +
+  labs(x = "Precipitation (mm)" ,y = "Rental Count", title = "Figure 8") +
+  geom_line()
+
+ggplotly(plot3)
+```
+
+#### Rental count vs Snow with Weekday
+```{r figure 4}
+# plot the rental count against precipitation for each weekday
+plot4 <- df %>% ggplot(aes(x = Snow, y = Rental_count, color = Weekday)) +
+  labs(x = "Snow (cm)" ,y = "Rental Count", title = "Figure 9") +
+  geom_line()
+
+ggplotly(plot4)
+```
+
+#### {-}
+
+From the Figure 8 and 9 above, we can observe that the day of the week doesn't seem to change the relationship between precipitation and bike ridership and snow and bike ridership. On the other hand, in Figure 7, there does appear to be a slight tendency toward more bike share ridership on weekends versus weekdays. 
+
+### Effect of Weather Interactions {.tabset}
+
+Now we will explore whether interactions between weather variables affects (e.g. will rain on a warm or cold day be more likely to affect rental count)
+
+
+```{r figure 10}
+plot5 <- df %>% 
+  plot_ly(x = ~Mean_temp, 
+          y = ~Rental_count,
+          type = 'scatter', 
+          mode = 'markers', 
+          color = ~Weekday,
+          size = ~Precipitation, 
+          sizes = c(5, 70), 
+          fill = ~'', 
+          marker = list(sizemode='diameter', opacity=0.5),
+          hoverinfo = 'text',
+          text = ~paste( paste(Date, ":", sep=""), 
+                         paste(" Precipitation (mm): ", Precipitation, sep="") , 
+                         paste(" Mean Temperature (°C): ", Mean_temp, sep=""), sep = "<br>")) %>%
+  layout(title = "Figure 10",
+         yaxis = list(title = "Rental Count"), 
+         xaxis = list(title = "Mean Temperature (°C)"),
+         hovermode = "compare")
+```
+
+```{r show figure 10}
+plot5
+```
+
+In Figure 10, notice that when temperature is held constant, the precipitation does decrease rental count, however having a higher mean temperature means that even if there is precipitation, the rental count is still higher than with a significantly lower mean temperature and no precipitation.
+
+
+## Model
+
+Now that we have looked more closely at the individual relationships between the variables, let's try creating a model to quantify these relationships. From previous analysis, we have discovered a cyclic relationship, so the best model is likely to be a non-linear GAM. Specifically, we will add a cubic spline to the Date variable, and include all other temporal and weather factors (only Mean_temp will be used for temperature, as we have already established the three temperature variables provide the same information) as the other predictors in the model.
+
+```{r}
+sallmodelfull <- gam(Rental_count~s(as.numeric(Date), bs = "cr", k = 10) + 
+                    s(Mean_temp, bs = "cr", k = 10) + 
+                    is_weekday + 
+                    s(Precipitation, bs = "cr", k = 10) + 
+                    s(Snow, bs = "cr", k = 10), 
+                  data = df)
+
+smodelfull<- gam(Rental_count~s(as.numeric(Date)) + Mean_temp + is_weekday + Precipitation + Snow, data = df)
+
+smodelreduced <- gam(Rental_count~s(as.numeric(Date), bs = "cr", k = 10) + Mean_temp + is_weekday + Precipitation, data = df)
+
+linmodelreduced <- gam(Rental_count~as.numeric(Date) + Mean_temp + is_weekday + Precipitation, data = df)
+
+models <- list("All Spline, All Predictors" = sallmodelfull,
+               "Date Spline, All Predictors" = smodelfull,
+               "Date Spline, No Snow" = smodelreduced,
+               "All Linear, No Snow" = linmodelreduced)
+```
+
+
+```{r plot full model, results = "asis"}
+itsadug::gamtabs(smodelfull, caption = "Table 15", type = "HTML")
+```
+
+
+After fitting the full model, we observe that the predictor for Snow is statistically insignificant, so we remove it and refit the model. 
+
+```{r, results = "asis"}
+itsadug::gamtabs(smodelreduced, type = "HTML")
+```
+
+
+Our final chosen model has response variable Rental_count, and predictors Mean_temp, is_weekday, Precipitation, and Date, where there is a cubic spline on Date. The adjusted R-squared value is 0.876, indicating that about 87% of the variation in the response (Rental_count) is explained by the predictors. This is a pretty large percentage, so we can safely conclude that the total daily bike rental counts is heavily influenced by weather factors of temperature and precipitation, as well as temporal factors of the date and being a weekend. 

@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Evelyn Chou" />
 
 
-<title>JSC370 Final Project</title>
+<title>Conclusions</title>
 
 <script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -343,59 +342,74 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">JSC370 Final Project</h1>
-<h4 class="author">Evelyn Chou</h4>
+<h1 class="title toc-ignore">Conclusions</h1>
 
 </div>
 
 
-<div id="project-description" class="section level2">
-<h2>Project Description</h2>
-<p>Bike share systems are programs that offer short term bike rentals to
-inhabitants of a city, providing a convenient and cheaper alternative to
-purchasing a bike for thousands of dollars. Bike Share Toronto,
-Toronto’s bike share system, offers both one time bike rentals, and
-annual memberships for a considerably cheaper alternative to purchasing
-a new bike. In a city such as Toronto, where bike thefts are rampant,
-they also offer the security of not having to worry about storing your
-bike in a secure location. Bike Share Toronto has over 600 stations
-across the city where you can rent and dock bikes. This program is
-utilized for a multitude of purposes including commute and leisure.</p>
-<p>Toronto’s Open Data repository offers monthly data on Bike Share
-Toronto’s ridership, including variables such as the start and end time
-of the rental, the bike dock the rental was from, and so much more. Of
-particular interest in this report is the start date of the rental,
-which will be used to count the total number of bike rentals in a given
+<div id="conclusions" class="section level2">
+<h2>Conclusions</h2>
+<p>The question of interest an investigation on if weather factors and
+temporal factors influence the number of bike share users on a given day
+in Toronto. From the preliminary analysis of the data, we have gained
+several insights.</p>
+<p>First, from the tables we see that days with high ridership count
+tend to have a comfortable temperature, be on a weekend or holiday, and
+have no rain or snow. On the other hand, days with low ridership count
+tend to be cold days (below 0°C), likely with precipitation or snow.
+This pattern holds true for both the total daily rental count, and the
+daily rental count for the most popular and median popular stations.</p>
+<p>Then, more generally, as the temperature increases, the ridership
+count increases, and the variation in the ridership count also
+increases. Furthermore, in the summer months the ridership count
+increases (and has higher variation), and in the winter months the
+ridership count decreases (and has lower variation). Lower ridership
+counts appear evenly spread between weekdays and weekends, but higher
+ridership counts occur more often in weekends. In addition, both the
+occurrence of snow and/or precipitation (that is, a nonzero value),
+tends to decrease the ridership count.</p>
+<p>Then, taking into account the day of week, we further discover that
+the day of the week doesn’t seem to change the relationship between
+precipitation and bike ridership and snow and bike ridership. On the
+other hand, there does appear to be a slight tendency toward more bike
+share ridership on weekends versus weekdays.</p>
+<p>A further observation is that when temperature is held constant, the
+precipitation does decrease rental count, however having a higher mean
+temperature means that even if there is precipitation, the rental count
+is still higher than with a significantly lower mean temperature and no
+precipitation.</p>
+<p>Finally, after fitting a model that provided an adjusted R-squared
+value of 0.876, we further concluded that the total daily bike rental
+counts is heavily influenced by temperature, precipitation, date, and
+being a weekend.</p>
+<p>In addition, notice that the relationships discussed above appear to
+hold true even when we consider the bike rentals for an individual
+station instead of the sum of all stations.</p>
+</div>
+<div id="limitations" class="section level2">
+<h2>Limitations</h2>
+<p>Since the weather data used is daily weather data, this does not
+capture any patterns within the day. For example, there may be both
+large amounts of snow and a large bike rental count for some day if the
+snow occurs late at night, after many people have already rented bikes
+earlier that day. For the temperature variables, we also do not know
+exactly when an extreme low or high temperature us (although we can make
+inferences based on our own knowledge). Thus, there is an underlying
+assumption that the weather variables are representative of the entire
 day.</p>
-<p>Toronto’s Open Data repository also offers data on Bike Share
-Toronto’s rental stations, including variables such as the station id,
-station coordinates (longitude and latitude), types of payments accepted
-at the station, and many more that will not be used in this report.</p>
-<p>Canada’s government website stores data on the historical weather for
-all weather stations in Canada. Of particular interest in this report is
-the historical daily weather in Toronto’s weather station. Weather
-variables in this dataset include maximum, minimum, and average daily
-temperature (°C), total daily precipitation (mm), and total daily snow
-(cm).</p>
-<p>This study investigates if weather conditions and temporal factors
-influence the number of bike share users on a given day in Toronto. This
-investigation will be conducted first with the total daily bike rental
-count for all stations, and with the daily bike rental count for each
-starting station. By understanding the relationship between weather
-factors, temporal factors, and bike share ridership, the city can
-understand when maintenance should be performed to avoid inconveniencing
-members, and when promotions would be viable.</p>
-<p>To do this, I will collect Toronto’s Open data repository data on
-Bike Share Toronto, and Canada’s government on historical daily weather
-in Toronto’s weather station from January 2020 to December 2022.</p>
-</div>
-<div id="access-the-project" class="section level2">
-<h2>Access the Project</h2>
-<p>To view a complete pdf of the report, click HERE</p>
-<p>Note that many of the visualizations are interactive, which is not
-rendered in the pdf report. Please refer to the relevant visualization
-in the website for the interactive version. All content in the pdf
-report is also contained on the webpage.</p>
+<p>There is also an underlying assumption that the weather data we
+collected from the Toronto weather station is representative of Toronto
+as a whole, while that may not be the case. Bike Share Toronto has bike
+stations over almost 200 km<sup>2</sup>. That is a very large area, and
+weather conditions within the areas may also vary.</p>
+<p>The analysis of whether the association between the temporal and
+weather factors varies for each individual bike station was only
+conducted using two individual stations, where Bike Share Toronto
+actually has hundreds of stations. A more strict analysis would be to
+model all the stations individually, and perhaps there are some unique
+stations that have a different association with the temporal and weather
+factors. However, it was not possible to conduct such a large analysis
+in this report, so that is merely an idea for future exploration.</p>
 </div>
 
 

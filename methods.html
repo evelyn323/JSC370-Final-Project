@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Methods</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.1.2/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">JSC370 Final Project</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="methods.html">Methods</a>
+</li>
+<li>
+  <a href="results.html">Results</a>
+</li>
+<li>
+  <a href="conclusions.html">Conclusions</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Methods</h1>
+
+</div>
+
+
+<style>
+.vscroll-plot {
+    width: 700px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
+<div id="data-collection" class="section level2">
+<h2>Data Collection</h2>
+<div id="bike-share-toronto-ridership" class="section level3">
+<h3>Bike Share Toronto Ridership</h3>
+<p>From the Toronto’s Open Data repository, we can obtain the data on
+Bike Share Toronto’s ridership. On the page, there are several buttons,
+one for each year. We inspect the buttons for 2020, 2021, and 2022, and
+obtain the links to download the zipped files for each year. Each file
+contains twelve csv files, one for each month. Using R, download the
+zipped files and unzip them using the <code>download.file</code> and
+<code>unzip</code>, then read in the csvs. After reading in the twelve
+csvs for each year 2020-2022, ensure that all the variable types are
+consistent. Some variables such as the bike id appeared as integers in
+one file, and characters in another. Such variables were converted to a
+suitable type for consistency. In the case of bike id’s, all were
+converted to integers. Then, combine the data for each month into one
+large dataframe for the bikeshare data using <code>bind_rows</code>.</p>
+<p>Table 1, shown below, depicts the top 5 rows of the combined
+bikeshare data. The rows in this dataframe are sorted according to
+column “Start.Time”, the starting time of the bike rental.</p>
+<br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 1: First Five Rows of Bike Share Toronto Ridership Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Trip.Id
+</th>
+<th style="text-align:right;">
+Trip..Duration
+</th>
+<th style="text-align:right;">
+Start.Station.Id
+</th>
+<th style="text-align:left;">
+Start.Time
+</th>
+<th style="text-align:left;">
+Start.Station.Name
+</th>
+<th style="text-align:left;">
+End.Station.Id
+</th>
+<th style="text-align:left;">
+End.Time
+</th>
+<th style="text-align:left;">
+End.Station.Name
+</th>
+<th style="text-align:right;">
+Bike.Id
+</th>
+<th style="text-align:left;">
+User.Type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+7334128
+</td>
+<td style="text-align:right;">
+648
+</td>
+<td style="text-align:right;">
+7003
+</td>
+<td style="text-align:left;">
+01/01/2020 00:08
+</td>
+<td style="text-align:left;">
+Madison Ave / Bloor St W
+</td>
+<td style="text-align:left;">
+7271
+</td>
+<td style="text-align:left;">
+01/01/2020 00:19
+</td>
+<td style="text-align:left;">
+Yonge St / Alexander St - SMART
+</td>
+<td style="text-align:right;">
+3104
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334129
+</td>
+<td style="text-align:right;">
+419
+</td>
+<td style="text-align:right;">
+7007
+</td>
+<td style="text-align:left;">
+01/01/2020 00:10
+</td>
+<td style="text-align:left;">
+College St / Huron St
+</td>
+<td style="text-align:left;">
+7163
+</td>
+<td style="text-align:left;">
+01/01/2020 00:17
+</td>
+<td style="text-align:left;">
+Yonge St / Wood St
+</td>
+<td style="text-align:right;">
+2126
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334130
+</td>
+<td style="text-align:right;">
+566
+</td>
+<td style="text-align:right;">
+7113
+</td>
+<td style="text-align:left;">
+01/01/2020 00:13
+</td>
+<td style="text-align:left;">
+Parliament St / Aberdeen Ave
+</td>
+<td style="text-align:left;">
+7108
+</td>
+<td style="text-align:left;">
+01/01/2020 00:22
+</td>
+<td style="text-align:left;">
+Front St E / Cherry St
+</td>
+<td style="text-align:right;">
+4425
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334131
+</td>
+<td style="text-align:right;">
+1274
+</td>
+<td style="text-align:right;">
+7333
+</td>
+<td style="text-align:left;">
+01/01/2020 00:17
+</td>
+<td style="text-align:left;">
+King St E / Victoria St
+</td>
+<td style="text-align:left;">
+7311
+</td>
+<td style="text-align:left;">
+01/01/2020 00:38
+</td>
+<td style="text-align:left;">
+Sherbourne St / Isabella St
+</td>
+<td style="text-align:right;">
+4233
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334132
+</td>
+<td style="text-align:right;">
+906
+</td>
+<td style="text-align:right;">
+7009
+</td>
+<td style="text-align:left;">
+01/01/2020 00:19
+</td>
+<td style="text-align:left;">
+King St E / Jarvis St
+</td>
+<td style="text-align:left;">
+7004
+</td>
+<td style="text-align:left;">
+01/01/2020 00:34
+</td>
+<td style="text-align:left;">
+University Ave / Elm St
+</td>
+<td style="text-align:right;">
+2341
+</td>
+<td style="text-align:left;">
+Casual Member
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7334133
+</td>
+<td style="text-align:right;">
+1098
+</td>
+<td style="text-align:right;">
+7041
+</td>
+<td style="text-align:left;">
+01/01/2020 00:20
+</td>
+<td style="text-align:left;">
+Edward St / Yonge St
+</td>
+<td style="text-align:left;">
+7134
+</td>
+<td style="text-align:left;">
+01/01/2020 00:38
+</td>
+<td style="text-align:left;">
+Marlborough Ave / Yonge St
+</td>
+<td style="text-align:right;">
+314
+</td>
+<td style="text-align:left;">
+Annual Member
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+</div>
+<div id="bike-share-toronto-station" class="section level3">
+<h3>Bike Share Toronto Station</h3>
+<p>Then we will also obtain the data on Toronto’s Bikeshare stations,
+which contains the station ids (that correspond to the starting and
+ending station id’s in the bike ridership data we just downloaded), the
+coordinates of the station, and a couple other variables that we will
+not be using. To obtain this data, we obtain the links for the json
+file, and read in the data.</p>
+<p>Table 2, shown below, depicts the top 5 rows of the bike station
+data.</p>
+<br>
+<div class="vscroll-plot">
+<div
+style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 2: First Five Rows of Bike Station Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+last_updated
+</th>
+<th style="text-align:right;">
+ttl
+</th>
+<th style="text-align:left;">
+data.stations.station_id
+</th>
+<th style="text-align:left;">
+data.stations.name
+</th>
+<th style="text-align:left;">
+data.stations.physical_configuration
+</th>
+<th style="text-align:right;">
+data.stations.lat
+</th>
+<th style="text-align:right;">
+data.stations.lon
+</th>
+<th style="text-align:right;">
+data.stations.altitude
+</th>
+<th style="text-align:left;">
+data.stations.address
+</th>
+<th style="text-align:right;">
+data.stations.capacity
+</th>
+<th style="text-align:left;">
+data.stations.is_charging_station
+</th>
+<th style="text-align:left;">
+data.stations.rental_methods
+</th>
+<th style="text-align:left;">
+data.stations.groups
+</th>
+<th style="text-align:left;">
+data.stations.obcn
+</th>
+<th style="text-align:right;">
+data.stations.nearby_distance
+</th>
+<th style="text-align:left;">
+data.stations._ride_code_support
+</th>
+<th style="text-align:left;">
+data.stations.post_code
+</th>
+<th style="text-align:left;">
+data.stations.cross_street
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1681492544
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:left;">
+REGULAR
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+35
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+KEY , TRANSITCARD, CREDITCARD , PHONE
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+647-643-9607
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1681492544
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+7001
+</td>
+<td style="text-align:left;">
+Wellesley Station Green P
+</td>
+<td style="text-align:left;">
+ELECTRICBIKESTATION
+</td>
+<td style="text-align:right;">
+43.66496
+</td>
+<td style="text-align:right;">
+-79.38355
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Yonge / Wellesley
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+KEY , TRANSITCARD, CREDITCARD , PHONE
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+416-617-9576
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+M4Y 1G7
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1681492544
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+7002
+</td>
+<td style="text-align:left;">
+St. George St / Bloor St W
+</td>
+<td style="text-align:left;">
+REGULAR
+</td>
+<td style="text-align:right;">
+43.66733
+</td>
+<td style="text-align:right;">
+-79.39943
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+St. George St / Bloor St W
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+KEY , TRANSITCARD, CREDITCARD , PHONE
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+647-643-9615
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1681492544
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+7003
+</td>
+<td style="text-align:left;">
+Madison Ave / Bloor St W
+</td>
+<td style="text-align:left;">
+REGULAR
+</td>
+<td style="text-align:right;">
+43.66716
+</td>
+<td style="text-align:right;">
+-79.40276
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+Madison Ave / Bloor St W
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+KEY , TRANSITCARD, CREDITCARD , PHONE
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+647-631-4587
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1681492544
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+7004
+</td>
+<td style="text-align:left;">
+University Ave / Elm St
+</td>
+<td style="text-align:left;">
+REGULAR
+</td>
+<td style="text-align:right;">
+43.65652
+</td>
+<td style="text-align:right;">
+-79.38910
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:left;">
+University Ave / Elm St
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+KEY , TRANSITCARD, CREDITCARD , PHONE
+</td>
+<td style="text-align:left;">
+P7004-7047
+</td>
+<td style="text-align:left;">
+647-643-9673
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1681492544
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+7005
+</td>
+<td style="text-align:left;">
+King St W / York St
+</td>
+<td style="text-align:left;">
+REGULAR
+</td>
+<td style="text-align:right;">
+43.64800
+</td>
+<td style="text-align:right;">
+-79.38318
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+King St W / York St
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+<td style="text-align:left;">
+KEY , TRANSITCARD, CREDITCARD , PHONE
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+647-643-9693
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+</div>
+<div id="toronto-weather" class="section level3">
+<h3>Toronto Weather</h3>
+<p>From the Canada government webpage, we can access the historical
+weather data and select Toronto’s weather station. From there, we select
+the month and year we wish to obtain. Start with January 2020. The page
+has a table with the daily weather data for that month. Inspect the
+table and obtain the xml path for it. Then, using R’s <code>xml2</code>
+package, we can read in the html table. We then convert that table to an
+R dataframe using the <code>rvest</code> package. After obtaining the
+dataframe for that month, note that the table does not include which
+month or year it was from, it only includes the day of the month. Thus,
+we add the month and year of the table we just scraped to the dataframe.
+Repeat this for all months from January 2020 to December 2022. Finally,
+merge all of these dataframes to obtain the combined Toronto weather
+data.</p>
+<p>Table 3, shown below, shows the first five rows of the combined
+Toronto weather data.</p>
+<br>
+<div class="vscroll-plot">
+<div
+style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 3: First Five Rows of Toronto Weather Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+DAY
+</th>
+<th style="text-align:left;">
+Max Temp Definition°C
+</th>
+<th style="text-align:left;">
+Min Temp Definition°C
+</th>
+<th style="text-align:left;">
+Mean Temp Definition°C
+</th>
+<th style="text-align:left;">
+Heat Deg Days Definition
+</th>
+<th style="text-align:left;">
+Cool Deg Days Definition
+</th>
+<th style="text-align:left;">
+Total Rain Definitionmm
+</th>
+<th style="text-align:left;">
+Total Snow Definitioncm
+</th>
+<th style="text-align:left;">
+Total Precip Definitionmm
+</th>
+<th style="text-align:left;">
+Snow on Grnd Definitioncm
+</th>
+<th style="text-align:left;">
+Dir of Max Gust Definition10’s deg
+</th>
+<th style="text-align:left;">
+Spd of Max Gust Definitionkm/h
+</th>
+<th style="text-align:right;">
+month
+</th>
+<th style="text-align:right;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+01
+</td>
+<td style="text-align:left;">
+1.0
+</td>
+<td style="text-align:left;">
+-1.2
+</td>
+<td style="text-align:left;">
+-0.1
+</td>
+<td style="text-align:left;">
+18.1
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+02
+</td>
+<td style="text-align:left;">
+6.2
+</td>
+<td style="text-align:left;">
+0.9
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:left;">
+14.4
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+03
+</td>
+<td style="text-align:left;">
+7.7
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:left;">
+5.7
+</td>
+<td style="text-align:left;">
+12.3
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+04
+</td>
+<td style="text-align:left;">
+3.6
+</td>
+<td style="text-align:left;">
+0.3
+</td>
+<td style="text-align:left;">
+2.0
+</td>
+<td style="text-align:left;">
+16.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+1.5
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+05
+</td>
+<td style="text-align:left;">
+1.9
+</td>
+<td style="text-align:left;">
+-1.2
+</td>
+<td style="text-align:left;">
+0.3
+</td>
+<td style="text-align:left;">
+17.7
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+5.6
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+06
+</td>
+<td style="text-align:left;">
+2.9
+</td>
+<td style="text-align:left;">
+-1.7
+</td>
+<td style="text-align:left;">
+0.6
+</td>
+<td style="text-align:left;">
+17.4
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.2
+</td>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+</div>
+</div>
+<div id="data-cleaning-and-wrangling" class="section level2">
+<h2>Data Cleaning and Wrangling</h2>
+<p>Tables 1, 2, and 3, from the previous “Data Collection” subsection,
+provide us with an overview of the data we will be using to answer the
+question of interest. However, before that can be done, some data
+cleaning and data wrangling needs to be done. We will start with the
+bikeshare data.</p>
+<div id="bike-share-toronto-ridership-1" class="section level3">
+<h3>Bike Share Toronto Ridership</h3>
+<p>We are not actually using most of the variables in the bikeshare
+data, we only wish to obtain the number of daily bike rentals. Here we
+will create two counts. The number of daily bike rentals for all
+stations, and the number of daily bike rentals for each individual
+starting station. Thus we will not clean the variables in the bikeshare
+dataset, instead we will wrangle the data to obtain our variable of
+interest: daily rental count. We will use the start date of each bike
+rental as the day it was rented. So if a bike was rented at on January
+1st, and returned on January 2nd, we will count this bike in the January
+1st rentals.</p>
+<p>To do this, first convert the start date of each rental into a Date
+object.</p>
+<p>Then, we will count the number of daily bike rentals grouped by the
+starting station and save the date, starting station id, and count in a
+new dataframe “count_station”</p>
+<p>Table 4, shown below, shows the first five rows of this new
+dataframe. Column “n” is the number of bike rentals on that date.</p>
+<br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 4: First Five Rows of Bikeshare Daily Rental Count
+</caption>
+<thead>
+<tr>
+<th style="text-align:right;">
+Start.Station.Id
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:left;">
+2020-01-01
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:left;">
+2020-01-02
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:left;">
+2020-01-03
+</td>
+<td style="text-align:right;">
+17
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:left;">
+2020-01-04
+</td>
+<td style="text-align:right;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:left;">
+2020-01-05
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7000
+</td>
+<td style="text-align:left;">
+2020-01-06
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="bike-share-toronto-stations" class="section level3">
+<h3>Bike Share Toronto Stations</h3>
+<p>Now, we wrangle the data on the bike stations. For this data, we only
+have to remove unnecessary variables and rename them for convenience. We
+will only keep the station id, name, and the coordinates.</p>
+</div>
+<div id="toronto-weather-1" class="section level3">
+<h3>Toronto Weather</h3>
+<p>After wrangling the bikeshare and bike station data, we now clean and
+wrangle the weather data.</p>
+First, consider some rows of the current dataframe. Table 5 below shows
+the 101-105th rows of the weather dataframe, which have some problematic
+entries. <br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 5: Rows 101-105 of Toronto Weather Data
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+DAY
+</th>
+<th style="text-align:left;">
+Max Temp Definition°C
+</th>
+<th style="text-align:left;">
+Min Temp Definition°C
+</th>
+<th style="text-align:left;">
+Mean Temp Definition°C
+</th>
+<th style="text-align:left;">
+Heat Deg Days Definition
+</th>
+<th style="text-align:left;">
+Cool Deg Days Definition
+</th>
+<th style="text-align:left;">
+Total Rain Definitionmm
+</th>
+<th style="text-align:left;">
+Total Snow Definitioncm
+</th>
+<th style="text-align:left;">
+Total Precip Definitionmm
+</th>
+<th style="text-align:left;">
+Snow on Grnd Definitioncm
+</th>
+<th style="text-align:left;">
+Dir of Max Gust Definition10’s deg
+</th>
+<th style="text-align:left;">
+Spd of Max Gust Definitionkm/h
+</th>
+<th style="text-align:right;">
+month
+</th>
+<th style="text-align:right;">
+year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+101
+</td>
+<td style="text-align:left;">
+Avg
+</td>
+<td style="text-align:left;">
+7.4
+</td>
+<td style="text-align:left;">
+0.5
+</td>
+<td style="text-align:left;">
+4.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+102
+</td>
+<td style="text-align:left;">
+Xtrm
+</td>
+<td style="text-align:left;">
+18.4
+</td>
+<td style="text-align:left;">
+-7.7
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+12.1
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+103
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:left;">
+Summary, average and extreme values are based on the data above.
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+104
+</td>
+<td style="text-align:left;">
+01
+</td>
+<td style="text-align:left;">
+9.4
+</td>
+<td style="text-align:left;">
+2.7
+</td>
+<td style="text-align:left;">
+6.1
+</td>
+<td style="text-align:left;">
+11.9
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+0.6
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+105
+</td>
+<td style="text-align:left;">
+02
+</td>
+<td style="text-align:left;">
+14.1
+</td>
+<td style="text-align:left;">
+3.5
+</td>
+<td style="text-align:left;">
+8.8
+</td>
+<td style="text-align:left;">
+9.2
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+1.1
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:left;">
+LegendMM
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+2020
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p>From Table 5, observe that in rows 101-103, the entries in column
+“DAY” are not actually the day of the month, but are summary statistics
+of that month instead. We remove all such columns in the data. Then,
+observe that in column “Snow on Grnd Definitioncm”, there are many
+missing entries. Since this variable is of interest, we check the data
+to see why, and notice that missing entries mostly occur in the warmer
+months with no snow. Thus, we replace all such empty entries in the
+column with “0”. Problematic entries in other columns such as “Grnd
+Definitioncm” are not of concern, since we are not using those
+variables. In fact, we will soon be dropping those unused variables from
+the dataframe.</p>
+<p>Then, create a Date variable using the variables containing the
+month, day, and year (the “month”, “DAY”, and “year” columns in Table 3
+and Table 5). Then unused variables (such as flags indicating status of
+data collection) were removed, and only the date, maximum, minimum, and
+average temperature, amount of precipitation, and amount of snow were
+kept. Rename these variables (aside from date) as “Max_temp”,
+“Min_temp”, “Mean_temp”, “Precipitation”, and “Snow” respectively.</p>
+<p>Then, new temporal variables (such as the day of the week, and
+whether a day is on the weekend, etc.) were created for the weather
+dataframe using the date variable.</p>
+</div>
+</div>
+<div id="data-merging" class="section level2">
+<h2>Data Merging</h2>
+<p>After cleaning and wrangling the bikeshare daily rental counts and
+weather data, we now merge the two dataframes by their dates.</p>
+<p>Then, we merge this with the bike station information by the station
+ids.</p>
+Table 6 below shows the first five rows of our dataset that we will be
+using to answer our question of interest. <br>
+<div class="vscroll-plot">
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 6: First Five Rows of Dataset
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Station_id
+</th>
+<th style="text-align:left;">
+Station_name
+</th>
+<th style="text-align:right;">
+Latitude
+</th>
+<th style="text-align:right;">
+Longitude
+</th>
+<th style="text-align:left;">
+Date
+</th>
+<th style="text-align:right;">
+Rental_count
+</th>
+<th style="text-align:right;">
+Max_temp
+</th>
+<th style="text-align:right;">
+Min_temp
+</th>
+<th style="text-align:right;">
+Mean_temp
+</th>
+<th style="text-align:right;">
+Precipitation
+</th>
+<th style="text-align:right;">
+Snow
+</th>
+<th style="text-align:left;">
+Weekday
+</th>
+<th style="text-align:right;">
+Weekday_num
+</th>
+<th style="text-align:right;">
+is_weekday
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:left;">
+2022-06-30
+</td>
+<td style="text-align:right;">
+92
+</td>
+<td style="text-align:right;">
+25.8
+</td>
+<td style="text-align:right;">
+15.0
+</td>
+<td style="text-align:right;">
+20.4
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Thursday
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:left;">
+2022-05-14
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:right;">
+27.0
+</td>
+<td style="text-align:right;">
+16.6
+</td>
+<td style="text-align:right;">
+21.8
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Saturday
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:left;">
+2020-07-06
+</td>
+<td style="text-align:right;">
+84
+</td>
+<td style="text-align:right;">
+30.1
+</td>
+<td style="text-align:right;">
+23.1
+</td>
+<td style="text-align:right;">
+26.6
+</td>
+<td style="text-align:right;">
+0.5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Monday
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:left;">
+2020-09-21
+</td>
+<td style="text-align:right;">
+71
+</td>
+<td style="text-align:right;">
+18.9
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+14.0
+</td>
+<td style="text-align:right;">
+0.7
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Monday
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:left;">
+2020-11-06
+</td>
+<td style="text-align:right;">
+55
+</td>
+<td style="text-align:right;">
+18.2
+</td>
+<td style="text-align:right;">
+9.6
+</td>
+<td style="text-align:right;">
+13.9
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Friday
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+7000
+</td>
+<td style="text-align:left;">
+Fort York Blvd / Capreol Ct
+</td>
+<td style="text-align:right;">
+43.63983
+</td>
+<td style="text-align:right;">
+-79.39595
+</td>
+<td style="text-align:left;">
+2020-05-26
+</td>
+<td style="text-align:right;">
+39
+</td>
+<td style="text-align:right;">
+31.5
+</td>
+<td style="text-align:right;">
+17.9
+</td>
+<td style="text-align:right;">
+24.7
+</td>
+<td style="text-align:right;">
+1.6
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Tuesday
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="data-exploration" class="section level2">
+<h2>Data Exploration</h2>
+<p>Finally, now that our datasets have been cleaned, wrangled, and
+merged, we will begin to explore the data in greater detail.</p>
+<p>Firstly, we will look at the distribution of bike rental counts per
+year for each station.</p>
+<div id="bike-rental-counts-yearly-for-each-station"
+class="section level4 tabset">
+<h4 class="tabset">Bike Rental counts yearly for each station</h4>
+<div id="figure-1-2020" class="section level5">
+<h5>Figure 1: 2020</h5>
+<br>
+<div class="vscroll-plot">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-36de04100414e270d846" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-36de04100414e270d846">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["OpenStreetMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[43.639832,43.6649641599074,43.667333,43.667158,43.656518,43.6480008,43.660439,43.658148,43.663376,43.650325,43.645323,43.656026,43.663102,43.64852,43.640978,43.641529,43.650033,43.653264,43.65049,43.6571,43.66663,43.671293,43.665527,43.652823,43.6582,43.66943,43.664088,43.668991,43.652473,43.645609,43.671389,43.643975,43.651318,43.6519501,43.656094,43.652327224103,43.664467,43.656729,43.6673,43.63951,43.663722,43.653236,43.64534,43.657763,43.646144,43.652634,43.647259,43.645859,43.640722,43.66207,43.662132,43.6458569,43.6637,43.643473,43.6662942,43.659226,43.668456,43.65205,43.659575,43.662085,43.643795,43.6830689,43.649147,43.643667,43.666233,43.636611,43.640114,43.6500392,43.636533,43.640132,43.659777,43.6576,43.660694,43.688325,43.645599,43.687323,43.6525077,43.684758,43.683378,43.662712,43.681991,43.681114,43.680223,43.678401,43.6784834,43.677076,43.7027268,43.671172,43.667819,43.6513927,43.660207,43.648655,43.648711,43.6605603,43.6567847828531,43.6561111,43.652219,43.650279,43.652686,43.658777,43.6552778,43.640885,43.637981,43.664524,43.6712581,43.6746885744863,43.648575,43.665867,43.663993,43.657266,43.641389,43.643834,43.662365,43.671944,43.672152,43.675492,43.674991,43.674446,43.66986,43.670318,43.681944,43.6384009,43.640634,43.676667,43.675278,43.677778,43.675791,43.675556,43.674444,43.671513,43.671389,43.68,43.6394444,43.639444,43.67,43.6555556,43.6686111,43.661705,43.6638889,43.6666667,43.663808,43.6608333,43.6608333333333,43.6422222,43.6433333333333,43.6575,43.6591666666667,43.6622222,43.657424,43.641646,43.646162,43.6616667,43.6322445,43.635,43.66666667,43.6563889,43.63796,43.639179,43.657192,43.6587734,43.6538888888889,43.6508333333333,43.651238,43.6544915,43.6366666666667,43.653766,43.6637403,43.661975,43.660414,43.6430555555556,43.690564,43.66,43.65905,43.6438602,43.6409,43.6563888888889,43.6517925,43.635492,43.655,43.65277778,43.651281,43.649722,43.656296,43.6511111111111,43.6475,43.637381,43.6409957,43.6494896,43.635932,43.6543604,43.637894,43.654501,43.6535269,43.634896,43.636731,43.6314,43.6372958,43.6534268,43.643769,43.646677,43.640255,43.637922,43.650492,43.660087,43.659471,43.663337,43.649172,43.663912,43.662403,43.666874,43.630254,43.6352007,43.633473,43.646552,43.669969,43.6521,43.654905,43.651145,43.660296,43.6685000462722,43.665846,43.6461,43.648437,43.6545174,43.6626628,43.638497,43.6472019,43.645215,43.6809164,43.657838,43.671535,43.661324,43.6940155,43.658295,43.656927,43.655431,43.657024,43.662862,43.665801,43.668153,43.661803,43.669903,43.6856,43.66587,43.687999,43.669604,43.668427,43.64595,43.6477785,43.6629228,43.665656,43.661673,43.6224434,43.6308933,43.6451308,43.6614605,43.665327,43.657343,43.645324,43.650256,43.67142,43.674923,43.665269,43.666224,43.669576,43.66852,43.662771,43.667208,43.671349,43.672571,43.669328,43.668633,43.660206,43.6451635,43.6452972,43.6392777,43.6452091,43.645572,43.671526,43.6741219,43.678077,43.645665,43.69595,43.671561,43.6495789,43.6462176,43.669244,43.663912,43.668553,43.6720273,43.6753188,43.672453,43.6592088,43.657991,43.66745,43.637764,43.6408346,43.6672144,43.673939,43.690237,43.689211,43.6848652,43.6783213,43.690537,43.68395,43.6522266222553,43.704461,43.651885,43.659195,43.682645,43.656945,43.6817346,43.683296,43.683351,43.673831,43.666325,43.639052,43.6448617,43.6493472,43.667266,43.7063473,43.6509552,43.6487245,43.6476616,43.696708,43.6978701,43.6975969,43.6910667,43.7112153,43.7083577,43.6425636,43.6704537,43.6691099,43.655227,43.685167,43.6772,43.658938,43.655766,43.694341,43.641952,43.64422,43.641675,43.70547,43.70942,43.652822,43.65263,43.66834,43.671278,43.635023,43.6417852,43.66402,43.66686,43.641705,43.648928,43.65988,43.667023,43.66842,43.638426,43.697819,43.63632,43.663162,43.665645,43.686442,43.633537,43.669813,43.651118,43.663148,43.676697,43.68114,43.66189,43.65389,43.63121,43.65716,43.688526,43.6574766,43.66073,43.673118,43.66908,43.689293,43.694826,43.697139,43.678285,43.640075,43.669232,43.6647688,43.688148,43.715951,43.665221,43.651678,43.680466,43.649217,43.645653,43.651838,43.6462574,43.685569,43.65182,43.64283,43.6442,43.646734,43.61868,43.6432530948273,43.64407,43.652777,43.665538,43.664182,43.63855,43.64976,43.65143,43.678685,43.713524,43.716652,43.684261,43.676216,43.685924,43.656638,43.6482995,43.653809,43.673768,43.6397,43.654004,43.65917,43.65995,43.685221,43.686962,43.6535052,43.653359,43.658816,43.626265,43.613606,43.6146692,43.6390437,43.63771,43.6882706002271,43.6486599,43.659055,43.6632257,43.638925,43.6423847,43.6702236,43.675648,43.67883,43.6704403,43.6752732,43.670206,43.63811,43.645469,43.651603,43.661559,43.6882821,43.69933,43.68871,43.65246,43.650077,43.6537513,43.6560758,43.6568254,43.6580442,43.6658804,43.666051,43.649709,43.5927419,43.597082,43.5961692,43.612063,43.6171635,43.630874,43.63732,43.6438036,43.658574,43.664665,43.668496,43.665523,43.672079,43.673019,43.698841,43.63985,43.6323994,43.665076,43.671771,43.6935477,43.6548521,43.6535,43.6617908,43.7005976,43.7029672,43.6653032,43.690903,43.6834703,43.7696262,43.7641485,43.76521,43.7724019,43.7781116,43.77953,43.7774374,43.707049,43.711751,43.707045,43.693256,43.6800218,43.732016,43.732975,43.650745,43.660274,43.683884,43.699281,43.707582,43.70567,43.6941354819917,43.696631,43.6765897,43.720645,43.720233,43.680095,43.691468,43.747854,43.7561681,43.779353,43.7777114,43.778015,43.788319,43.6926825,43.7041957,43.7078691,43.5880774,43.6029904,43.754978,43.7254665,43.7805505,43.667076,43.6625395,43.6002896,43.6615467,43.7004017,43.6424558,43.6578449,43.6596299,43.647663,43.6162721,43.6399714,43.683979,43.6641174,43.6885046,43.6954486,43.6850809,43.7842419,43.6503935,43.656373,43.6751525554287,43.686352,43.6541245,43.680207,43.6589882,43.6469928,43.649204068767,43.6856128,43.656633,43.6393107,43.718039,43.72268,43.720998,43.6504218],[-79.395954,-79.3835503152689,-79.399429,-79.402761,-79.389099,-79.383177,-79.385525,-79.398167,-79.392125,-79.372287,-79.395003,-79.385327,-79.373181,-79.380576,-79.376785,-79.386741,-79.396555,-79.382458,-79.3873,-79.4056,-79.38148,-79.380471,-79.387499,-79.393388,-79.3768,-79.38915,-79.387095,-79.379385,-79.401456,-79.380386,-79.382919,-79.419576,-79.36023,-79.4060978,-79.381484,-79.3882538196087,-79.414783,-79.382736,-79.374,-79.383717,-79.380288,-79.376716,-79.409597,-79.389165,-79.377962,-79.374222,-79.379878,-79.38783,-79.391051,-79.37617,-79.3656796,-79.3853654,-79.400053,-79.390477,-79.4066433,-79.390213,-79.393899,-79.362198,-79.365769,-79.397735,-79.375413,-79.279682,-79.395504,-79.380414,-79.373327,-79.400042,-79.393249,-79.3733541,-79.395854,-79.380464,-79.382767,-79.4032,-79.379052,-79.300463,-79.4657123,-79.304848,-79.4654233,-79.316767,-79.322961,-79.379903,-79.329455,-79.3373885,-79.344062,-79.346289,-79.3513564,-79.35667,-79.3336809,-79.354704,-79.35347,-79.3579466,-79.361275,-79.367061,-79.389728,-79.3437663,-79.3562738505904,-79.3613888888889,-79.354455,-79.356832,-79.358395,-79.369596,-79.3658333333333,-79.416379,-79.424146,-79.36793,-79.376367,-79.3670196239627,-79.380042,-79.362506,-79.358534,-79.374756,-79.404444,-79.396649,-79.351104,-79.387778,-79.39018,-79.388858,-79.396273,-79.398331,-79.398443,-79.405181,-79.390556,-79.4197107,-79.435841,-79.416111,-79.423889,-79.405556,-79.40698,-79.410278,-79.414722,-79.408317,-79.416389,-79.425,-79.4252777777778,-79.423611,-79.4208333333333,-79.4336111111111,-79.4202777777778,-79.425734,-79.4188888888889,-79.4116666666667,-79.410491,-79.4316666666667,-79.4358333333333,-79.4111111111111,-79.4055555555556,-79.3952777777778,-79.3855555555556,-79.3825,-79.381019,-79.375308,-79.378912,-79.4013888888889,-79.4108105,-79.4088888888889,-79.4583333333333,-79.4516666666667,-79.387502,-79.399595,-79.452559,-79.443054,-79.4413888888889,-79.4430555555556,-79.43868,-79.422634,-79.4197222222222,-79.4016759,-79.3980645,-79.407896,-79.415646,-79.4275,-79.326319,-79.4088888888889,-79.422988,-79.4227573,-79.432837,-79.4091666666667,-79.3826951,-79.398253,-79.418889,-79.42972222,-79.411717,-79.416944,-79.414663,-79.4213888888889,-79.4330555555556,-79.406112,-79.4096663,-79.393535,-79.465083,-79.4655296,-79.454823,-79.460053,-79.4650569,-79.467763,-79.444966,-79.4304,-79.4423237,-79.4512787,-79.447915,-79.442741,-79.439223,-79.431734,-79.450842,-79.385655,-79.350325,-79.446444,-79.4445087,-79.416124,-79.423098,-79.381155,-79.420317,-79.4187711,-79.425679,-79.406468,-79.386532,-79.4486,-79.398448,-79.423742,-79.397107,-79.3946235999697,-79.404998,-79.3895,-79.39838,-79.3895315,-79.3323698,-79.39192,-79.3953394,-79.364898,-79.4229684,-79.38631,-79.379173,-79.449534,-79.2889842,-79.372346,-79.378497,-79.380653,-79.377257,-79.383572,-79.384796,-79.38891,-79.389682,-79.387802,-79.3718,-79.33443,-79.38906,-79.381171,-79.38725,-79.378761,-79.3847928,-79.4018451,-79.352055,-79.337789,-79.480284,-79.4722622,-79.3653644,-79.3789457,-79.43235,-79.43112,-79.40345,-79.36163,-79.445947,-79.430465,-79.319796,-79.317693,-79.375961,-79.363525,-79.315223,-79.312315,-79.29451,-79.289,-79.288949,-79.291162,-79.3244,-79.3831757,-79.3827914,-79.4115736,-79.3960744,-79.39399,-79.44874,-79.4352208,-79.390328,-79.415345,-79.328535,-79.38117,-79.3762096,-79.3855048,-79.3894,-79.327987,-79.338673,-79.3470557,-79.3462789,-79.338259,-79.3348396,-79.340075,-79.329408,-79.345359,-79.3429074,-79.3452697,-79.441159,-79.350119,-79.35438,-79.356602,-79.35822,-79.341307,-79.347046,-79.3229544095408,-79.423122,-79.3649,-79.329196,-79.377557,-79.424911,-79.4184725,-79.418734,-79.41562,-79.281455,-79.3014,-79.399792,-79.42822,-79.42668,-79.443946,-79.40161,-79.3707,-79.36839,-79.37549,-79.40045,-79.39419,-79.39654,-79.39535,-79.39894,-79.398862,-79.3762,-79.39014,-79.38551,-79.39201,-79.34962,-79.35858,-79.383518,-79.3802,-79.291416,-79.380723,-79.36927,-79.354006,-79.40355,-79.39139,-79.378208,-79.38766,-79.38235,-79.372127,-79.399505,-79.4131148,-79.46418,-79.46526,-79.393295,-79.378623,-79.38279,-79.401805,-79.410585,-79.429142,-79.38786,-79.47307,-79.309765,-79.304711,-79.313404,-79.437461,-79.3335,-79.369411,-79.347938,-79.445029,-79.4277,-79.42679,-79.4675,-79.41414,-79.46478,-79.412903,-79.373446,-79.47149,-79.318651,-79.3149,-79.295895,-79.295208,-79.31469,-79.347346,-79.414156,-79.374495,-79.3772602,-79.362101,-79.351246,-79.394009,-79.375233,-79.432522,-79.465319,-79.464366,-79.378743,-79.3973381,-79.408019,-79.47421,-79.38409,-79.38702,-79.38301,-79.48674,-79.4123046990417,-79.3929,-79.372637,-79.451263,-79.449066,-79.46693,-79.48477,-79.47779,-79.297974,-79.400162,-79.399993,-79.299332,-79.309395,-79.376304,-79.358749,-79.3552533,-79.3595,-79.391253,-79.44865,-79.444792,-79.46997,-79.38964,-79.294766,-79.286864,-79.3667689,-79.365023,-79.367318,-79.476723,-79.4883535,-79.4873148,-79.4760109,-79.458173,-79.4393776708185,-79.4376413,-79.440764,-79.4397052,-79.4168659,-79.4240277,-79.4360232,-79.4527619,-79.408723,-79.4532855,-79.3778458,-79.402643,-79.397877,-79.411084,-79.408346,-79.413845,-79.4253856,-79.39199,-79.39264,-79.413528,-79.391291,-79.4028245,-79.393259,-79.3966159,-79.3927404,-79.3876101,-79.374161,-79.364184,-79.5403301,-79.522768,-79.5160575,-79.496573,-79.4971065,-79.482407,-79.489083,-79.4770327,-79.487246,-79.489385,-79.485426,-79.484892,-79.470171,-79.467994,-79.519472,-79.43703,-79.4097818,-79.341509,-79.324961,-79.3301658,-79.3539768,-79.354068,-79.361515,-79.397345,-79.3979073,-79.4701178,-79.4375028,-79.5108942,-79.5025943,-79.5012809,-79.491281,-79.4675395,-79.467963,-79.45233,-79.4447096,-79.40966,-79.378615,-79.375437,-79.383238,-79.3405681,-79.403637,-79.40401,-79.383633,-79.398049,-79.36647,-79.318802,-79.311439,-79.310554,-79.3005871877529,-79.297436,-79.3163022,-79.355474,-79.362092,-79.291714,-79.288619,-79.199327,-79.2026694,-79.193023,-79.1659711,-79.131911,-79.123505,-79.441042,-79.4094472,-79.39248,-79.5432067,-79.4926867,-79.1971289,-79.4011545,-79.1301203,-79.425116,-79.5030161,-79.5108692,-79.498398,-79.4275305,-79.4296346,-79.3899265,-79.4799176,-79.487583,-79.4990363,-79.399404,-79.410657,-79.4588522,-79.3940052,-79.4026176,-79.3149901,-79.1849889,-79.3860211,-79.3878104,-79.3884961596964,-79.415894,-79.4636388,-79.339243,-79.438715,-79.3706665,-79.4933633420141,-79.3116827,-79.379625,-79.4408141,-79.371914,-79.37644,-79.377456,-79.4407647],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":0,"opacity":0.5,"fill":true,"fillColor":["#0000EC","#ABD0E7","#A4BBEB","#C5E3ED","#CBE6EF","#CEE7F0","#1A0DFF","#999EF0","#CDE7F0","#B9DDE9","#D2E9F1","#ADD7E6","#8376F6","#CEE8F0","#000095","#A8C6E9","#A2B3ED","#A8C7E9","#6D57F9","#C6E4ED","#BFE0EB","#B1DAE7","#9FADEE","#7764F8","#A0AEED","#BADEEA","#6D57F9","#AFD9E6","#C0E1EC","#9597F1","#B3DBE8","#BBDEEA","#D7EBF3","#877CF5","#5F47FB","#DDEFF4","#B9DDE9","#C6E4ED","#5840FB","#0000C2","#9FADEE","#A7C4EA","#9BA2EF","#A9CAE9","#CEE7F0","#E6F3F7","#C9E5EE","#D4EAF2","#A3B6EC","#ABD1E7","#CDE7F0","#D0E8F1","#DBEEF4","#9AA1F0","#C6E3ED","#C4E3ED","#CAE6EF","#DAEDF3","#A0AFED","#C7E4EE","#BFE0EB","#FFFFFF","#B5DCE8","#E5F2F7","#DDEFF5","#6C55F9","#A3B7EC","#CBE6EF","#877DF5","#16085C","#B3DBE8","#725EF8","#B9DDE9","#EEF7FA","#DBEDF4","#F2F9FB","#CCE6EF","#EFF7FA","#E0F0F5","#8072F6","#DDEEF4","#E1F0F6","#E7F3F8","#DDEEF4","#E8F4F8","#D1E9F1","#DFEFF5","#C7E4EE","#B3DBE8","#B9DDEA","#0000DA","#B8DDE9","#AACEE8","#C0E1EB","#7966F7","#E8F4F8","#D0E8F0","#D2E9F1","#D2E9F1","#D0E8F0","#CFE8F0","#B6DCE9","#ECF6F9","#ABCFE8","#B8DDE9","#E0F0F5","#CCE6EF","#B4DBE8","#CCE6EF","#553DFC","#EAF5F9","#E7F3F8","#D1E9F1","#B0D9E7","#E2F1F6","#E1F1F6","#CAE6EF","#E7F3F7","#CBE6EF","#DBEDF4","#E5F2F7","#D0E8F0","#DEEFF5","#F2F9FB","#EAF5F8","#E1F0F6","#D0E8F1","#EFF7FA","#F0F8FA","#DEEFF5","#DEEFF5","#E4F2F7","#E7F3F7","#ADD8E6","#D9EDF3","#CCE7EF","#E2F1F6","#D0E8F1","#A0AEED","#D7EBF2","#D4EAF2","#D1E9F1","#E1F0F6","#C8E4EE","#A4BAEC","#D2E9F1","#C8E5EE","#A2B6EC","#B0D9E7","#0000BD","#D7ECF3","#DFEFF5","#16085B","#BDDFEB","#E0F0F5","#DCEEF4","#170955","#A5BCEB","#E3F1F6","#D8ECF3","#EDF6F9","#DDEFF5","#D9ECF3","#CFE8F0","#E9F4F8","#ADD7E6","#C3E2ED","#C8E4EE","#CAE5EE","#B0D9E7","#F2F9FB","#D4EAF2","#E5F2F7","#BADEEA","#DAEDF4","#908CF3","#C5E3ED","#0000B6","#A6C1EA","#CCE6EF","#C5E3ED","#877BF5","#CCE6EF","#E5F2F7","#EEF7FA","#9DA7EF","#C5E3ED","#7C6BF7","#5E46FB","#EDF6F9","#4931FD","#E5F2F7","#D5EBF2","#A4BAEB","#0000F8","#0803FF","#C1E1EC","#F2F9FB","#D9EDF3","#EEF7FA","#DDEFF5","#DDEEF4","#DEEFF5","#AACEE8","#B9DDE9","#DCEEF4","#E9F4F8","#B7DDE9","#AFD9E7","#DBEEF4","#05010B","#EBF5F9","#EDF6F9","#C3E2ED","#8B83F4","#ECF6F9","#A8C8E9","#F1F8FB","#D7ECF3","#989DF0","#A6BFEB","#877CF5","#C0E1EB","#9392F2","#DBEDF4","#979BF0","#9699F1","#000000","#F1F8FB","#ADD6E6","#ACD5E7","#E7F3F8","#F7FBFD","#CAE5EF","#EFF7FA","#B3DBE8","#D6EBF2","#BCDFEA","#BFE0EB","#ABD2E7","#D9ECF3","#CDE7F0","#E2F1F6","#E9F4F8","#E8F4F8","#BEE0EB","#9EAAEE","#DCEEF4","#D6EBF2","#B9DDE9","#D3EAF1","#F0F8FA","#0000AD","#0000C0","#CFE8F0","#9BA3EF","#E2F1F6","#E9F4F8","#A2B3ED","#A6BFEB","#F5FAFC","#ECF6F9","#F5FAFC","#E5F2F7","#9291F2","#D4EAF2","#CFE8F0","#E3F1F6","#F8FBFD","#F4FAFC","#D7ECF3","#D7EBF3","#DCEEF4","#DBEDF4","#C4E2ED","#D4EAF2","#D6EBF2","#6C56F9","#E7F3F7","#F1F8FB","#E5F2F7","#C1E1EC","#F8FBFD","#E0F0F5","#A6C1EA","#DAEDF3","#CBE6EF","#E9F4F8","#CEE7F0","#EEF6FA","#E6F3F7","#F2F9FB","#F2F8FB","#DEEFF5","#E5F2F7","#0000AA","#D1E9F1","#D8ECF3","#F4FAFC","#E8F4F8","#EEF7FA","#E4F2F7","#E9F4F8","#EAF5F8","#F4FAFC","#0000BF","#D1E9F1","#D1E9F1","#0000CC","#EAF5F9","#E7F3F8","#EBF5F9","#CBE6EF","#EBF5F9","#EDF6F9","#E2F1F6","#B8DDE9","#ECF6F9","#D6EBF2","#E2F1F6","#F4FAFC","#C2E2EC","#E5F2F7","#AED8E6","#D6EBF2","#EDF6F9","#E0F0F5","#D6EBF2","#EAF5F9","#CFE8F0","#ABD0E7","#C2E2EC","#B3DBE8","#C5E3ED","#F4FAFC","#CAE6EF","#999EF0","#A8C5E9","#F8FCFD","#A5BDEB","#0000FD","#C0E1EC","#EDF6F9","#E0F0F5","#B4DBE8","#E3F1F6","#9392F2","#D7ECF3","#0000FF","#C3E2EC","#EAF5F8","#F0F8FA","#BCDFEB","#C6E3ED","#9392F2","#BCDFEB","#E0F0F5","#DFF0F5","#DAEDF3","#F1F8FB","#7E6DF7","#C7E4EE","#E7F3F7","#17094D","#EDF6F9","#B5DCE8","#E3F1F6","#F5FAFC","#E6F3F7","#D6EBF2","#EFF7FA","#908CF3","#EAF5F8","#EDF6F9","#E3F1F6","#F5FAFC","#E6F3F7","#F5FAFC","#F8FBFD","#F8FBFD","#F3F9FB","#DCEEF4","#D9ECF3","#C9E5EE","#ACD3E7","#ADD6E6","#D8ECF3","#CFE8F0","#B9DDEA","#EAF5F8","#EAF5F8","#C8E4EE","#A6BFEB","#BFE0EB","#DDEFF4","#EEF7FA","#9DA7EF","#D7ECF3","#D6EBF2","#ECF6F9","#C0E1EC","#ADD7E6","#C7E4EE","#EAF5F8","#F5FAFC","#E4F2F6","#EBF5F9","#F2F9FB","#F5FAFC","#F3F9FB","#F0F8FA","#F7FBFD","#EEF7FA","#EEF6FA","#C9E5EE","#E3F2F6","#F3F9FB","#EDF6F9","#EDF6F9","#EEF7FA","#F9FCFD","#BCDFEA","#FAFCFD","#F7FBFD","#E3F1F6","#EBF5F9","#E6F3F7","#442DFD","#E1F0F6","#EBF5F9","#FDFEFE","#867BF5","#EBF5F9","#F8FBFD","#E8F4F8","#F6FBFC","#CBE6EF","#9EAAEE","#EAF5F9","#F5FAFC","#EFF7FA","#F9FCFD","#E6F3F7","#EAF5F9","#C1E1EC","#B4DBE8","#DBEDF4","#F2F9FB","#F1F8FB","#F2F9FB","#EFF7FA","#F5FAFC","#A4B9EC","#D0E8F0","#DEEFF5","#EFF7FA","#E1F0F6","#C5E3ED","#EFF7FA","#E0F0F5","#FAFCFD","#F6FBFC","#EDF6F9","#F9FCFD","#FAFDFD","#F6FBFC","#F3F9FB","#F8FBFD","#F4FAFC","#FBFDFE","#F8FCFD","#FAFCFD","#F8FBFD","#F5FAFC","#F4FAFC","#EBF5F9","#9597F1","#DAEDF4","#EEF7FA","#FBFDFE","#B7DDE9","#BEE0EB","#E7F3F8","#F5FAFC","#F0F8FA","#F5FAFC","#F9FCFD","#F1F8FB","#D9EDF3","#EAF5F8","#F5FAFC","#F4FAFC","#EDF6F9","#F2F9FB","#F3F9FB","#FCFEFE","#F5FAFC","#F3F9FB","#FAFDFE","#F2F9FB","#FBFDFE","#FBFDFE","#DAEDF4","#F7FBFD","#DAEDF3","#FCFDFE","#FAFCFD","#FBFDFE","#F7FBFD","#F3F9FB","#FBFDFE","#EEF7FA","#F1F8FA","#F8FBFD","#FAFCFD","#FCFEFE","#FBFDFE","#EAF5F8","#F2F9FB","#F9FCFD","#F9FCFD","#F7FBFC","#F8FCFD","#E8F4F8","#EEF7FA","#E5F2F7","#FEFFFF","#FEFEFF","#F2F9FB","#F2F9FB","#F4FAFC","#F6FBFC","#FCFEFE","#F7FBFD","#F7FBFC","#E9F4F8","#F9FCFD","#FAFCFD","#FCFEFE","#FCFDFE","#F8FCFD","#FBFDFE","#EBF5F9","#F9FCFD","#F8FBFD","#FDFEFE","#EDF6F9","#EAF5F8","#F6FBFC","#FAFCFD","#FBFDFE","#FAFCFD","#F6FBFC","#F6FAFC","#FDFEFE","#FEFEFF","#FBFDFE","#FCFEFE","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF"],"fillOpacity":0.7},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #CAE6EF 16.2700608743774%, #9AA0F0 32.546632377356%, #2B19FE 48.8232038803346%, #0000B7 65.0997753833133%, #140766 81.3763468862919%, #0A0213 97.6529183892705%, #000000 "],"labels":["5,000","10,000","15,000","20,000","25,000","30,000"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomleft","type":"numeric","title":"Rental Count","extra":{"p_1":0.162700608743774,"p_n":0.976529183892705},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[43.5880774,43.788319],"lng":[-79.5432067,-79.123505]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br></p>
+</div>
+<div id="figure-2-2021" class="section level5">
+<h5>Figure 2: 2021</h5>
+<br>
+<div class="vscroll-plot">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-e384ef04fe80f0e5ad4f" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-e384ef04fe80f0e5ad4f">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["OpenStreetMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[43.639832,43.6649641599074,43.667333,43.667158,43.656518,43.6480008,43.660439,43.658148,43.663376,43.650325,43.645323,43.656026,43.663102,43.64852,43.640978,43.641529,43.650033,43.653264,43.65049,43.6571,43.66663,43.671293,43.665527,43.652823,43.6582,43.66943,43.664088,43.668991,43.652473,43.645609,43.671389,43.643975,43.651318,43.6519501,43.656094,43.652327224103,43.664467,43.656729,43.6673,43.63951,43.663722,43.653236,43.64534,43.657763,43.646144,43.652634,43.647259,43.645859,43.640722,43.66207,43.662132,43.6458569,43.6637,43.643473,43.6662942,43.659226,43.668456,43.65205,43.659575,43.662085,43.643795,43.6830689,43.649147,43.643667,43.666233,43.636611,43.640114,43.6500392,43.636533,43.640132,43.659777,43.6576,43.660694,43.688325,43.645599,43.687323,43.6525077,43.684758,43.683378,43.662712,43.681991,43.681114,43.680223,43.678401,43.6784834,43.677076,43.7027268,43.671172,43.667819,43.6513927,43.660207,43.648655,43.648711,43.6605603,43.6567847828531,43.6561111,43.652219,43.650279,43.652686,43.658777,43.6552778,43.640885,43.637981,43.664524,43.6712581,43.6746885744863,43.648575,43.665867,43.663993,43.657266,43.641389,43.643834,43.662365,43.671944,43.672152,43.675492,43.674991,43.674446,43.66986,43.670318,43.681944,43.6384009,43.640634,43.676667,43.675278,43.677778,43.675791,43.675556,43.674444,43.671513,43.671389,43.68,43.6394444,43.639444,43.67,43.6555556,43.6686111,43.661705,43.6638889,43.6666667,43.663808,43.6608333,43.6608333333333,43.6422222,43.6433333333333,43.6575,43.6591666666667,43.6622222,43.657424,43.641646,43.646162,43.6616667,43.6322445,43.635,43.66666667,43.6563889,43.63796,43.639179,43.657192,43.6587734,43.6538888888889,43.6508333333333,43.651238,43.6544915,43.6366666666667,43.653766,43.6637403,43.661975,43.660414,43.6430555555556,43.690564,43.66,43.65905,43.6438602,43.6409,43.6563888888889,43.6517925,43.635492,43.655,43.65277778,43.651281,43.649722,43.656296,43.6511111111111,43.6475,43.637381,43.6409957,43.6494896,43.635932,43.6543604,43.637894,43.654501,43.6535269,43.634896,43.636731,43.6314,43.6372958,43.6534268,43.643769,43.646677,43.640255,43.637922,43.650492,43.660087,43.659471,43.663337,43.649172,43.663912,43.662403,43.666874,43.630254,43.6352007,43.633473,43.646552,43.669969,43.6521,43.654905,43.651145,43.660296,43.6685000462722,43.665846,43.6461,43.648437,43.6545174,43.6626628,43.638497,43.6472019,43.645215,43.6809164,43.657838,43.671535,43.661324,43.6940155,43.658295,43.656927,43.655431,43.657024,43.662862,43.665801,43.668153,43.661803,43.669903,43.6856,43.66587,43.687999,43.669604,43.668427,43.64595,43.6477785,43.6629228,43.665656,43.661673,43.6224434,43.6308933,43.6451308,43.6614605,43.665327,43.657343,43.645324,43.650256,43.67142,43.674923,43.665269,43.666224,43.669576,43.66852,43.662771,43.667208,43.671349,43.672571,43.669328,43.668633,43.660206,43.6451635,43.6452972,43.6392777,43.6452091,43.645572,43.671526,43.6741219,43.678077,43.645665,43.69595,43.671561,43.6495789,43.6462176,43.669244,43.663912,43.668553,43.6720273,43.6753188,43.672453,43.6592088,43.657991,43.66745,43.637764,43.6408346,43.6672144,43.673939,43.690237,43.689211,43.6848652,43.6783213,43.690537,43.68395,43.6522266222553,43.704461,43.651885,43.659195,43.682645,43.656945,43.6817346,43.683296,43.683351,43.673831,43.666325,43.639052,43.6448617,43.6493472,43.667266,43.7063473,43.6509552,43.6487245,43.6476616,43.696708,43.6978701,43.6975969,43.6910667,43.7112153,43.7083577,43.6425636,43.6704537,43.6691099,43.655227,43.685167,43.6772,43.658938,43.655766,43.694341,43.641952,43.64422,43.641675,43.70547,43.70942,43.652822,43.65263,43.66834,43.671278,43.635023,43.6417852,43.66402,43.66686,43.641705,43.648928,43.65988,43.667023,43.66842,43.638426,43.697819,43.63632,43.663162,43.665645,43.686442,43.633537,43.669813,43.651118,43.663148,43.676697,43.68114,43.66189,43.65389,43.63121,43.65716,43.688526,43.6574766,43.66073,43.673118,43.66908,43.689293,43.694826,43.697139,43.678285,43.640075,43.669232,43.6647688,43.688148,43.715951,43.665221,43.651678,43.680466,43.649217,43.645653,43.651838,43.6462574,43.685569,43.65182,43.64283,43.6442,43.646734,43.61868,43.6432530948273,43.64407,43.652777,43.665538,43.664182,43.63855,43.64976,43.65143,43.678685,43.713524,43.716652,43.684261,43.676216,43.685924,43.656638,43.6482995,43.653809,43.673768,43.6397,43.654004,43.65917,43.65995,43.685221,43.686962,43.6535052,43.653359,43.658816,43.626265,43.613606,43.6146692,43.6390437,43.63771,43.6882706002271,43.6486599,43.659055,43.6632257,43.638925,43.6423847,43.6702236,43.675648,43.67883,43.6704403,43.6752732,43.670206,43.63811,43.645469,43.651603,43.661559,43.6882821,43.69933,43.68871,43.65246,43.650077,43.6537513,43.6560758,43.6568254,43.6580442,43.6658804,43.666051,43.649709,43.5927419,43.597082,43.5961692,43.612063,43.6171635,43.630874,43.63732,43.6438036,43.658574,43.664665,43.668496,43.665523,43.672079,43.673019,43.698841,43.63985,43.6323994,43.665076,43.671771,43.6935477,43.6548521,43.6535,43.6617908,43.7005976,43.7029672,43.6653032,43.690903,43.6834703,43.7696262,43.7641485,43.76521,43.7724019,43.7781116,43.77953,43.7774374,43.707049,43.711751,43.707045,43.693256,43.6800218,43.732016,43.732975,43.650745,43.660274,43.683884,43.699281,43.707582,43.70567,43.6941354819917,43.696631,43.6765897,43.720645,43.720233,43.680095,43.691468,43.747854,43.7561681,43.779353,43.7777114,43.778015,43.788319,43.6926825,43.7041957,43.7078691,43.5880774,43.6029904,43.754978,43.7254665,43.7805505,43.667076,43.6625395,43.6002896,43.6615467,43.7004017,43.6424558,43.6578449,43.6596299,43.647663,43.6162721,43.6399714,43.683979,43.6641174,43.6885046,43.6954486,43.6850809,43.7842419,43.6503935,43.656373,43.6751525554287,43.686352,43.6541245,43.680207,43.6589882,43.6469928,43.649204068767,43.6856128,43.656633,43.6393107,43.718039,43.72268,43.720998,43.6504218,43.664028,43.6558557,43.7281464,43.7093201,43.64957,43.7273654882463,43.6846177,43.77345,43.7741,43.6334636,43.6544839,43.6413479,43.64191,43.64215,43.645102,43.6478206,43.6602021,43.644887],[-79.395954,-79.3835503152689,-79.399429,-79.402761,-79.389099,-79.383177,-79.385525,-79.398167,-79.392125,-79.372287,-79.395003,-79.385327,-79.373181,-79.380576,-79.376785,-79.386741,-79.396555,-79.382458,-79.3873,-79.4056,-79.38148,-79.380471,-79.387499,-79.393388,-79.3768,-79.38915,-79.387095,-79.379385,-79.401456,-79.380386,-79.382919,-79.419576,-79.36023,-79.4060978,-79.381484,-79.3882538196087,-79.414783,-79.382736,-79.374,-79.383717,-79.380288,-79.376716,-79.409597,-79.389165,-79.377962,-79.374222,-79.379878,-79.38783,-79.391051,-79.37617,-79.3656796,-79.3853654,-79.400053,-79.390477,-79.4066433,-79.390213,-79.393899,-79.362198,-79.365769,-79.397735,-79.375413,-79.279682,-79.395504,-79.380414,-79.373327,-79.400042,-79.393249,-79.3733541,-79.395854,-79.380464,-79.382767,-79.4032,-79.379052,-79.300463,-79.4657123,-79.304848,-79.4654233,-79.316767,-79.322961,-79.379903,-79.329455,-79.3373885,-79.344062,-79.346289,-79.3513564,-79.35667,-79.3336809,-79.354704,-79.35347,-79.3579466,-79.361275,-79.367061,-79.389728,-79.3437663,-79.3562738505904,-79.3613888888889,-79.354455,-79.356832,-79.358395,-79.369596,-79.3658333333333,-79.416379,-79.424146,-79.36793,-79.376367,-79.3670196239627,-79.380042,-79.362506,-79.358534,-79.374756,-79.404444,-79.396649,-79.351104,-79.387778,-79.39018,-79.388858,-79.396273,-79.398331,-79.398443,-79.405181,-79.390556,-79.4197107,-79.435841,-79.416111,-79.423889,-79.405556,-79.40698,-79.410278,-79.414722,-79.408317,-79.416389,-79.425,-79.4252777777778,-79.423611,-79.4208333333333,-79.4336111111111,-79.4202777777778,-79.425734,-79.4188888888889,-79.4116666666667,-79.410491,-79.4316666666667,-79.4358333333333,-79.4111111111111,-79.4055555555556,-79.3952777777778,-79.3855555555556,-79.3825,-79.381019,-79.375308,-79.378912,-79.4013888888889,-79.4108105,-79.4088888888889,-79.4583333333333,-79.4516666666667,-79.387502,-79.399595,-79.452559,-79.443054,-79.4413888888889,-79.4430555555556,-79.43868,-79.422634,-79.4197222222222,-79.4016759,-79.3980645,-79.407896,-79.415646,-79.4275,-79.326319,-79.4088888888889,-79.422988,-79.4227573,-79.432837,-79.4091666666667,-79.3826951,-79.398253,-79.418889,-79.42972222,-79.411717,-79.416944,-79.414663,-79.4213888888889,-79.4330555555556,-79.406112,-79.4096663,-79.393535,-79.465083,-79.4655296,-79.454823,-79.460053,-79.4650569,-79.467763,-79.444966,-79.4304,-79.4423237,-79.4512787,-79.447915,-79.442741,-79.439223,-79.431734,-79.450842,-79.385655,-79.350325,-79.446444,-79.4445087,-79.416124,-79.423098,-79.381155,-79.420317,-79.4187711,-79.425679,-79.406468,-79.386532,-79.4486,-79.398448,-79.423742,-79.397107,-79.3946235999697,-79.404998,-79.3895,-79.39838,-79.3895315,-79.3323698,-79.39192,-79.3953394,-79.364898,-79.4229684,-79.38631,-79.379173,-79.449534,-79.2889842,-79.372346,-79.378497,-79.380653,-79.377257,-79.383572,-79.384796,-79.38891,-79.389682,-79.387802,-79.3718,-79.33443,-79.38906,-79.381171,-79.38725,-79.378761,-79.3847928,-79.4018451,-79.352055,-79.337789,-79.480284,-79.4722622,-79.3653644,-79.3789457,-79.43235,-79.43112,-79.40345,-79.36163,-79.445947,-79.430465,-79.319796,-79.317693,-79.375961,-79.363525,-79.315223,-79.312315,-79.29451,-79.289,-79.288949,-79.291162,-79.3244,-79.3831757,-79.3827914,-79.4115736,-79.3960744,-79.39399,-79.44874,-79.4352208,-79.390328,-79.415345,-79.328535,-79.38117,-79.3762096,-79.3855048,-79.3894,-79.327987,-79.338673,-79.3470557,-79.3462789,-79.338259,-79.3348396,-79.340075,-79.329408,-79.345359,-79.3429074,-79.3452697,-79.441159,-79.350119,-79.35438,-79.356602,-79.35822,-79.341307,-79.347046,-79.3229544095408,-79.423122,-79.3649,-79.329196,-79.377557,-79.424911,-79.4184725,-79.418734,-79.41562,-79.281455,-79.3014,-79.399792,-79.42822,-79.42668,-79.443946,-79.40161,-79.3707,-79.36839,-79.37549,-79.40045,-79.39419,-79.39654,-79.39535,-79.39894,-79.398862,-79.3762,-79.39014,-79.38551,-79.39201,-79.34962,-79.35858,-79.383518,-79.3802,-79.291416,-79.380723,-79.36927,-79.354006,-79.40355,-79.39139,-79.378208,-79.38766,-79.38235,-79.372127,-79.399505,-79.4131148,-79.46418,-79.46526,-79.393295,-79.378623,-79.38279,-79.401805,-79.410585,-79.429142,-79.38786,-79.47307,-79.309765,-79.304711,-79.313404,-79.437461,-79.3335,-79.369411,-79.347938,-79.445029,-79.4277,-79.42679,-79.4675,-79.41414,-79.46478,-79.412903,-79.373446,-79.47149,-79.318651,-79.3149,-79.295895,-79.295208,-79.31469,-79.347346,-79.414156,-79.374495,-79.3772602,-79.362101,-79.351246,-79.394009,-79.375233,-79.432522,-79.465319,-79.464366,-79.378743,-79.3973381,-79.408019,-79.47421,-79.38409,-79.38702,-79.38301,-79.48674,-79.4123046990417,-79.3929,-79.372637,-79.451263,-79.449066,-79.46693,-79.48477,-79.47779,-79.297974,-79.400162,-79.399993,-79.299332,-79.309395,-79.376304,-79.358749,-79.3552533,-79.3595,-79.391253,-79.44865,-79.444792,-79.46997,-79.38964,-79.294766,-79.286864,-79.3667689,-79.365023,-79.367318,-79.476723,-79.4883535,-79.4873148,-79.4760109,-79.458173,-79.4393776708185,-79.4376413,-79.440764,-79.4397052,-79.4168659,-79.4240277,-79.4360232,-79.4527619,-79.408723,-79.4532855,-79.3778458,-79.402643,-79.397877,-79.411084,-79.408346,-79.413845,-79.4253856,-79.39199,-79.39264,-79.413528,-79.391291,-79.4028245,-79.393259,-79.3966159,-79.3927404,-79.3876101,-79.374161,-79.364184,-79.5403301,-79.522768,-79.5160575,-79.496573,-79.4971065,-79.482407,-79.489083,-79.4770327,-79.487246,-79.489385,-79.485426,-79.484892,-79.470171,-79.467994,-79.519472,-79.43703,-79.4097818,-79.341509,-79.324961,-79.3301658,-79.3539768,-79.354068,-79.361515,-79.397345,-79.3979073,-79.4701178,-79.4375028,-79.5108942,-79.5025943,-79.5012809,-79.491281,-79.4675395,-79.467963,-79.45233,-79.4447096,-79.40966,-79.378615,-79.375437,-79.383238,-79.3405681,-79.403637,-79.40401,-79.383633,-79.398049,-79.36647,-79.318802,-79.311439,-79.310554,-79.3005871877529,-79.297436,-79.3163022,-79.355474,-79.362092,-79.291714,-79.288619,-79.199327,-79.2026694,-79.193023,-79.1659711,-79.131911,-79.123505,-79.441042,-79.4094472,-79.39248,-79.5432067,-79.4926867,-79.1971289,-79.4011545,-79.1301203,-79.425116,-79.5030161,-79.5108692,-79.498398,-79.4275305,-79.4296346,-79.3899265,-79.4799176,-79.487583,-79.4990363,-79.399404,-79.410657,-79.4588522,-79.3940052,-79.4026176,-79.3149901,-79.1849889,-79.3860211,-79.3878104,-79.3884961596964,-79.415894,-79.4636388,-79.339243,-79.438715,-79.3706665,-79.4933633420141,-79.3116827,-79.379625,-79.4408141,-79.371914,-79.37644,-79.377456,-79.4407647,-79.4029787,-79.3894093,-79.4032194,-79.3996301,-79.432446,-79.3814254607724,-79.3924592,-79.5002,-79.5005,-79.4143057,-79.341057,-79.4013882,-79.378325,-79.377,-79.3974498,-79.3704721,-79.4342726,-79.4564117],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":0,"opacity":0.5,"fill":true,"fillColor":["#0000D9","#9BA2EF","#7562F8","#BBDEEA","#D4EAF2","#C8E4EE","#0000EF","#715CF9","#BFE0EB","#B7DCE9","#D4EAF2","#A8C7E9","#9493F2","#D0E8F0","#060184","#8E88F3","#A2B6EC","#A8C5EA","#867AF5","#BBDEEA","#C1E1EC","#BADEEA","#9AA2EF","#6D57F9","#989CF0","#AED8E6","#0000E5","#C0E1EC","#B6DCE9","#7662F8","#ADD8E6","#B3DBE8","#D8ECF3","#735FF8","#3C27FD","#D9ECF3","#BCDFEA","#B3DBE8","#5E46FB","#0000E7","#8C85F4","#AACBE8","#A8C5EA","#A6C0EA","#CDE7EF","#E8F4F8","#C9E5EE","#D1E9F1","#9CA5EF","#ABD0E8","#D5EBF2","#D2E9F1","#CFE8F0","#8E88F3","#A1B3ED","#C6E3ED","#A2B4ED","#DDEEF4","#A8C5EA","#AACDE8","#B8DDE9","#F8FCFD","#BADEEA","#DEEFF5","#E4F2F6","#6852FA","#A3B8EC","#CAE5EF","#8F89F3","#000000","#B6DCE9","#1C0EFF","#7B6AF7","#ECF6F9","#DDEFF5","#F2F8FB","#D2E9F1","#F0F8FA","#E0F0F5","#563EFC","#DCEEF4","#EAF5F8","#EEF6FA","#DEEFF5","#E2F1F6","#D1E9F1","#EBF5F9","#CEE8F0","#BDDFEB","#BEE0EB","#0000D6","#C2E2EC","#918DF2","#C1E1EC","#9393F2","#E7F3F8","#E2F1F6","#E3F1F6","#CEE7F0","#D0E8F0","#CFE8F0","#B1DAE7","#E8F4F8","#AED8E6","#B6DCE9","#E2F1F6","#D1E9F1","#BADEEA","#D8ECF3","#0000E3","#E4F2F7","#EAF5F8","#C7E4EE","#A6BFEB","#DBEDF4","#ECF6F9","#C7E4EE","#DEEFF5","#C8E4EE","#DBEDF4","#E5F2F7","#CBE6EF","#E0F0F5","#F1F8FB","#E9F4F8","#E3F1F6","#D8ECF3","#EFF7FA","#F2F9FB","#D9EDF3","#E4F2F7","#E2F1F6","#EBF5F9","#B0D9E7","#DEEFF5","#D5EBF2","#E2F1F6","#CDE7F0","#A6BFEB","#CBE6EF","#CAE5EF","#D7ECF3","#EAF5F9","#CCE6EF","#9BA4EF","#D0E8F0","#BFE0EB","#897FF4","#A6BFEB","#0000C5","#D6EBF2","#DBEEF4","#0F0478","#C1E1EC","#E3F1F6","#DFF0F5","#000093","#ABD2E7","#E4F2F7","#DAEDF4","#F3F9FB","#EAF5F9","#DEEFF5","#D4EAF2","#E6F3F7","#B4DBE8","#B3DBE8","#C3E2EC","#D0E8F0","#BEE0EB","#EFF7FA","#D4EAF2","#E6F3F7","#D3EAF1","#DFEFF5","#8172F6","#C9E5EE","#000098","#A5BCEB","#D2E9F1","#CFE8F0","#877BF5","#D2E9F1","#E4F2F7","#EBF5F9","#A5BDEB","#AED9E6","#6E58F9","#7B6AF7","#EDF6F9","#9FADEE","#EDF6F9","#E3F1F6","#BFE0EB","#7460F8","#5E46FB","#EAF5F8","#F2F9FB","#D8ECF3","#EBF5F9","#E3F1F6","#E2F1F6","#E0F0F5","#8A82F4","#BBDEEA","#E0F0F5","#EBF5F9","#B3DBE8","#ABD0E8","#DDEEF4","#00008C","#E6F3F7","#F0F8FA","#B9DDEA","#7C6BF7","#ECF6F9","#A4B9EC","#F2F9FB","#B1DAE7","#BFE0EB","#9699F1","#6F59F9","#B6DCE9","#A5BCEB","#DFEFF5","#9AA1F0","#8173F6","#00008E","#F2F9FB","#8E88F3","#A9C9E9","#E7F4F8","#F9FCFD","#D7EBF2","#EDF6F9","#A8C7E9","#D8ECF3","#ABD1E7","#AACBE8","#9FADEE","#CFE8F0","#C0E1EC","#E3F2F6","#EAF5F8","#F2F8FB","#B1DAE7","#7F6FF6","#D5EBF2","#C5E3ED","#AACCE8","#D7EBF3","#E1F0F6","#6048FB","#6A54FA","#BDDFEB","#A8C7E9","#DEEFF5","#EBF5F9","#979AF1","#A2B4EC","#F8FCFD","#ECF5F9","#EEF7FA","#EEF7FA","#8376F6","#DCEEF4","#DAEDF4","#E6F3F7","#F8FCFD","#F6FAFC","#DFF0F5","#E5F2F7","#E4F2F6","#D8ECF3","#B9DEEA","#C6E4EE","#D2E9F1","#442DFD","#F0F8FA","#EEF7FA","#E7F4F8","#C5E3ED","#F9FCFD","#DFF0F5","#B0D9E7","#E0F0F5","#C8E5EE","#E7F3F8","#D0E8F0","#EDF6F9","#E9F4F8","#F1F8FB","#F4FAFB","#E1F0F6","#E6F3F7","#0000F8","#D3E9F1","#DDEEF4","#F5FAFC","#E8F4F8","#EEF7FA","#EAF5F8","#E9F4F8","#EDF6F9","#F5FAFC","#0000E9","#E0F0F5","#D8ECF3","#6750FA","#F0F8FA","#E6F3F7","#ECF6F9","#CEE7F0","#ECF6F9","#F2F9FB","#DAEDF4","#B4DBE8","#EBF5F9","#D0E8F0","#E3F1F6","#F9FCFD","#CAE5EF","#D5EAF2","#B4DBE8","#DFEFF5","#EBF5F9","#E3F1F6","#DDEEF4","#ECF6F9","#DBEEF4","#A1B2ED","#B7DDE9","#AACEE8","#CBE6EF","#F1F8FB","#CAE5EF","#4029FD","#989CF0","#FBFDFE","#B2DAE7","#0000DF","#C2E2EC","#F1F8FB","#E9F4F8","#999EF0","#DDEFF5","#8C85F4","#DFEFF5","#5B43FB","#BCDFEB","#EEF7FA","#F2F9FB","#B7DDE9","#C8E4EE","#3B25FD","#B9DEEA","#DCEEF4","#E4F2F7","#E2F1F6","#F6FAFC","#8F8BF3","#D9EDF3","#EDF6F9","#0000BE","#EFF7FA","#BADEEA","#E4F2F7","#F1F8FA","#DDEFF5","#D8ECF3","#F0F7FA","#8F8AF3","#E8F4F8","#ECF6F9","#D2E9F1","#F9FCFD","#E6F3F7","#F4FAFC","#F7FBFD","#F7FBFC","#F4FAFC","#D6EBF2","#D9EDF3","#C2E2EC","#C0E1EC","#C7E4EE","#DFF0F5","#B6DCE9","#ADD8E6","#E4F2F6","#EFF7FA","#D3EAF1","#6952FA","#B1DAE7","#E6F3F7","#E4F2F7","#715CF9","#C3E2ED","#D6EBF2","#F2F9FB","#C0E1EC","#A1B3ED","#C2E2EC","#E9F4F8","#F9FCFD","#EDF6F9","#EEF7FA","#EFF7FA","#F5FAFC","#F5FAFC","#F6FBFC","#F6FBFC","#F2F9FB","#EEF7FA","#C9E5EE","#8274F6","#F1F8FB","#E9F4F8","#E9F4F8","#EBF5F9","#FAFDFE","#A3B8EC","#FBFDFE","#F9FCFD","#DAEDF4","#DBEEF4","#DEEFF5","#0000F7","#DEEFF5","#E7F3F7","#FBFDFE","#7562F8","#F6FBFC","#F5FAFC","#E0F0F5","#F0F8FA","#BCDFEA","#8A81F4","#E3F1F6","#F1F8FB","#E6F3F7","#F8FBFD","#DAEDF3","#D2E9F1","#A1B3ED","#A4B9EC","#C4E3ED","#EAF5F9","#EDF6FA","#F0F8FA","#EBF5F9","#EEF7FA","#6C56F9","#AED8E6","#C7E4EE","#DCEEF4","#CEE8F0","#9BA4EF","#D7ECF3","#C1E1EC","#FAFCFD","#F6FBFC","#EAF5F8","#F8FCFD","#FBFDFE","#F3F9FB","#F3F9FB","#F7FBFC","#F1F8FB","#F9FCFD","#F6FBFC","#F9FCFD","#F4FAFC","#F3F9FB","#F5FAFC","#EDF6F9","#0000F4","#C6E4ED","#EAF5F9","#F9FCFD","#A8C7E9","#B9DEEA","#D0E8F1","#F0F8FA","#E3F1F6","#EAF5F8","#F9FCFD","#F1F8FB","#E8F4F8","#EEF7FA","#F5FAFC","#F2F9FB","#EAF5F9","#EEF7FA","#ECF6F9","#FCFDFE","#F7FBFD","#EAF4F8","#ECF6F9","#E8F4F8","#FBFDFE","#F9FCFD","#AED8E6","#DDEEF4","#CDE7F0","#F9FCFD","#F6FBFC","#FCFDFE","#F9FCFD","#F1F8FB","#FAFCFD","#E8F4F8","#EEF7FA","#F6FBFC","#F5FAFC","#FAFDFD","#FAFDFD","#EBF5F9","#EFF7FA","#E2F1F6","#F5FAFC","#F1F8FB","#F6FBFC","#E1F0F6","#EBF5F9","#E3F1F6","#FCFEFE","#F7FBFD","#F2F9FB","#DEEFF5","#F1F8FB","#F4FAFC","#FDFEFE","#F3F9FB","#EBF5F9","#BFE0EB","#F1F8FB","#F6FBFC","#F7FBFD","#EBF5F9","#F1F8FB","#F4FAFC","#CAE6EF","#F1F8FB","#F2F9FB","#FAFDFD","#BDE0EB","#C7E4EE","#DFEFF5","#F0F8FA","#EEF7FA","#E8F4F8","#D9EDF3","#C4E3ED","#EEF7FA","#F2F9FB","#DCEEF4","#DDEEF4","#F8FCFD","#FAFCFD","#F5FAFC","#EDF6FA","#DDEFF4","#B6DCE9","#F8FCFD","#F3F9FB","#F5FAFC","#FEFFFF","#F7FBFC","#FEFEFF","#FEFFFF","#FBFDFE","#FAFDFD","#F3F9FB","#FBFDFE","#FCFEFE","#FDFEFE","#FEFEFF","#FEFEFF","#FFFFFF"],"fillOpacity":0.7},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #D2E9F1 14.0128996074033%, #A7C1EA 28.0342120022434%, #6F59F9 42.0555243970836%, #0000E2 56.0768367919237%, #0000A1 70.0981491867639%, #170857 84.119461581604%, #080210 98.1407739764442%, #000000 "],"labels":["5,000","10,000","15,000","20,000","25,000","30,000","35,000"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomleft","type":"numeric","title":"Rental Count","extra":{"p_1":0.140128996074033,"p_n":0.981407739764442},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[43.5880774,43.788319],"lng":[-79.5432067,-79.123505]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br></p>
+</div>
+<div id="figure-3-2022" class="section level5">
+<h5>Figure 3: 2022</h5>
+<br>
+<div class="vscroll-plot">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-87360f06835c8187f98d" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-87360f06835c8187f98d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["OpenStreetMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[43.639832,43.6649641599074,43.667333,43.667158,43.656518,43.6480008,43.660439,43.658148,43.663376,43.650325,43.645323,43.656026,43.663102,43.64852,43.640978,43.641529,43.650033,43.653264,43.65049,43.6571,43.66663,43.671293,43.665527,43.652823,43.6582,43.66943,43.664088,43.668991,43.652473,43.645609,43.671389,43.643975,43.651318,43.6519501,43.656094,43.652327224103,43.664467,43.656729,43.6673,43.63951,43.663722,43.653236,43.64534,43.657763,43.646144,43.652634,43.647259,43.645859,43.640722,43.66207,43.662132,43.6458569,43.6637,43.643473,43.6662942,43.659226,43.668456,43.65205,43.659575,43.662085,43.643795,43.6830689,43.649147,43.643667,43.666233,43.636611,43.640114,43.6500392,43.636533,43.640132,43.659777,43.6576,43.660694,43.688325,43.645599,43.687323,43.6525077,43.684758,43.683378,43.662712,43.681991,43.681114,43.680223,43.678401,43.6784834,43.677076,43.7027268,43.671172,43.667819,43.6513927,43.660207,43.648655,43.648711,43.6605603,43.6567847828531,43.6561111,43.652219,43.650279,43.652686,43.658777,43.6552778,43.640885,43.637981,43.664524,43.6712581,43.6746885744863,43.648575,43.665867,43.663993,43.657266,43.641389,43.643834,43.662365,43.671944,43.672152,43.675492,43.674991,43.674446,43.66986,43.670318,43.681944,43.6384009,43.640634,43.676667,43.675278,43.677778,43.675791,43.675556,43.674444,43.671513,43.671389,43.68,43.6394444,43.639444,43.67,43.6555556,43.6686111,43.661705,43.6638889,43.6666667,43.663808,43.6608333,43.6608333333333,43.6422222,43.6433333333333,43.6575,43.6591666666667,43.6622222,43.657424,43.641646,43.646162,43.6616667,43.6322445,43.635,43.66666667,43.6563889,43.63796,43.639179,43.657192,43.6587734,43.6538888888889,43.6508333333333,43.651238,43.6544915,43.6366666666667,43.653766,43.6637403,43.661975,43.660414,43.6430555555556,43.690564,43.66,43.65905,43.6438602,43.6409,43.6563888888889,43.6517925,43.635492,43.655,43.65277778,43.651281,43.649722,43.656296,43.6511111111111,43.6475,43.637381,43.6409957,43.6494896,43.635932,43.6543604,43.637894,43.654501,43.6535269,43.634896,43.636731,43.6314,43.6372958,43.6534268,43.643769,43.646677,43.640255,43.637922,43.650492,43.660087,43.659471,43.663337,43.649172,43.663912,43.662403,43.666874,43.630254,43.6352007,43.633473,43.646552,43.669969,43.6521,43.654905,43.651145,43.660296,43.6685000462722,43.665846,43.6461,43.648437,43.6545174,43.6626628,43.638497,43.6472019,43.645215,43.6809164,43.657838,43.671535,43.661324,43.6940155,43.658295,43.656927,43.655431,43.657024,43.662862,43.665801,43.668153,43.661803,43.669903,43.6856,43.66587,43.687999,43.669604,43.668427,43.64595,43.6477785,43.6629228,43.665656,43.661673,43.6224434,43.6308933,43.6451308,43.6614605,43.665327,43.657343,43.645324,43.650256,43.67142,43.674923,43.665269,43.666224,43.669576,43.66852,43.662771,43.667208,43.671349,43.672571,43.669328,43.668633,43.660206,43.6451635,43.6452972,43.6392777,43.6452091,43.645572,43.671526,43.6741219,43.678077,43.645665,43.69595,43.671561,43.6495789,43.6462176,43.669244,43.663912,43.668553,43.6720273,43.6753188,43.672453,43.6592088,43.657991,43.66745,43.637764,43.6408346,43.6672144,43.673939,43.690237,43.689211,43.6848652,43.6783213,43.690537,43.68395,43.6522266222553,43.704461,43.651885,43.659195,43.682645,43.656945,43.6817346,43.683296,43.683351,43.673831,43.666325,43.639052,43.6448617,43.6493472,43.667266,43.7063473,43.6509552,43.6487245,43.6476616,43.696708,43.6978701,43.6975969,43.6910667,43.7112153,43.7083577,43.6425636,43.6704537,43.6691099,43.655227,43.685167,43.6772,43.658938,43.655766,43.694341,43.641952,43.64422,43.641675,43.70547,43.70942,43.652822,43.65263,43.66834,43.671278,43.635023,43.6417852,43.66402,43.66686,43.641705,43.648928,43.65988,43.667023,43.66842,43.638426,43.697819,43.63632,43.663162,43.665645,43.686442,43.633537,43.669813,43.651118,43.663148,43.676697,43.68114,43.66189,43.65389,43.63121,43.65716,43.688526,43.6574766,43.66073,43.673118,43.66908,43.689293,43.694826,43.697139,43.678285,43.640075,43.669232,43.6647688,43.688148,43.715951,43.665221,43.651678,43.680466,43.649217,43.645653,43.651838,43.6462574,43.685569,43.65182,43.64283,43.6442,43.646734,43.61868,43.6432530948273,43.64407,43.652777,43.665538,43.664182,43.63855,43.64976,43.65143,43.678685,43.713524,43.716652,43.684261,43.676216,43.685924,43.656638,43.6482995,43.653809,43.673768,43.6397,43.654004,43.65917,43.65995,43.685221,43.686962,43.6535052,43.653359,43.658816,43.626265,43.613606,43.6146692,43.6390437,43.63771,43.6882706002271,43.6486599,43.659055,43.6632257,43.638925,43.6423847,43.6702236,43.675648,43.67883,43.6704403,43.6752732,43.670206,43.63811,43.645469,43.651603,43.661559,43.6882821,43.69933,43.68871,43.65246,43.650077,43.6537513,43.6560758,43.6568254,43.6580442,43.6658804,43.666051,43.649709,43.5927419,43.597082,43.5961692,43.612063,43.6171635,43.630874,43.63732,43.6438036,43.658574,43.664665,43.668496,43.665523,43.672079,43.673019,43.698841,43.63985,43.6323994,43.665076,43.671771,43.6935477,43.6548521,43.6535,43.6617908,43.7005976,43.7029672,43.6653032,43.690903,43.6834703,43.7696262,43.7641485,43.76521,43.7724019,43.7781116,43.77953,43.7774374,43.707049,43.711751,43.707045,43.693256,43.6800218,43.732016,43.732975,43.650745,43.660274,43.683884,43.699281,43.707582,43.70567,43.6941354819917,43.696631,43.6765897,43.720645,43.720233,43.680095,43.691468,43.747854,43.7561681,43.779353,43.7777114,43.778015,43.788319,43.6926825,43.7041957,43.7078691,43.5880774,43.6029904,43.754978,43.7254665,43.7805505,43.667076,43.6625395,43.6002896,43.6615467,43.7004017,43.6424558,43.6578449,43.6596299,43.647663,43.6162721,43.6399714,43.683979,43.6641174,43.6885046,43.6954486,43.6850809,43.7842419,43.6503935,43.656373,43.6751525554287,43.686352,43.6541245,43.680207,43.6589882,43.6469928,43.649204068767,43.6856128,43.656633,43.6393107,43.718039,43.72268,43.720998,43.6504218,43.664028,43.6558557,43.7281464,43.7093201,43.64957,43.7273654882463,43.6846177,43.77345,43.7741,43.6334636,43.6544839,43.6413479,43.64191,43.64215,43.645102,43.6478206,43.6602021,43.644887,43.680012,43.67168,43.6700692,43.6559476,43.706466,43.6677628,43.6750806,43.6754247,43.678177,43.68005,43.6463144692452,43.6593483,43.6613642,43.6808774,43.6623658,43.6791345,43.635495,43.6868681,43.6962302,43.6677246,43.6554793,43.6442457,43.6506,43.693187,43.6469251,43.6425791,43.646552,43.6484201,43.644395,43.6463574,43.6682342,43.6791876,43.6585504,43.6501644,43.636804,43.68035,43.6882413593181,43.6929478,43.6950192,43.691688,43.6940129779426,43.697490048103,43.7024185814635,43.7064361425743,43.7105975,43.648657,43.69415,43.6926325,43.68323,43.688028,43.70163,43.69466,43.6501687,43.6492,43.6897656,43.64839,43.6357643,43.6236917,43.6993270725894,43.6356059,43.6430250551659,43.7603624,43.772445,43.62313],[-79.395954,-79.3835503152689,-79.399429,-79.402761,-79.389099,-79.383177,-79.385525,-79.398167,-79.392125,-79.372287,-79.395003,-79.385327,-79.373181,-79.380576,-79.376785,-79.386741,-79.396555,-79.382458,-79.3873,-79.4056,-79.38148,-79.380471,-79.387499,-79.393388,-79.3768,-79.38915,-79.387095,-79.379385,-79.401456,-79.380386,-79.382919,-79.419576,-79.36023,-79.4060978,-79.381484,-79.3882538196087,-79.414783,-79.382736,-79.374,-79.383717,-79.380288,-79.376716,-79.409597,-79.389165,-79.377962,-79.374222,-79.379878,-79.38783,-79.391051,-79.37617,-79.3656796,-79.3853654,-79.400053,-79.390477,-79.4066433,-79.390213,-79.393899,-79.362198,-79.365769,-79.397735,-79.375413,-79.279682,-79.395504,-79.380414,-79.373327,-79.400042,-79.393249,-79.3733541,-79.395854,-79.380464,-79.382767,-79.4032,-79.379052,-79.300463,-79.4657123,-79.304848,-79.4654233,-79.316767,-79.322961,-79.379903,-79.329455,-79.3373885,-79.344062,-79.346289,-79.3513564,-79.35667,-79.3336809,-79.354704,-79.35347,-79.3579466,-79.361275,-79.367061,-79.389728,-79.3437663,-79.3562738505904,-79.3613888888889,-79.354455,-79.356832,-79.358395,-79.369596,-79.3658333333333,-79.416379,-79.424146,-79.36793,-79.376367,-79.3670196239627,-79.380042,-79.362506,-79.358534,-79.374756,-79.404444,-79.396649,-79.351104,-79.387778,-79.39018,-79.388858,-79.396273,-79.398331,-79.398443,-79.405181,-79.390556,-79.4197107,-79.435841,-79.416111,-79.423889,-79.405556,-79.40698,-79.410278,-79.414722,-79.408317,-79.416389,-79.425,-79.4252777777778,-79.423611,-79.4208333333333,-79.4336111111111,-79.4202777777778,-79.425734,-79.4188888888889,-79.4116666666667,-79.410491,-79.4316666666667,-79.4358333333333,-79.4111111111111,-79.4055555555556,-79.3952777777778,-79.3855555555556,-79.3825,-79.381019,-79.375308,-79.378912,-79.4013888888889,-79.4108105,-79.4088888888889,-79.4583333333333,-79.4516666666667,-79.387502,-79.399595,-79.452559,-79.443054,-79.4413888888889,-79.4430555555556,-79.43868,-79.422634,-79.4197222222222,-79.4016759,-79.3980645,-79.407896,-79.415646,-79.4275,-79.326319,-79.4088888888889,-79.422988,-79.4227573,-79.432837,-79.4091666666667,-79.3826951,-79.398253,-79.418889,-79.42972222,-79.411717,-79.416944,-79.414663,-79.4213888888889,-79.4330555555556,-79.406112,-79.4096663,-79.393535,-79.465083,-79.4655296,-79.454823,-79.460053,-79.4650569,-79.467763,-79.444966,-79.4304,-79.4423237,-79.4512787,-79.447915,-79.442741,-79.439223,-79.431734,-79.450842,-79.385655,-79.350325,-79.446444,-79.4445087,-79.416124,-79.423098,-79.381155,-79.420317,-79.4187711,-79.425679,-79.406468,-79.386532,-79.4486,-79.398448,-79.423742,-79.397107,-79.3946235999697,-79.404998,-79.3895,-79.39838,-79.3895315,-79.3323698,-79.39192,-79.3953394,-79.364898,-79.4229684,-79.38631,-79.379173,-79.449534,-79.2889842,-79.372346,-79.378497,-79.380653,-79.377257,-79.383572,-79.384796,-79.38891,-79.389682,-79.387802,-79.3718,-79.33443,-79.38906,-79.381171,-79.38725,-79.378761,-79.3847928,-79.4018451,-79.352055,-79.337789,-79.480284,-79.4722622,-79.3653644,-79.3789457,-79.43235,-79.43112,-79.40345,-79.36163,-79.445947,-79.430465,-79.319796,-79.317693,-79.375961,-79.363525,-79.315223,-79.312315,-79.29451,-79.289,-79.288949,-79.291162,-79.3244,-79.3831757,-79.3827914,-79.4115736,-79.3960744,-79.39399,-79.44874,-79.4352208,-79.390328,-79.415345,-79.328535,-79.38117,-79.3762096,-79.3855048,-79.3894,-79.327987,-79.338673,-79.3470557,-79.3462789,-79.338259,-79.3348396,-79.340075,-79.329408,-79.345359,-79.3429074,-79.3452697,-79.441159,-79.350119,-79.35438,-79.356602,-79.35822,-79.341307,-79.347046,-79.3229544095408,-79.423122,-79.3649,-79.329196,-79.377557,-79.424911,-79.4184725,-79.418734,-79.41562,-79.281455,-79.3014,-79.399792,-79.42822,-79.42668,-79.443946,-79.40161,-79.3707,-79.36839,-79.37549,-79.40045,-79.39419,-79.39654,-79.39535,-79.39894,-79.398862,-79.3762,-79.39014,-79.38551,-79.39201,-79.34962,-79.35858,-79.383518,-79.3802,-79.291416,-79.380723,-79.36927,-79.354006,-79.40355,-79.39139,-79.378208,-79.38766,-79.38235,-79.372127,-79.399505,-79.4131148,-79.46418,-79.46526,-79.393295,-79.378623,-79.38279,-79.401805,-79.410585,-79.429142,-79.38786,-79.47307,-79.309765,-79.304711,-79.313404,-79.437461,-79.3335,-79.369411,-79.347938,-79.445029,-79.4277,-79.42679,-79.4675,-79.41414,-79.46478,-79.412903,-79.373446,-79.47149,-79.318651,-79.3149,-79.295895,-79.295208,-79.31469,-79.347346,-79.414156,-79.374495,-79.3772602,-79.362101,-79.351246,-79.394009,-79.375233,-79.432522,-79.465319,-79.464366,-79.378743,-79.3973381,-79.408019,-79.47421,-79.38409,-79.38702,-79.38301,-79.48674,-79.4123046990417,-79.3929,-79.372637,-79.451263,-79.449066,-79.46693,-79.48477,-79.47779,-79.297974,-79.400162,-79.399993,-79.299332,-79.309395,-79.376304,-79.358749,-79.3552533,-79.3595,-79.391253,-79.44865,-79.444792,-79.46997,-79.38964,-79.294766,-79.286864,-79.3667689,-79.365023,-79.367318,-79.476723,-79.4883535,-79.4873148,-79.4760109,-79.458173,-79.4393776708185,-79.4376413,-79.440764,-79.4397052,-79.4168659,-79.4240277,-79.4360232,-79.4527619,-79.408723,-79.4532855,-79.3778458,-79.402643,-79.397877,-79.411084,-79.408346,-79.413845,-79.4253856,-79.39199,-79.39264,-79.413528,-79.391291,-79.4028245,-79.393259,-79.3966159,-79.3927404,-79.3876101,-79.374161,-79.364184,-79.5403301,-79.522768,-79.5160575,-79.496573,-79.4971065,-79.482407,-79.489083,-79.4770327,-79.487246,-79.489385,-79.485426,-79.484892,-79.470171,-79.467994,-79.519472,-79.43703,-79.4097818,-79.341509,-79.324961,-79.3301658,-79.3539768,-79.354068,-79.361515,-79.397345,-79.3979073,-79.4701178,-79.4375028,-79.5108942,-79.5025943,-79.5012809,-79.491281,-79.4675395,-79.467963,-79.45233,-79.4447096,-79.40966,-79.378615,-79.375437,-79.383238,-79.3405681,-79.403637,-79.40401,-79.383633,-79.398049,-79.36647,-79.318802,-79.311439,-79.310554,-79.3005871877529,-79.297436,-79.3163022,-79.355474,-79.362092,-79.291714,-79.288619,-79.199327,-79.2026694,-79.193023,-79.1659711,-79.131911,-79.123505,-79.441042,-79.4094472,-79.39248,-79.5432067,-79.4926867,-79.1971289,-79.4011545,-79.1301203,-79.425116,-79.5030161,-79.5108692,-79.498398,-79.4275305,-79.4296346,-79.3899265,-79.4799176,-79.487583,-79.4990363,-79.399404,-79.410657,-79.4588522,-79.3940052,-79.4026176,-79.3149901,-79.1849889,-79.3860211,-79.3878104,-79.3884961596964,-79.415894,-79.4636388,-79.339243,-79.438715,-79.3706665,-79.4933633420141,-79.3116827,-79.379625,-79.4408141,-79.371914,-79.37644,-79.377456,-79.4407647,-79.4029787,-79.3894093,-79.4032194,-79.3996301,-79.432446,-79.3814254607724,-79.3924592,-79.5002,-79.5005,-79.4143057,-79.341057,-79.4013882,-79.378325,-79.377,-79.3974498,-79.3704721,-79.4342726,-79.4564117,-79.3440325,-79.421192,-79.2971326,-79.3755883,-79.29511,-79.3081171,-79.3068697,-79.4547813,-79.435364,-79.43469,-79.4487940701453,-79.3499366,-79.3641171,-79.3304491,-79.3413344,-79.3263159,-79.4035221,-79.3110942,-79.3950434,-79.4041365,-79.4302462,-79.4161044,-79.381285,-79.314283,-79.3733192,-79.4001173,-79.399586,-79.4005192,-79.4006543,-79.391206,-79.3702641,-79.390719,-79.4497659,-79.4829691,-79.408832,-79.28357,-79.2704662803324,-79.2833998,-79.2718066,-79.265027,-79.2625720454814,-79.2565514646278,-79.2563167072858,-79.2510444335329,-79.2541175,-79.458111,-79.4578258,-79.4627536,-79.455765,-79.460265,-79.44099,-79.45377,-79.4963345,-79.50602,-79.2939525,-79.51008,-79.4674917,-79.4838132,-79.4493630391668,-79.4934616,-79.3943013776132,-79.5162777,-79.511912,-79.4918],10,null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":0,"opacity":0.5,"fill":true,"fillColor":["#0000DF","#8375F6","#0000F4","#B1DAE7","#C8E5EE","#ABD0E8","#13066D","#0000D7","#B6DCE9","#ABD2E7","#D3EAF1","#8578F5","#8478F5","#A6BFEB","#000092","#644CFA","#877CF5","#8A81F4","#0000DB","#A5BDEB","#A4BAEC","#B4DBE8","#877DF5","#0000FD","#7F70F6","#989CF0","#0000BA","#BCDFEA","#9FADEE","#0000CE","#A0B0ED","#9697F1","#C5E3ED","#8375F6","#0000BE","#D7ECF3","#ADD8E6","#7865F8","#887EF5","#0000ED","#877CF5","#A6C0EA","#979BF1","#9291F2","#B8DDE9","#D6EBF2","#A7C3EA","#BDDFEB","#A0B0ED","#9BA4EF","#CBE6EF","#C0E1EC","#8274F6","#7C6BF7","#8D87F3","#ACD5E7","#9EAAEE","#E1F0F6","#A0AFED","#8F8BF3","#C2E2EC","#F8FCFD","#A3B7EC","#CEE7F0","#CFE8F0","#7B69F7","#A5BCEB","#BCDFEA","#9FABEE","#000000","#9495F1","#0000BD","#6F5AF9","#EBF5F9","#DFF0F5","#F0F8FA","#D7EBF3","#F2F9FB","#DDEEF4","#0000F0","#DEEFF5","#E7F3F7","#FAFCFD","#DBEEF4","#DDEEF4","#D5EAF2","#E8F4F8","#D0E8F1","#C5E3ED","#BADEEA","#0000D2","#BEE0EB","#0000FB","#C2E1EC","#8A81F4","#E1F0F6","#D6EBF2","#D3EAF1","#B7DCE9","#C5E3ED","#CBE6EF","#A6C1EA","#D6EBF2","#9CA4EF","#B0D9E7","#DDEFF5","#B9DEEA","#C3E2ED","#CDE7EF","#0000DF","#E1F0F6","#DFEFF5","#C1E1EC","#9BA3EF","#D6EBF2","#ECF6F9","#BBDEEA","#D6EBF2","#C2E2EC","#D7EBF2","#D7EBF2","#B4DBE8","#DAEDF3","#E8F4F8","#E4F2F6","#E2F1F6","#CDE7F0","#E4F2F7","#ECF6F9","#C9E5EE","#E1F0F6","#E0F0F5","#E8F4F8","#9290F2","#E4F2F7","#C6E4EE","#E0F0F5","#C9E5EE","#A1B2ED","#B5DCE8","#B5DCE8","#D4EAF2","#EAF5F8","#BFE0EB","#624AFA","#9EAAEE","#BCDFEA","#7765F8","#9698F1","#0000CE","#BADEEA","#B4DBE8","#0000DA","#B2DAE8","#E6F3F7","#D8ECF3","#0000B5","#A4BBEB","#D7ECF3","#D4EAF2","#F0F8FA","#EBF5F9","#DFF0F5","#BFE0EB","#CEE7F0","#A7C3EA","#705AF9","#B2DAE7","#C7E4EE","#B3DBE8","#EDF6F9","#CFE8F0","#E1F0F6","#B3DBE8","#D8ECF3","#0000F1","#ADD8E6","#0000DD","#8E89F3","#CCE6EF","#B7DDE9","#462FFD","#B5DCE8","#CFE8F0","#E8F4F8","#9FACEE","#A9C9E9","#0000CE","#AACBE8","#EAF5F8","#A3B8EC","#E7F3F8","#E7F3F8","#D0E8F0","#A0AEED","#AACEE8","#EEF7FA","#F0F7FA","#D8ECF3","#E7F3F8","#E5F2F7","#D0E8F0","#DCEEF4","#A0AFED","#B7DDE9","#DDEFF5","#E4F2F7","#9DA9EE","#999FF0","#D0E8F0","#0000BB","#E8F4F8","#E8F4F8","#9596F1","#664FFA","#E5F3F7","#7C6BF7","#E6F3F7","#533BFC","#533AFC","#7D6DF7","#0000F9","#8C84F4","#9391F2","#E1F1F6","#9CA6EF","#5840FB","#0000C4","#F0F8FA","#7A68F7","#A2B6EC","#E8F4F8","#F8FCFD","#D1E9F1","#E7F3F8","#9595F1","#C8E5EE","#6C56F9","#9AA1F0","#979BF0","#BFE0EB","#B9DDE9","#ECF6F9","#E3F1F6","#F5FAFC","#B1DAE7","#5E46FB","#B4DBE8","#A7C2EA","#412BFD","#D5EBF2","#DEEFF5","#908CF3","#979BF0","#B3DBE8","#8D86F3","#DCEEF4","#E9F4F8","#0000FB","#7B6AF7","#F9FCFD","#E5F2F7","#EAF5F8","#EBF5F9","#705BF9","#DCEEF4","#E2F1F6","#EAF5F8","#F8FCFD","#F4FAFC","#EAF5F9","#ECF6F9","#EEF7FA","#C9E5EE","#9DA7EF","#0000BA","#BCDFEB","#0000F2","#ECF6F9","#EDF6F9","#DCEEF4","#ACD3E7","#FAFCFD","#DAEDF3","#9596F1","#CAE6EF","#BADEEA","#E1F1F6","#C1E1EC","#E9F4F8","#E9F4F8","#E9F4F8","#F5FAFC","#E7F3F8","#E1F1F6","#8C85F4","#DEEFF5","#D8ECF3","#F2F9FB","#F2F9FB","#E7F3F8","#E7F3F8","#E5F2F7","#ECF5F9","#F3F9FB","#867AF5","#F0F8FA","#CBE6EF","#ACD4E7","#F2F9FB","#DBEDF4","#EEF7FA","#E0F0F5","#F0F8FA","#F4F9FB","#E8F4F8","#A9C8E9","#DEEFF5","#BFE0EB","#E2F1F6","#F8FBFD","#BBDEEA","#DBEDF4","#A6C1EA","#EAF5F8","#F1F8FB","#E5F2F7","#E0F0F5","#F2F9FB","#D1E9F1","#BDDFEB","#B3DBE8","#A6C1EA","#BFE0EB","#F0F8FA","#C8E5EE","#0000E8","#573EFC","#FDFEFE","#8B82F4","#0000D5","#BDDFEB","#F2F9FB","#EAF5F8","#7461F8","#D0E8F1","#979AF1","#CBE6EF","#9CA6EF","#AED8E6","#EDF6F9","#EFF7FA","#A6C1EA","#ACD4E7","#0000CB","#ACD5E7","#DAEDF3","#DCEEF4","#EBF5F9","#F6FAFC","#B0D9E7","#E9F4F8","#ECF6F9","#0000E5","#E7F3F8","#9697F1","#DEEFF5","#EFF7FA","#EFF7FA","#C8E4EE","#EEF7FA","#A3B7EC","#E5F2F7","#F0F8FA","#BDDFEB","#F6FBFC","#E2F1F6","#F3F9FB","#F4FAFC","#FCFDFE","#F8FCFD","#D9ECF3","#CBE6EF","#B0D9E7","#B6DCE8","#D9EDF3","#EFF7FA","#A3B6EC","#9EABEE","#ECF6F9","#F1F8FB","#DBEEF4","#0000E7","#9BA4EF","#EAF5F8","#E2F1F6","#5D45FB","#C0E1EC","#C7E4EE","#F4FAFC","#ABD1E7","#999EF0","#AACDE8","#E4F2F7","#F8FCFD","#EEF7FA","#EEF7FA","#EAF5F8","#F2F8FB","#F6FBFC","#F8FBFD","#F6FAFC","#F1F8FB","#F2F9FB","#B6DCE9","#ABD1E7","#E9F4F8","#E9F4F8","#E5F2F7","#E4F2F6","#F9FCFD","#7866F8","#FAFCFD","#F8FCFD","#D1E9F1","#C6E3ED","#DDEFF5","#725EF8","#E8F4F8","#EDF6F9","#F8FCFD","#A7C3EA","#F8FCFD","#F4FAFC","#DDEEF4","#EFF7FA","#8B83F4","#7967F7","#D6EBF2","#F7FBFD","#E3F1F6","#F2F9FB","#DDEEF4","#C2E1EC","#9BA2EF","#A0AEED","#A4BAEC","#DBEEF4","#EDF6FA","#F1F8FB","#ECF6F9","#E5F2F7","#0000CE","#CBE6EF","#ACD5E7","#CEE7F0","#BDDFEB","#877CF5","#B3DBE8","#BDDFEB","#F8FCFD","#F5FAFC","#EDF6F9","#F9FCFD","#F8FCFD","#F4FAFC","#F5FAFC","#F5FAFC","#F2F8FB","#F9FCFD","#F3F9FB","#F6FBFC","#F4F9FB","#F2F9FB","#FAFCFD","#E2F1F6","#999EF0","#BDDFEB","#E4F2F7","#F9FCFD","#B5DCE8","#BCDFEA","#C3E2EC","#EFF7FA","#E1F0F6","#E3F1F6","#FAFCFD","#F8FCFD","#EDF6FA","#F5FAFC","#F7FBFD","#F9FCFD","#F6FBFC","#F9FCFD","#F7FBFC","#FCFDFE","#F5FAFC","#EBF5F9","#F3F9FB","#E6F3F7","#FBFDFE","#FAFCFD","#A4BAEB","#C3E2ED","#DBEEF4","#FAFCFD","#F8FBFD","#FCFEFE","#F8FCFD","#F7FBFC","#F7FBFC","#F4F9FB","#F4FAFC","#F4FAFC","#F5FAFC","#FCFEFE","#FDFEFE","#F9FCFD","#F9FCFD","#F4F9FB","#FBFDFE","#F5FAFC","#F7FBFC","#E2F1F6","#F0F8FA","#E7F3F8","#FDFEFE","#F3F9FB","#FBFDFE","#CEE7F0","#F6FAFC","#F6FBFC","#FDFEFE","#F7FBFD","#DCEEF4","#BBDEEA","#F1F8FB","#F9FCFD","#F4FAFC","#E3F1F6","#F2F9FB","#F3F9FB","#CCE6EF","#F3F9FB","#EEF7FA","#FBFDFE","#A9CBE9","#BADEEA","#D5EBF2","#F1F8FB","#EDF6F9","#E9F4F8","#D8ECF3","#CFE8F0","#EEF7FA","#EFF7FA","#CEE7F0","#D6EBF2","#F9FCFD","#FBFDFE","#F7FBFD","#E9F4F8","#B8DDE9","#A0B0ED","#F9FCFD","#F3F9FB","#CDE7F0","#FBFDFE","#DFF0F5","#F9FCFD","#F9FCFD","#EAF5F9","#D8ECF3","#6D57F9","#CAE5EF","#CAE5EF","#ACD5E7","#BFE0EB","#CFE8F0","#DBEEF4","#D4EAF2","#DBEDF4","#EEF7FA","#8376F6","#FCFDFE","#EFF7FA","#F9FCFD","#F9FCFD","#F7FBFD","#F5FAFC","#E6F3F7","#E7F3F8","#DAEDF3","#F8FCFD","#DEEFF5","#EFF7FA","#7561F8","#F2F9FB","#F5FAFC","#E0F0F5","#F3F9FB","#D8ECF3","#CEE7F0","#FAFDFD","#E0F0F5","#DBEEF4","#E9F4F8","#D7ECF3","#BFE0EB","#D9ECF3","#ECF5F9","#FAFDFE","#FCFDFE","#FCFEFE","#FBFDFE","#FEFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FFFFFF","#FDFEFE","#FFFFFF","#FFFFFF","#FFFFFF"],"fillOpacity":0.7},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#FFFFFF , #D7ECF3 12.3924524559272%, #AED8E6 24.7898638764226%, #887EF5 37.187275296918%, #170BFF 49.5846867174134%, #0000C6 61.9820981379088%, #00008E 74.3795095584042%, #170A49 86.7769209788996%, #040107 99.174332399395%, #000000 "],"labels":["5,000","10,000","15,000","20,000","25,000","30,000","35,000","40,000"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"bottomleft","type":"numeric","title":"Rental Count","extra":{"p_1":0.123924524559272,"p_n":0.99174332399395},"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[43.5880774,43.788319],"lng":[-79.5432067,-79.123505]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><br></p>
+</div>
+</div>
+<div id="section" class="section level4 unnumbered">
+<h4 class="unnumbered"></h4>
+<p>Notice that most bike rentals occur in the downtown Toronto area,
+especially near the harborfront.</p>
+</div>
+<div id="summary-statistics" class="section level3">
+<h3>Summary Statistics</h3>
+<p>We will then select the most popular bike station (station with most
+total rentals), and the least popular bike station (station with least
+total rentals). In later analysis, we will see if the relationship
+between the temporal and weather factors differs between the counts of
+the most popular, least popular, and all bike stations.</p>
+<p>After computation, we obtain that station 7076 (“York St / Queens
+Quay W”) is the most popular with a total of 101551 bike rentals
+recorded, and station 7758 (“Driftwood Ave / Finch Hydro Trail”) is the
+least popular with only 2 bike rentals recorded.</p>
+Now look at univariate summary statistics of our variables for the
+rental count including all stations in Table 7 below. <br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 7: Univariate summary statistics (all stations)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Min
+</th>
+<th style="text-align:left;">
+Q1
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+Q3
+</th>
+<th style="text-align:left;">
+Max
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rental Count
+</td>
+<td style="text-align:left;">
+399
+</td>
+<td style="text-align:left;">
+3408
+</td>
+<td style="text-align:left;">
+8254
+</td>
+<td style="text-align:left;">
+9508
+</td>
+<td style="text-align:left;">
+14205
+</td>
+<td style="text-align:left;">
+27312
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Max Temperature (°C)
+</td>
+<td style="text-align:left;">
+-13.0
+</td>
+<td style="text-align:left;">
+4.9
+</td>
+<td style="text-align:left;">
+14.0
+</td>
+<td style="text-align:left;">
+14.0
+</td>
+<td style="text-align:left;">
+24.0
+</td>
+<td style="text-align:left;">
+36.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Min Temperature (°C)
+</td>
+<td style="text-align:left;">
+-20.0
+</td>
+<td style="text-align:left;">
+-0.6
+</td>
+<td style="text-align:left;">
+6.6
+</td>
+<td style="text-align:left;">
+6.5
+</td>
+<td style="text-align:left;">
+15.0
+</td>
+<td style="text-align:left;">
+24.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mean Temperature (°C)
+</td>
+<td style="text-align:left;">
+-16.0
+</td>
+<td style="text-align:left;">
+2.2
+</td>
+<td style="text-align:left;">
+10.0
+</td>
+<td style="text-align:left;">
+10.0
+</td>
+<td style="text-align:left;">
+20.0
+</td>
+<td style="text-align:left;">
+29.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Precipitation (mm)
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.1
+</td>
+<td style="text-align:left;">
+2.1
+</td>
+<td style="text-align:left;">
+1.3
+</td>
+<td style="text-align:left;">
+55.0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Snow (cm)
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1.4
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+32.0
+</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; border:0;" colspan="100%">
+<sup>a</sup> numerical summaries for the Date and day of the week are
+omitted, as it does not provide meaningful information.
+</td>
+</tr>
+</tfoot>
+</table>
+<p>From Table 7, notice that the maximum rental count in a day is 28307,
+which is vastly more than the minimum rental count of 425 in a day. The
+rental count also appears to be right skewed. Notice that variables for
+precipitation and snow also appear severely right skewed.</p>
+<p>For the most popular and least popular stations, we will only look at
+the summaries rental count, as all other variables (e.g. temperature)
+are the same across all bike stations.</p>
+<br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 8: Univariate summary statistics (most popular)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Min
+</th>
+<th style="text-align:left;">
+Q1
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+Q3
+</th>
+<th style="text-align:left;">
+Max
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rental Count
+</td>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+22
+</td>
+<td style="text-align:left;">
+63
+</td>
+<td style="text-align:left;">
+93
+</td>
+<td style="text-align:left;">
+147
+</td>
+<td style="text-align:left;">
+456
+</td>
+</tr>
+</tbody>
+</table>
+<p>In Table 8, notice that the rental count for the most popular station
+is also right skewed, similar to the rental count for all stations.</p>
+<br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 9: Univariate summary statistics (least popular)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Min
+</th>
+<th style="text-align:left;">
+Q1
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+Q3
+</th>
+<th style="text-align:left;">
+Max
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rental Count
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that there are no zeros as we’d expect, since there are only a
+total of two rentals. It follows that the dataset we have doesn’t record
+if there were no bike rentals on some day. This makes sense, as we
+calculated count by summing up the number of rentals recorded. Thus we
+must take into consideration that none of the data we plot will record
+these zero days.</p>
+<p>Also, only having two rentals is very strange. After taking a closer
+look at the information for that station, we discovered that station
+7758 is not actually a station people can rent bikes from, it is instead
+labelled as a “VAULT”, perhaps indicative of a place the bikshare
+company uses to store bikes not for public use. In this case, having two
+rentals is still strange, and perhaps was due to internal testing. This
+is potentially something to look into more in the future.</p>
+<p>Thus conclude that this station is not a good station to analyze
+daily bike ridership. This report will not be further analyzing this
+specific bike station. Perhaps the station with the median popularity
+(called the “median station” from now on) will be a better choice, and
+as seen below, the median station indeed does produce more reasonable
+bike ridership counts. Therefore, in later analysis, we will see if the
+relationship between the temporal and weather factors differs between
+the counts of the most popular, median popular, and all bike
+stations.</p>
+<p>Obtain that station 7685 (“King St W / Brant St”) has total 10450
+bike rentals recorded.</p>
+<br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 10: Univariate summary statistics (median popular)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Min
+</th>
+<th style="text-align:left;">
+Q1
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+Q3
+</th>
+<th style="text-align:left;">
+Max
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rental Count
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+9
+</td>
+<td style="text-align:left;">
+25
+</td>
+<td style="text-align:left;">
+28
+</td>
+<td style="text-align:left;">
+42
+</td>
+<td style="text-align:left;">
+108
+</td>
+</tr>
+</tbody>
+</table>
+<p>In Table 10, notice that the rental count for the most median station
+is also right skewed, similar to the rental count for all stations and
+most popular station.</p>
+<p>Now let us take a closer look at Figure 1 below, which is a
+visualization of the variables of interest in the data. These
+visualizations are the same for all stations because they are by date.
+Note that variable “Weekday” is omitted as “Weekday_num” contains the
+same information in a numerical manner. Note that along the diagonal of
+Figure 1 is a line graph of the number of observations. The top right
+corner contains the Pearson correlation coefficient between each pair of
+variables. The more significant the correlation coefficient is, the more
+stars there are. For example, “*” is “slightly significant” (alpha =
+0.05) while “***” is “very significant” (alpha = 0.001). The bottom left
+corner contains the scatter plots between each pair of variables.</p>
+<br>
+<div class="vscroll-plot">
+<p><img src="methods_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<p><br></p>
+<p>From Figure 4, note that the “Rental_count”, “Precipitation”, and
+“Snow” are all severely right skewed, as noted before. Also notice
+significant levels of correlation between the “Rental_count” and all
+variables. More in depth investigation would need to be conducted to
+determine the exact nature of the relationship (linear, periodic,
+etc).</p>
+<p>There is also significant correlation between the minimum, mean, and
+maximum temperatures (which is expected), so perhaps if we were to fit a
+model we would only want to select one of the temperature variables.
+Also notice the periodic relationship between temperature and date.</p>
+<p>There is also a significant imbalance in the “is_Weekday” variable,
+which is expected, as there are more weekdays than weekends in a year.
+This is something to note as it may skew any results concerning this
+variable.</p>
+<p>A further point of interest is the scatter plot between
+“Precipitation” and “Snow”, where we notice a few outlier points with
+both large amount of rain and large amounts of snow. This is
+interesting, as rain and snow do not usually occur together in such
+large amounts on the same day.</p>
+<p>Additionally, there are so many data points that it is impossible to
+tell the relationship between some pairs of variables using these
+scatter plots. For example, between Weekday_num and Date. This is
+acceptable for our purposes, as we are not specifically interested in
+the relationship between these variables, just if there are any major
+issues that could affect our ability to answer the question of interest.
+However, in the future it may be necessary to redo the plots with
+perhaps a subset of the data if we desire to model these
+relationships.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

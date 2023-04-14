@@ -1,0 +1,767 @@
+---
+title: "Methods"
+output: 
+    html_document: 
+        toc: TRUE
+        toc_float: TRUE
+---
+
+<style>
+.vscroll-plot {
+    width: 700px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
+
+```{r eval = TRUE, include = FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  eval=TRUE,
+  echo = FALSE,
+  cache = TRUE,
+  cache.lazy = FALSE)
+```
+
+
+```{r include = FALSE}
+library(rvest)
+library(xml2)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(GGally)
+library(jsonlite)
+library(leaflet)
+library(mgcv)
+library(APCtools)
+```
+
+## Data Collection
+### Bike Share Toronto Ridership
+From the Toronto's Open Data repository, we can obtain the data on Bike Share Toronto's ridership. On the page, there are several buttons, one for each year. We inspect the buttons for 2020, 2021, and 2022, and obtain the links to download the zipped files for each year. Each file contains twelve csv files, one for each month. Using R, download the zipped files and unzip them using the `download.file` and `unzip`, then read in the csvs. After reading in the twelve csvs for each year 2020-2022, ensure that all the variable types are consistent. Some variables such as the bike id appeared as integers in one file, and characters in another. Such variables were converted to a suitable type for consistency. In the case of bike id's, all were converted to integers. Then, combine the data for each month into one large dataframe for the bikeshare data using `bind_rows`. 
+
+```{r read 2020 bike data}
+# Read 2020 bike data
+# Download zip file and unzip into csv
+zip20link <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/e534141d-92c6-4dd7-8ba1-bb061674d943/download/bikeshare-ridership-2020.zip"
+temp <- tempfile()
+options(timeout = max(1000, getOption("timeout")))
+download.file(zip20link, temp)
+zip20 <- unzip(temp)
+unlink(temp)
+
+# Read all csv
+bikes20_1 <- read.csv(zip20[1])
+bikes20_2 <- read.csv(zip20[2])
+bikes20_3 <- read.csv(zip20[3])
+bikes20_4 <- read.csv(zip20[4])
+bikes20_5 <- read.csv(zip20[5])
+bikes20_6 <- read.csv(zip20[6])
+bikes20_7 <- read.csv(zip20[7])
+bikes20_8 <- read.csv(zip20[8])
+bikes20_9 <- read.csv(zip20[9])
+bikes20_10 <- read.csv(zip20[10])
+bikes20_11 <- read.csv(zip20[11])
+bikes20_12 <- read.csv(zip20[12])
+
+# Change mismatching variable types 
+bikes20_10$Start.Station.Id <- suppressWarnings(as.numeric(bikes20_10$Start.Station.Id))
+bikes20_10$Bike.Id <- suppressWarnings(as.numeric(bikes20_10$Bike.Id))
+bikes20_12$Bike.Id <- suppressWarnings(as.numeric(bikes20_12$Bike.Id))
+
+bikes20 <- bind_rows(bikes20_1, bikes20_2, bikes20_3, bikes20_4, bikes20_5, bikes20_6,
+                     bikes20_7, bikes20_8, bikes20_9, bikes20_10, bikes20_11, bikes20_12)
+```
+
+```{r read 2021 bike data}
+# Read 2021 bike data
+# Download zip file and unzip into csv
+zip21link <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/ddc039f6-07fa-47a3-a707-0121ade3b307/download/bikeshare-ridership-2021.zip"
+temp <- tempfile()
+download.file(zip21link, temp)
+zip21 <- unzip(temp)
+unlink(temp)
+
+# Read all csv
+bikes21_1 <- read.csv(zip21[1])
+bikes21_2 <- read.csv(zip21[2])
+bikes21_3 <- read.csv(zip21[3])
+bikes21_4 <- read.csv(zip21[4])
+bikes21_5 <- read.csv(zip21[5])
+bikes21_6 <- read.csv(zip21[6])
+bikes21_7 <- read.csv(zip21[7])
+bikes21_8 <- read.csv(zip21[8])
+bikes21_9 <- read.csv(zip21[9])
+bikes21_10 <- read.csv(zip21[10])
+bikes21_11 <- read.csv(zip21[11])
+bikes21_12 <- read.csv(zip21[12])
+
+# Change mismatching variable types
+bikes21_1$Bike.Id <- suppressWarnings(as.numeric(bikes21_1$Bike.Id))
+
+bikes21 <- bind_rows(bikes21_1, bikes21_2, bikes21_3, bikes21_4, bikes21_5, bikes21_6, 
+                      bikes21_7, bikes21_8, bikes21_9, bikes21_10, bikes21_11, bikes21_12)
+```
+
+```{r read 2022 bike data}
+
+# Read 2022 bike data
+# Download zip file and unzip into csv
+zip22link <- "https://ckan0.cf.opendata.inter.prod-toronto.ca/dataset/7e876c24-177c-4605-9cef-e50dd74c617f/resource/db10a7b1-2702-481c-b7f0-0c67070104bb/download/bikeshare-ridership-2022.zip"
+temp <- tempfile()
+download.file(zip22link, temp)
+zip22 <- unzip(temp)
+unlink(temp)
+
+# Read all csv
+bikes22_1 <- read.csv(zip22[1])
+bikes22_2 <- read.csv(zip22[2])
+bikes22_3 <- read.csv(zip22[3])
+bikes22_4 <- read.csv(zip22[4])
+bikes22_5 <- read.csv(zip22[5])
+bikes22_6 <- read.csv(zip22[6])
+bikes22_7 <- read.csv(zip22[7])
+bikes22_8 <- read.csv(zip22[8])
+bikes22_9 <- read.csv(zip22[9])
+bikes22_10 <- read.csv(zip22[10])
+bikes22_11 <- read.csv(unzip(zip22[11]))
+bikes22_12 <- read.csv(zip22[12])
+
+bikes22 <- bind_rows(bikes22_1, bikes22_2, bikes22_3, bikes22_4, bikes22_5, bikes22_6,
+                     bikes22_7, bikes22_8, bikes22_9, bikes22_10, bikes22_11, bikes22_12)
+```
+
+```{r combine bike data}
+bikedata <- bind_rows(bikes20, bikes21, bikes22)
+```
+
+Table 1, shown below, depicts the top 5 rows of the combined bikeshare data. The rows in this dataframe are sorted according to column "Start.Time", the starting time of the bike rental.
+
+<br>
+<div class="vscroll-plot">
+```{r Table 1 First Five Rows of Bike Share Toronto Ridership Data}
+knitr::kable(head(bikedata), 
+             caption = "Table 1: First Five Rows of Bike Share Toronto Ridership Data",
+             style = "latex") %>%
+  kableExtra::kable_styling()
+# kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+```
+</div>
+<br>
+
+### Bike Share Toronto Station
+Then we will also obtain the data on Toronto's Bikeshare stations, which contains the station ids (that correspond to the starting and ending station id's in the bike ridership data we just downloaded), the coordinates of the station, and a couple other variables that we will not be using. To obtain this data, we obtain the links for the json file, and read in the data.
+
+```{r Read Bike station data}
+bikestation_url <- "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_information"
+bikestation <- as.data.frame(fromJSON(bikestation_url, flatten = TRUE))
+```
+
+Table 2, shown below, depicts the top 5 rows of the bike station data. 
+
+<br>
+<div class="vscroll-plot">
+```{r Table 2 First Five Rows of Bike Station Data}
+knitr::kable(head(bikestation), 
+             caption = "Table 2: First Five Rows of Bike Station Data",
+             style = "html") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%")
+# kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+```
+</div>
+<br>
+
+### Toronto Weather
+From the Canada government webpage, we can access the historical weather data and select Toronto's weather station. From there, we select the month and year we wish to obtain. Start with January 2020. The page has a table with the daily weather data for that month. Inspect the table and obtain the xml path for it. Then, using R's `xml2` package, we can read in the html table. We then convert that table to an R dataframe using the `rvest` package. After obtaining the dataframe for that month, note that the table does not include which month or year it was from, it only includes the day of the month. Thus, we add the month and year of the table we just scraped to the dataframe.  Repeat this for all months from January 2020 to December 2022. Finally, merge all of these dataframes to obtain the combined Toronto weather data.
+
+```{r Read 2020 weather data}
+weatherdata <- data.frame()
+for (i in 1:12){
+
+weather20url <- paste(paste("https://climate.weather.gc.ca/climate_data/daily_data_e.html?hlyRange=2002-06-04%7C2023-03-03&dlyRange=2002-06-04%7C2023-03-02&mlyRange=2003-07-01%7C2006-12-01&StationID=31688&Prov=ON&urlExtension=_e.html&searchType=stnName&optLimit=yearRange&StartYear=2020&EndYear=2023&selRowPerPage=25&Line=1&searchMethod=contains&txtStationName=Toronto&timeframe=2&Day=3&Year=2020&Month=", i, sep = ""), "#", sep = "")
+
+# Downloading the website
+weather <- xml2::read_html(weather20url)
+
+# Finding the table
+weather <- xml2::xml_find_first(weather, "/html/body/main/div[5]/table")
+
+# Convert to r dataframe
+weather <- rvest::html_table(weather)
+
+# Add month and year variable
+weather <- weather %>% mutate(month = i)
+weather <- weather %>% mutate(year = 2020)
+
+weatherdata <- bind_rows(weatherdata, weather)
+}
+```
+
+```{r Read 2021 weather data}
+for (i in 1:12){
+
+weather21url <- paste(paste("https://climate.weather.gc.ca/climate_data/daily_data_e.html?hlyRange=2002-06-04%7C2023-03-03&dlyRange=2002-06-04%7C2023-03-02&mlyRange=2003-07-01%7C2006-12-01&StationID=31688&Prov=ON&urlExtension=_e.html&searchType=stnName&optLimit=yearRange&StartYear=2020&EndYear=2023&selRowPerPage=25&Line=1&searchMethod=contains&txtStationName=Toronto&timeframe=2&Day=3&Year=2021&Month=", i, sep = ""), "#", sep = "")
+
+# Downloading the website
+weather <- xml2::read_html(weather21url)
+
+# Finding the table
+weather <- xml2::xml_find_first(weather, "/html/body/main/div[5]/table")
+
+# Convert to r dataframe
+weather <- rvest::html_table(weather)
+
+# Add month and year variable
+weather <- weather %>% mutate(month = i)
+weather <- weather %>% mutate(year = 2021)
+
+weatherdata <- bind_rows(weatherdata, weather)
+}
+```
+
+```{r Read 2022 weather data}
+for (i in 1:12){
+
+weather22url <- paste(paste("https://climate.weather.gc.ca/climate_data/daily_data_e.html?hlyRange=2002-06-04%7C2023-03-03&dlyRange=2002-06-04%7C2023-03-02&mlyRange=2003-07-01%7C2006-12-01&StationID=31688&Prov=ON&urlExtension=_e.html&searchType=stnName&optLimit=yearRange&StartYear=2020&EndYear=2023&selRowPerPage=25&Line=1&searchMethod=contains&txtStationName=Toronto&timeframe=2&Day=3&Year=2022&Month=", i, sep = ""), "#", sep = "")
+
+# Downloading the website
+weather <- xml2::read_html(weather22url)
+
+# Finding the table
+weather <- xml2::xml_find_first(weather, "/html/body/main/div[5]/table")
+
+# Convert to r dataframe
+weather <- rvest::html_table(weather)
+
+# Add month and year variable
+weather <- weather %>% mutate(month = i)
+weather <- weather %>% mutate(year = 2022)
+
+weatherdata <- bind_rows(weatherdata, weather)
+}
+```
+
+
+Table 3, shown below, shows the first five rows of the combined Toronto weather data. 
+
+<br>
+<div class="vscroll-plot">
+```{r Table 3 First Five Rows of Toronto Weather Data}
+knitr::kable(head(weatherdata), 
+             caption = "Table 3: First Five Rows of Toronto Weather Data",
+             style = "html") %>%
+  kableExtra::kable_styling() %>%
+  kableExtra::scroll_box(width = "100%")
+```
+</div>
+<br>
+
+## Data Cleaning and Wrangling
+
+Tables 1, 2, and 3, from the previous "Data Collection" subsection, provide us with an overview of the data we will be using to answer the question of interest. However, before that can be done, some data cleaning and data wrangling needs to be done. We will start with the bikeshare data.
+
+### Bike Share Toronto Ridership
+
+We are not actually using most of the variables in the bikeshare data, we only wish to obtain the number of daily bike rentals. Here we will create two counts. The number of daily bike rentals for all stations, and the number of daily bike rentals for each individual starting station. Thus we will not clean the variables in the bikeshare dataset, instead we will wrangle the data to obtain our variable of interest: daily rental count. We will use the start date of each bike rental as the day it was rented. So if a bike was rented at on January 1st, and returned on January 2nd, we will count this bike in the January 1st rentals. 
+
+To do this, first convert the start date of each rental into a Date object. 
+
+Then, we will count the number of daily bike rentals grouped by the starting station and save the date, starting station id, and count in a new dataframe "count_station"
+
+```{r Create Bike Dates}
+# Create date variable using the trip start time
+bikedata$Start.Date.Time <- as.POSIXct(bikedata$Start.Time, format="%m/%d/%Y %H:%M")
+bikedata$Date <- as.Date(bikedata$Start.Date.Time)
+```
+
+```{r Count ridership by start station}
+count_station  <- bikedata %>% 
+  dplyr::select(Start.Station.Id, Date) %>%
+  group_by(Start.Station.Id, Date) %>%
+  summarise(n = n())
+```
+
+Table 4, shown below, shows the first five rows of this new dataframe. Column "n" is the number of bike rentals on that date. 
+
+<br>
+<div class="vscroll-plot">
+```{r Table 4 First Five Rows of Bikeshare Daily Rental Count }
+knitr::kable(head(count_station), 
+             caption = "Table 4: First Five Rows of Bikeshare Daily Rental Count",
+             style = "html") %>%
+  kableExtra::kable_styling()
+```
+</div>
+
+### Bike Share Toronto Stations
+
+Now, we wrangle the data on the bike stations. For this data, we only have to remove unnecessary variables and rename them for convenience. We will only keep the station id, name, and the coordinates. 
+
+```{r Wrangle Bike Station Data}
+bikestation <- bikestation %>%
+  dplyr::select(data.stations.station_id, 
+                data.stations.name,
+                data.stations.lat,
+                data.stations.lon)
+
+```
+
+```{r Rename Bike Station Data}
+bikestation <- bikestation %>% rename(
+    Station_id = "data.stations.station_id",
+    Station_name = "data.stations.name",
+    Latitude = "data.stations.lat",
+    Longitude = "data.stations.lon")
+```
+
+
+### Toronto Weather
+
+After wrangling the bikeshare and bike station data, we now clean and wrangle the weather data.
+
+First, consider some rows of the current dataframe. Table 5 below shows the 101-105th rows of the weather dataframe, which have some problematic entries. 
+<br>
+<div class="vscroll-plot">
+
+```{r Table 5 Rows 101-105 of Toronto Weather Data}
+knitr::kable(weatherdata[101:105,], 
+             caption = "Table 5: Rows 101-105 of Toronto Weather Data",
+             style = "html") %>%
+  kableExtra::kable_styling() 
+```
+
+</div>
+<br>
+
+From Table 5, observe that in rows 101-103, the entries in column "DAY" are not actually the day of the month, but are summary statistics of that month instead. We remove all such columns in the data. Then, observe that in column "Snow on Grnd Definitioncm", there are many missing entries. Since this variable is of interest, we check the data to see why, and notice that missing entries mostly occur in the warmer months with no snow. Thus, we replace all such empty entries in the column with "0". Problematic entries in other columns such as "Grnd Definitioncm" are not of concern, since we are not using those variables. In fact, we will soon be dropping those unused variables from the dataframe.
+
+```{r}
+weatherdata <- weatherdata %>% filter(DAY != "Avg",
+                              DAY != "Xtrm",
+                              DAY != "Sum",
+                              DAY != "Summary, average and extreme values are based on the data above.",
+                              DAY != "LegendMM")
+
+# Add 0 for Snow when there is no entry
+
+weatherdata$"Snow on Grnd Definitioncm" <- ifelse(weatherdata$"Snow on Grnd Definitioncm" == "", "0", weatherdata$"Snow on Grnd Definitioncm")
+```
+
+Then, create a Date variable using the variables containing the month, day, and year (the "month", "DAY", and "year" columns in Table 3 and Table 5). Then unused variables (such as flags indicating status of data collection) were removed, and only the date, maximum, minimum, and average temperature, amount of precipitation, and amount of snow were kept. Rename these variables (aside from date) as "Max_temp", "Min_temp", "Mean_temp", "Precipitation", and "Snow" respectively. 
+
+```{r}
+# Create date for weather data
+weatherdata$Date <- paste(weatherdata$year, weatherdata$month, weatherdata$DAY, sep = "-")
+weatherdata$Date <- ymd(weatherdata$Date)
+```
+
+```{r}
+# Drop unnecessary columns
+weatherdata <- weatherdata %>%
+  dplyr::select(Date, "Max Temp Definition°C", "Min Temp Definition°C", "Mean Temp Definition°C",
+                "Total Precip Definitionmm", "Snow on Grnd Definitioncm" )
+```
+
+```{r}
+# Rename columns
+weatherdata <- weatherdata %>%
+  rename(
+    Max_temp = "Max Temp Definition°C",
+    Min_temp = "Min Temp Definition°C",
+    Mean_temp = "Mean Temp Definition°C",
+    Precipitation = "Total Precip Definitionmm",
+    Snow = "Snow on Grnd Definitioncm")
+```
+
+
+Then, new temporal variables (such as the day of the week, and whether a day is on the weekend, etc.) were created for the weather dataframe using the date variable.
+
+
+```{r warning = FALSE}
+# Convert columns from char to numeric
+weatherdata <- weatherdata %>%
+  mutate(
+    Max_temp = as.numeric(Max_temp),
+    Min_temp = as.numeric(Min_temp),
+    Mean_temp = as.numeric(Mean_temp),
+    Precipitation = as.numeric(Precipitation),
+    Snow = as.numeric(Snow))
+```
+
+
+## Data Merging
+
+After cleaning and wrangling the bikeshare daily rental counts and weather data, we now merge the two dataframes by their dates. 
+
+```{r}
+df <- merge(count_station, weatherdata, by = "Date")
+df <- df %>% 
+  rename(
+    Rental_count = n)
+```
+
+```{r}
+# Weekday and weekend variables
+df$Weekday <- weekdays(df$Date)
+df$Weekday_num <- ifelse(df$Weekday == "Monday", 1, 
+                               ifelse(df$Weekday == "Tuesday", 2,
+                                      ifelse(df$Weekday == "Wednesday", 3,
+                                             ifelse(df$Weekday == "Thursday", 4,
+                                                    ifelse(df$Weekday == "Friday", 5,
+                                                           ifelse(df$Weekday == "Saturday", 6, 
+                                                                  7))))))
+                                                        
+df$is_weekday <- ifelse(df$Weekday_num < 6, 1, 0)
+```
+
+
+```{r}
+df <- tidyr::drop_na(df)
+```
+
+Then, we merge this with the bike station information by the station ids. 
+
+```{r}
+ df <- df %>% rename(
+   Station_id = "Start.Station.Id"
+ )
+
+df <- merge(bikestation, df, by = "Station_id")
+```
+
+Table 6 below shows the first five rows of our dataset that we will be using to answer our question of interest.
+<br>
+<div class="vscroll-plot">
+```{r Table 6 First Five Rows of Dataset}
+knitr::kable(head(df), 
+             caption = "Table 6: First Five Rows of Dataset",
+             style = "html") %>%
+  kableExtra::kable_styling() 
+```
+</div>
+
+## Data Exploration
+
+Finally, now that our datasets have been cleaned, wrangled, and merged, we will begin to explore the data in greater detail.
+
+```{r}
+# Create copy of df grouped by station
+df_station <- df
+```
+
+```{r}
+
+# Create df not grouped by station
+df <- df_station %>% 
+  group_by(Date, 
+           Max_temp, 
+           Mean_temp, 
+           Min_temp, 
+           Precipitation, 
+           Snow, 
+           Weekday, 
+           Weekday_num, 
+           is_weekday) %>%
+  summarise(Rental_count = sum(Rental_count), .groups = "drop") %>%
+  as.data.frame
+
+```
+
+Firstly, we will look at the distribution of bike rental counts per year for each station.
+
+#### Bike Rental counts yearly for each station {.tabset}
+
+##### Figure 1: 2020
+<br>
+<div class="vscroll-plot">
+
+```{r}
+temp <- df_station %>% 
+  filter(year(Date) == 2020) %>%
+  group_by(Station_id, Longitude, Latitude) %>%
+  summarise(count = sum(Rental_count))
+
+pal <- colorNumeric(c("white", "lightblue", "blue", "darkblue", "black"), domain = temp$count, reverse = F)
+
+# Plot for 2020 bike rentals
+temp %>%
+  leaflet() %>%
+  addProviderTiles('OpenStreetMap') %>%
+  addCircleMarkers(lng = ~Longitude, lat = ~Latitude, fillColor = ~pal(count), weight = 0, fillOpacity = 0.7, radius = 10) %>%
+  addLegend('bottomleft', pal = pal, values = temp$count, title = "Rental Count") 
+```
+</div>
+<br>
+
+##### Figure 2: 2021
+<br>
+<div class="vscroll-plot">
+
+```{r}
+temp <- df_station %>% 
+  filter(year(Date) == 2021) %>%
+  group_by(Station_id, Longitude, Latitude) %>%
+  summarise(count = sum(Rental_count))
+
+pal <- colorNumeric(c("white", "lightblue", "blue", "darkblue", "black"), domain = temp$count, reverse = F)
+
+# Plot for 2020 bike rentals
+temp %>%
+  leaflet() %>%
+  addProviderTiles('OpenStreetMap') %>%
+  addCircleMarkers(lng = ~Longitude, lat = ~Latitude, fillColor = ~pal(count), weight = 0, fillOpacity = 0.7, radius = 10) %>%
+  addLegend('bottomleft', pal = pal, values = temp$count, title = "Rental Count")
+```
+</div>
+<br>
+
+
+##### Figure 3: 2022
+<br>
+<div class="vscroll-plot">
+```{r}
+temp <- df_station %>% 
+  filter(year(Date) == 2022) %>%
+  group_by(Station_id, Longitude, Latitude) %>%
+  summarise(count = sum(Rental_count))
+
+pal <- colorNumeric(c("white", "lightblue", "blue", "darkblue", "black"), domain = temp$count, reverse = F)
+
+# Plot for 2020 bike rentals
+temp %>%
+  leaflet() %>%
+  addProviderTiles('OpenStreetMap') %>%
+  addCircleMarkers(lng = ~Longitude, lat = ~Latitude, fillColor = ~pal(count), weight = 0, fillOpacity = 0.7, radius = 10) %>%
+  addLegend('bottomleft', pal = pal, values = temp$count, title = "Rental Count")
+```
+</div>
+<br>
+
+#### {-}
+Notice that most bike rentals occur in the downtown Toronto area, especially near the harborfront. 
+
+### Summary Statistics
+
+We will then select the most popular bike station (station with most total rentals), and the least popular bike station (station with least total rentals). In later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, least popular, and all bike stations. 
+
+```{r compute most and least popular stations, include = FALSE,  eval= FALSE}
+station_counts <- df_station %>%
+  group_by(Station_id) %>%
+  summarise(count = sum(Rental_count))
+
+most_pop_station <- station_counts %>% slice_max(count, n = 1)
+
+least_pop_station <- station_counts %>% slice_min(count, n = 1)
+
+# df_station$Station_name[df_station$Station_id == 7758]
+```
+
+After computation, we obtain that station 7076 ("York St / Queens Quay W") is the most popular with a total of 101551 bike rentals recorded, and station 7758 ("Driftwood Ave / Finch Hydro Trail") is the least popular with only 2 bike rentals recorded.
+
+```{r Create df for most and least popular}
+df_most <- df_station %>%
+  filter(Station_id == 7076)
+
+df_least <- df_station %>%
+  filter(Station_id == 7758)
+```
+
+
+Now look at univariate summary statistics of our variables for the rental count including all stations in Table 7 below. 
+<br>
+```{r Table 7 univariate summary statistics (all stations), warning = FALSE}
+sum  <- df %>% dplyr::select(Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow) %>%
+  vtable::sumtable(summ = list(c("min(x)",
+                                      "pctile(x)[25]",
+                                      "median(x)",
+                                      "mean(x)",
+                                      "pctile(x)[75]",
+                                      "max(x)")),
+                        summ.names = list(c("Min",
+                                            "Q1",
+                                            "Median",
+                                            "Mean",
+                                            "Q3",
+                                            "Max")),
+                        out = "return")
+
+sum$Min <- format(round(as.numeric(sum$Min), 1), nsmall = 1)
+sum$Q1 <- format(round(as.numeric(sum$Q1), 1), nsmall = 1)
+sum$Median <- format(round(as.numeric(sum$Median), 1), nsmall = 1)
+sum$Mean <- format(round(as.numeric(sum$Mean), 1), nsmall = 1)
+sum$Q3 <- format(round(as.numeric(sum$Q3), 1), nsmall = 1)
+sum$Max <- format(round(as.numeric(sum$Max), 1), nsmall = 1)
+
+sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
+sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
+sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
+sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
+sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
+sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
+
+sum$Variable <- c("Rental Count", 
+                           "Max Temperature (°C)",
+                           "Min Temperature (°C)",
+                           "Mean Temperature (°C)",
+                           "Precipitation (mm)",
+                           "Snow (cm)")
+                                             
+                                             
+knitr::kable(sum, 
+             caption = "Table 7: Univariate summary statistics (all stations)") %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position")) %>%
+  kableExtra::add_footnote(c("numerical summaries for the Date and day of the week are omitted, as it does not provide meaningful information.")) 
+
+```
+
+From Table 7, notice that the maximum rental count in a day is 28307, which is vastly more than the minimum rental count of 425 in a day. The rental count also appears to be right skewed. Notice that variables for precipitation and snow also appear severely right skewed. 
+
+For the most popular and least popular stations, we will only look at the summaries rental count, as all other variables (e.g. temperature) are the same across all bike stations.
+
+<br>
+```{r Table 8 univariate summary statistics (most popular), warning = FALSE}
+sum  <- df_most %>% dplyr::select(Rental_count) %>%
+  vtable::sumtable(summ = list(c("min(x)",
+                                      "pctile(x)[25]",
+                                      "median(x)",
+                                      "mean(x)",
+                                      "pctile(x)[75]",
+                                      "max(x)")),
+                        summ.names = list(c("Min",
+                                            "Q1",
+                                            "Median",
+                                            "Mean",
+                                            "Q3",
+                                            "Max")),
+                        out = "return")
+
+sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
+sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
+sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
+sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
+sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
+sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
+
+sum$Variable <- c("Rental Count")
+
+knitr::kable(sum, 
+             caption = "Table 8: Univariate summary statistics (most popular)") %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
+```
+
+In Table 8, notice that the rental count for the most popular station is also right skewed, similar to the rental count for all stations. 
+
+<br>
+```{r Table 9 univariate summary statistics (least popular), warning = FALSE}
+sum  <- df_least %>% dplyr::select(Rental_count) %>%
+  vtable::sumtable(summ = list(c("min(x)",
+                                      "pctile(x)[25]",
+                                      "median(x)",
+                                      "mean(x)",
+                                      "pctile(x)[75]",
+                                      "max(x)")),
+                        summ.names = list(c("Min",
+                                            "Q1",
+                                            "Median",
+                                            "Mean",
+                                            "Q3",
+                                            "Max")),
+                        out = "return")
+
+sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
+sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
+sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
+sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
+sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
+sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
+
+sum$Variable <- c("Rental Count")
+
+knitr::kable(sum, 
+             caption = "Table 9: Univariate summary statistics (least popular)") %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
+```
+Notice that there are no zeros as we'd expect, since there are only a total of two rentals. It follows that the dataset we have doesn't record if there were no bike rentals on some day. This makes sense, as we calculated count by summing up the number of rentals recorded. Thus we must take into consideration that none of the data we plot will record these zero days. 
+
+Also, only having two rentals is very strange. After taking a closer look at the information for that station, we discovered that station 7758 is not actually a station people can rent bikes from, it is instead labelled as a "VAULT", perhaps indicative of a place the bikshare company uses to store bikes not for public use. In this case, having two rentals is still strange, and perhaps was due to internal testing. This is potentially something to look into more in the future.
+
+Thus conclude that this station is not a good station to analyze daily bike ridership. This report will not be further analyzing this specific bike station. Perhaps the station with the median popularity (called the "median station" from now on) will be a better choice, and as seen below, the median station indeed does produce more reasonable bike ridership counts. Therefore, in later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, median popular, and all bike stations. 
+
+```{r, eval = FALSE}
+station_counts <- df_station %>%
+  group_by(Station_id) %>%
+  summarise(count = sum(Rental_count)) 
+
+station_median <- station_counts %>%
+  summarise(median_count = median(count))
+
+station_counts %>% 
+  filter(station_counts$count <= 10455 & station_counts$count > 10400)
+```
+
+Obtain that station 7685 ("King St W / Brant St") has total 10450 bike rentals recorded. 
+
+```{r}
+df_med <- df_station %>%
+  filter(Station_id == 7685)
+```
+
+<br>
+```{r Table 10 univariate summary statistics (med popular), warning = FALSE}
+sum  <- df_med %>% dplyr::select(Rental_count) %>%
+  vtable::sumtable(summ = list(c("min(x)",
+                                      "pctile(x)[25]",
+                                      "median(x)",
+                                      "mean(x)",
+                                      "pctile(x)[75]",
+                                      "max(x)")),
+                        summ.names = list(c("Min",
+                                            "Q1",
+                                            "Median",
+                                            "Mean",
+                                            "Q3",
+                                            "Max")),
+                        out = "return")
+
+sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
+sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
+sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
+sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
+sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
+sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
+
+sum$Variable <- c("Rental Count")
+
+knitr::kable(sum, 
+             caption = "Table 10: Univariate summary statistics (median popular)") %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
+```
+
+In Table 10, notice that the rental count for the most median station is also right skewed, similar to the rental count for all stations and most popular station.
+
+Now let us take a closer look at Figure 1 below, which is a visualization of the variables of interest in the data. These visualizations are the same for all stations because they are by date. Note that variable "Weekday" is omitted as "Weekday_num" contains the same information in a numerical manner. Note that along the diagonal of Figure 1 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
+
+<br>
+<div class="vscroll-plot">
+```{r, height = 20, width = 20}
+ggpairs(df[, -8], progress = FALSE) +
+  theme_minimal() + 
+  labs(title = "Figure 4") + 
+  theme(plot.title = element_text(size = 10))
+```
+</div>
+<br>
+
+From Figure 4, note that the "Rental_count", "Precipitation", and "Snow" are all severely right skewed, as noted before. Also notice significant levels of correlation between the "Rental_count" and all variables. More in depth investigation would need to be conducted to determine the exact nature of the relationship (linear, periodic, etc).
+
+There is also significant correlation between the minimum, mean, and maximum temperatures (which is expected), so perhaps if we were to fit a model we would only want to select one of the temperature variables. Also notice the periodic relationship between temperature and date. 
+
+There is also a significant imbalance in the "is_Weekday" variable, which is expected, as there are more weekdays than weekends in a year. This is something to note as it may skew any results concerning this variable.
+
+A further point of interest is the scatter plot between "Precipitation" and "Snow", where we notice a few outlier points with both large amount of rain and large amounts of snow. This is interesting, as rain and snow do not usually occur together in such large amounts on the same day. 
+
+Additionally, there are so many data points that it is impossible to tell the relationship between some pairs of variables using these scatter plots. For example, between Weekday_num and Date. This is acceptable for our purposes, as we are not specifically interested in the relationship between these variables, just if there are any major issues that could affect our ability to answer the question of interest. However, in the future it may be necessary to redo the plots with perhaps a subset of the data if we desire to model these relationships. 
