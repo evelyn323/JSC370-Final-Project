@@ -5,7 +5,14 @@ output:
         toc: TRUE
         toc_float: TRUE
 ---
-
+<style>
+.vscroll-plot {
+    width: 700px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+</style>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -161,6 +168,7 @@ knitr::kable(min,
 From Table 15, notice that the minimum daily rental counts are very small. Similar to Table 14, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 10, as there is a wide range here.
 
 <br>
+<div class="vscroll-plot">
 ```{r Table 16 conditions for minimum bike share riders (median popular)}
 min <- df_med %>% dplyr::select(Date, Rental_count, Max_temp, Min_temp, Mean_temp, Precipitation, Snow, Weekday) %>%
   slice_min(order_by = Rental_count, n = 5) 
@@ -181,6 +189,7 @@ knitr::kable(min,
   kableExtra::column_spec(c(2, 7), width = "1cm")  %>%
   kableExtra::column_spec(c(3, 4, 5, 6, 8), width ="2cm") 
 ```
+</div>
 <br>
 
 From Table 16, notice that the minimum daily rental counts are all ones. Recall from previous data exploration that the days with no rental counts are not included here, so it is very likely that there are many days with no rental counts that is not in this table. Aside from that, similar to Table 14 and Table 15, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 10, as there is a wide range here. Notice that these dates also all occur in Dec-Feb winter months. 
@@ -256,7 +265,7 @@ fig5 <- df %>%
 
 
 ```{r fig.align="center"}
-gridExtra::grid.arrange(fig2, fig3, fig4, fig5, ncol = 2, top=grid::textGrob("Figure 3",gp=grid::gpar(fontsize=15)))
+gridExtra::grid.arrange(fig2, fig3, fig4, fig5, ncol = 2, top=grid::textGrob("Figure 6",gp=grid::gpar(fontsize=15)))
 ```
 <br>
 In figure 6A, notice the clear trend of increasing ridership count in the summer months, then decreasing ridership count in the winter months. Also note that date and temperature are correlated, so the relationship seen here could be a reflection of the relationship seen in Figure 5. Again note the large variations in rental count across the dates. For example, in the middle of 2022, there are a few very large dips in the rental count. Also note how the variation in rental count is higher in the summer months than in winter months.
@@ -369,14 +378,15 @@ models <- list("All Spline, All Predictors" = sallmodelfull,
                "All Linear, No Snow" = linmodelreduced)
 ```
 
-
+Table 15:
 ```{r plot full model, results = "asis"}
-itsadug::gamtabs(smodelfull, caption = "Table 15", type = "HTML")
+itsadug::gamtabs(smodelfull, type = "HTML")
 ```
 
 
 After fitting the full model, we observe that the predictor for Snow is statistically insignificant, so we remove it and refit the model. 
 
+Table 16:
 ```{r, results = "asis"}
 itsadug::gamtabs(smodelreduced, type = "HTML")
 ```

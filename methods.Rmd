@@ -15,6 +15,12 @@ output:
 }
 </style>
 
+<style>
+.plot {
+    width: 700px;
+}
+</style>
+
 ```{r eval = TRUE, include = FALSE}
 knitr::opts_chunk$set(
   warning = FALSE,
@@ -153,7 +159,7 @@ knitr::kable(head(bikedata),
 <br>
 
 ### Bike Share Toronto Station
-Then we will also obtain the data on Toronto's Bikeshare stations, which contains the station ids (that correspond to the starting and ending station id's in the bike ridership data we just downloaded), the coordinates of the station, and a couple other variables that we will not be using. To obtain this data, we obtain the links for the json file, and read in the data.
+Then we will also obtain the data on Toronto's Bikeshare stations, which contains the station ids (that correspond to the starting and ending station id's in the bike ridership data we just downloaded), the coordinates of the station, and a couple other variables that we will not be using. To obtain this data, we obtain the links for the json file, and read in the data using the `fromJSON` method.
 
 ```{r Read Bike station data}
 bikestation_url <- "https://tor.publicbikesystem.net/ube/gbfs/v1/en/station_information"
@@ -266,7 +272,7 @@ Tables 1, 2, and 3, from the previous "Data Collection" subsection, provide us w
 
 ### Bike Share Toronto Ridership
 
-We are not actually using most of the variables in the bikeshare data, we only wish to obtain the number of daily bike rentals. Here we will create two counts. The number of daily bike rentals for all stations, and the number of daily bike rentals for each individual starting station. Thus we will not clean the variables in the bikeshare dataset, instead we will wrangle the data to obtain our variable of interest: daily rental count. We will use the start date of each bike rental as the day it was rented. So if a bike was rented at on January 1st, and returned on January 2nd, we will count this bike in the January 1st rentals. 
+We are not actually using most of the variables in the bikeshare data, we only wish to obtain the number of daily bike rentals. Here we will create two counts. The number of daily bike rentals for all stations, and the number of daily bike rentals for each individual starting station. Thus we will not clean the variables in the bikeshare dataset, instead we will wrangle the data to obtain our variable of interest: daily rental count. We will use the start date of each bike rental as the day it was rented. So if a bike was rented on January 1st, and returned on January 2nd, we will count this bike in the January 1st rentals. 
 
 To do this, first convert the start date of each rental into a Date object. 
 
@@ -477,7 +483,7 @@ Firstly, we will look at the distribution of bike rental counts per year for eac
 
 ##### Figure 1: 2020
 <br>
-<div class="vscroll-plot">
+<div class="plot">
 
 ```{r}
 temp <- df_station %>% 
@@ -499,7 +505,7 @@ temp %>%
 
 ##### Figure 2: 2021
 <br>
-<div class="vscroll-plot">
+<div class="plot">
 
 ```{r}
 temp <- df_station %>% 
@@ -522,7 +528,7 @@ temp %>%
 
 ##### Figure 3: 2022
 <br>
-<div class="vscroll-plot">
+<div class="plot">
 ```{r}
 temp <- df_station %>% 
   filter(year(Date) == 2022) %>%
@@ -542,11 +548,11 @@ temp %>%
 <br>
 
 #### {-}
-Notice that most bike rentals occur in the downtown Toronto area, especially near the harborfront. 
+The circles are at each bike rental station, and the colors indicate the total number of bike rentals from that station for the given year. Notice that most bike rentals occur in the downtown Toronto area, especially near the harbor front. 
 
 ### Summary Statistics
 
-We will then select the most popular bike station (station with most total rentals), and the least popular bike station (station with least total rentals). In later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, least popular, and all bike stations. 
+We will then select the most popular bike station (station with most total rentals over the three years), and the least popular bike station (station with least total rentals over the three years). In later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, least popular, and all bike stations. 
 
 ```{r compute most and least popular stations, include = FALSE,  eval= FALSE}
 station_counts <- df_station %>%
@@ -560,7 +566,7 @@ least_pop_station <- station_counts %>% slice_min(count, n = 1)
 # df_station$Station_name[df_station$Station_id == 7758]
 ```
 
-After computation, we obtain that station 7076 ("York St / Queens Quay W") is the most popular with a total of 101551 bike rentals recorded, and station 7758 ("Driftwood Ave / Finch Hydro Trail") is the least popular with only 2 bike rentals recorded.
+After computation, we obtain that station 7076 ("York St / Queens Quay W") is the most popular with a total of 101551 bike rentals recorded for the three years, and station 7758 ("Driftwood Ave / Finch Hydro Trail") is the least popular with only 2 bike rentals recorded for the three years.
 
 ```{r Create df for most and least popular}
 df_most <- df_station %>%
@@ -653,7 +659,7 @@ knitr::kable(sum,
   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
 ```
 
-In Table 8, notice that the rental count for the most popular station is also right skewed, similar to the rental count for all stations. 
+In Table 8, notice that the daily rental count for the most popular station is also right skewed, similar to the rental count for all stations. 
 
 <br>
 ```{r Table 9 univariate summary statistics (least popular), warning = FALSE}
@@ -685,7 +691,7 @@ knitr::kable(sum,
              caption = "Table 9: Univariate summary statistics (least popular)") %>%
   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
 ```
-Notice that there are no zeros as we'd expect, since there are only a total of two rentals. It follows that the dataset we have doesn't record if there were no bike rentals on some day. This makes sense, as we calculated count by summing up the number of rentals recorded. Thus we must take into consideration that none of the data we plot will record these zero days. 
+Notice that there are no zeros as we'd expect, since there are only a total of two rentals so there can only be two nonzero entries over the three years. It follows that the dataset we have doesn't record if there were no bike rentals on some day. This makes sense, as we calculated count by summing up the number of rentals recorded. Thus we must take into consideration that none of the data we plot will record these zero days. 
 
 Also, only having two rentals is very strange. After taking a closer look at the information for that station, we discovered that station 7758 is not actually a station people can rent bikes from, it is instead labelled as a "VAULT", perhaps indicative of a place the bikshare company uses to store bikes not for public use. In this case, having two rentals is still strange, and perhaps was due to internal testing. This is potentially something to look into more in the future.
 
@@ -703,7 +709,7 @@ station_counts %>%
   filter(station_counts$count <= 10455 & station_counts$count > 10400)
 ```
 
-Obtain that station 7685 ("King St W / Brant St") has total 10450 bike rentals recorded. 
+Obtain that median station 7685 ("King St W / Brant St") has total 10450 bike rentals recorded. 
 
 ```{r}
 df_med <- df_station %>%
@@ -741,17 +747,18 @@ knitr::kable(sum,
   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
 ```
 
-In Table 10, notice that the rental count for the most median station is also right skewed, similar to the rental count for all stations and most popular station.
+In Table 10, notice that the daily rental count for the median popular station is also right skewed, similar to the daily rental count for all stations and most popular station.
 
-Now let us take a closer look at Figure 1 below, which is a visualization of the variables of interest in the data. These visualizations are the same for all stations because they are by date. Note that variable "Weekday" is omitted as "Weekday_num" contains the same information in a numerical manner. Note that along the diagonal of Figure 1 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
+Now let us take a closer look at Figure 1 below, which is a visualization of the variables of interest in the data. These visualizations are the same for all stations because they are by date. Note that variable "Weekday_num" is omitted as "Weekday" contains the same information. Note that along the diagonal of Figure 1 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
 
 <br>
 <div class="vscroll-plot">
-```{r, height = 20, width = 20}
+```{r, height = 40, width = 40}
 ggpairs(df[, -8], progress = FALSE) +
   theme_minimal() + 
   labs(title = "Figure 4") + 
-  theme(plot.title = element_text(size = 10))
+  theme(plot.title = element_text(size = 10)) +
+  theme_grey(base_size = 9)
 ```
 </div>
 <br>
