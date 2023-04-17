@@ -7,13 +7,13 @@ output:
 ---
 
 ## Conclusions
-The question of interest an investigation on if weather factors and temporal factors influence the number of bike share users on a given day in Toronto. From the preliminary analysis of the data, we have gained several insights. 
+The question of interest is investigation on if weather factors and temporal factors influence the number of bike share users on a given day in Toronto. From the preliminary analysis of the data, we have gained several insights. 
 
 First, from the tables we see that days with high ridership count tend to have a comfortable temperature, be on a weekend or holiday, and have no rain or snow. On the other hand, days with low ridership count tend to be cold days (below 0°C), likely with precipitation or snow. This pattern holds true for both the total daily rental count, and the daily rental count for the most popular and median popular stations.
 
 Then, more generally, as the temperature increases, the ridership count increases, and the variation in the ridership count also increases. Furthermore, in the summer months the ridership count increases (and has higher variation), and in the winter months the ridership count decreases (and has lower variation). Lower ridership counts appear evenly spread between weekdays and weekends, but higher ridership counts occur more often in weekends. In addition, both the occurrence of snow and/or precipitation (that is, a nonzero value), tends to decrease the ridership count. 
 
-Then, taking into account the day of week, we further discover that the day of the week doesn't seem to change the relationship between precipitation and bike ridership and snow and bike ridership. On the other hand, there does appear to be a slight tendency toward more bike share ridership on weekends versus weekdays.
+Taking into account the day of week, we further discover that the day of the week doesn't seem to change the relationship between precipitation and bike ridership and snow and bike ridership. On the other hand, there does appear to be a slight tendency toward more bike share ridership on weekends versus weekdays.
 
 A further observation is that when temperature is held constant, the precipitation does decrease rental count, however having a higher mean temperature means that even if there is precipitation, the rental count is still higher than with a significantly lower mean temperature and no precipitation.
 
@@ -22,7 +22,7 @@ Finally, after fitting a model that provided an adjusted R-squared value of 0.87
 In addition, notice that the relationships discussed above appear to hold true even when we consider the bike rentals for an individual station instead of the sum of all stations. 
 
 ## Limitations
-Since the weather data used is daily weather data, this does not capture any patterns within the day. For example, there may be both large amounts of snow and a large bike rental count for some day if the snow occurs late at night, after many people have already rented bikes earlier that day. For the temperature variables, we also do not know exactly when an extreme low or high temperature us (although we can make inferences based on our own knowledge). Thus, there is an underlying assumption that the weather variables are representative of the entire day. 
+Since the weather data used is daily weather data, this does not capture any patterns within the day. For example, there may be both large amounts of snow and a large bike rental count for some day if the snow occurs late at night, after many people have already rented bikes earlier that day. For the temperature variables, we also do not know exactly when an extreme low or high temperature is (although we can make inferences based on our own knowledge). Thus, there is an underlying assumption that the weather variables are representative of the entire day. 
 
 There is also an underlying assumption that the weather data we collected from the Toronto weather station is representative of Toronto as a whole, while that may not be the case. Bike Share Toronto has bike stations over almost 200 km<sup>2</sup>. That is a very large area, and weather conditions within the areas may also vary. 
 

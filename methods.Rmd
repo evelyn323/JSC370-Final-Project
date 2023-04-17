@@ -8,7 +8,7 @@ output:
 
 <style>
 .vscroll-plot {
-    width: 700px;
+    width: 750px;
     height: 300px;
     overflow-y: scroll;
     overflow-x: scroll;
@@ -552,7 +552,7 @@ The circles are at each bike rental station, and the colors indicate the total n
 
 ### Summary Statistics
 
-We will then select the most popular bike station (station with most total rentals over the three years), and the least popular bike station (station with least total rentals over the three years). In later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, least popular, and all bike stations. 
+We will then select the most popular bike station (station with most total rentals over the three years), the median most popular bike station (station with the median number of total rentals over the three years) and the least popular bike station (station with least total rentals over the three years). After looking at some brief summary statistics, we establish below that the least popular bike station is not suitable, so only the most popular and median popular station are used. In later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, median popular, and all bike stations. 
 
 ```{r compute most and least popular stations, include = FALSE,  eval= FALSE}
 station_counts <- df_station %>%
@@ -566,7 +566,7 @@ least_pop_station <- station_counts %>% slice_min(count, n = 1)
 # df_station$Station_name[df_station$Station_id == 7758]
 ```
 
-After computation, we obtain that station 7076 ("York St / Queens Quay W") is the most popular with a total of 101551 bike rentals recorded for the three years, and station 7758 ("Driftwood Ave / Finch Hydro Trail") is the least popular with only 2 bike rentals recorded for the three years.
+After computation, we obtain that station 7076 ("York St / Queens Quay W") is the most popular with a total of 101551 bike rentals recorded for the three years, station 7685 ("King St W / Brant St") with total 10450 bike rentals recorded for the three years is the station with median popularity, and station 7758 ("Driftwood Ave / Finch Hydro Trail") is the least popular with only 2 bike rentals recorded for the three years.
 
 ```{r Create df for most and least popular}
 df_most <- df_station %>%
@@ -574,6 +574,11 @@ df_most <- df_station %>%
 
 df_least <- df_station %>%
   filter(Station_id == 7758)
+```
+
+```{r}
+df_med <- df_station %>%
+  filter(Station_id == 7685)
 ```
 
 
@@ -626,7 +631,7 @@ knitr::kable(sum,
 
 From Table 7, notice that the maximum rental count in a day is 28307, which is vastly more than the minimum rental count of 425 in a day. The rental count also appears to be right skewed. Notice that variables for precipitation and snow also appear severely right skewed. 
 
-For the most popular and least popular stations, we will only look at the summaries rental count, as all other variables (e.g. temperature) are the same across all bike stations.
+For the most popular, median popular, and least popular stations, we will only look at the summaries of rental count, as all other variables (e.g. temperature) are the same across all bike stations.
 
 <br>
 ```{r Table 8 univariate summary statistics (most popular), warning = FALSE}
@@ -662,62 +667,7 @@ knitr::kable(sum,
 In Table 8, notice that the daily rental count for the most popular station is also right skewed, similar to the rental count for all stations. 
 
 <br>
-```{r Table 9 univariate summary statistics (least popular), warning = FALSE}
-sum  <- df_least %>% dplyr::select(Rental_count) %>%
-  vtable::sumtable(summ = list(c("min(x)",
-                                      "pctile(x)[25]",
-                                      "median(x)",
-                                      "mean(x)",
-                                      "pctile(x)[75]",
-                                      "max(x)")),
-                        summ.names = list(c("Min",
-                                            "Q1",
-                                            "Median",
-                                            "Mean",
-                                            "Q3",
-                                            "Max")),
-                        out = "return")
-
-sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
-sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
-sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
-sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
-sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
-sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
-
-sum$Variable <- c("Rental Count")
-
-knitr::kable(sum, 
-             caption = "Table 9: Univariate summary statistics (least popular)") %>%
-  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
-```
-Notice that there are no zeros as we'd expect, since there are only a total of two rentals so there can only be two nonzero entries over the three years. It follows that the dataset we have doesn't record if there were no bike rentals on some day. This makes sense, as we calculated count by summing up the number of rentals recorded. Thus we must take into consideration that none of the data we plot will record these zero days. 
-
-Also, only having two rentals is very strange. After taking a closer look at the information for that station, we discovered that station 7758 is not actually a station people can rent bikes from, it is instead labelled as a "VAULT", perhaps indicative of a place the bikshare company uses to store bikes not for public use. In this case, having two rentals is still strange, and perhaps was due to internal testing. This is potentially something to look into more in the future.
-
-Thus conclude that this station is not a good station to analyze daily bike ridership. This report will not be further analyzing this specific bike station. Perhaps the station with the median popularity (called the "median station" from now on) will be a better choice, and as seen below, the median station indeed does produce more reasonable bike ridership counts. Therefore, in later analysis, we will see if the relationship between the temporal and weather factors differs between the counts of the most popular, median popular, and all bike stations. 
-
-```{r, eval = FALSE}
-station_counts <- df_station %>%
-  group_by(Station_id) %>%
-  summarise(count = sum(Rental_count)) 
-
-station_median <- station_counts %>%
-  summarise(median_count = median(count))
-
-station_counts %>% 
-  filter(station_counts$count <= 10455 & station_counts$count > 10400)
-```
-
-Obtain that median station 7685 ("King St W / Brant St") has total 10450 bike rentals recorded. 
-
-```{r}
-df_med <- df_station %>%
-  filter(Station_id == 7685)
-```
-
-<br>
-```{r Table 10 univariate summary statistics (med popular), warning = FALSE}
+```{r Table 9 univariate summary statistics (med popular), warning = FALSE}
 sum  <- df_med %>% dplyr::select(Rental_count) %>%
   vtable::sumtable(summ = list(c("min(x)",
                                       "pctile(x)[25]",
@@ -743,11 +693,47 @@ sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0),
 sum$Variable <- c("Rental Count")
 
 knitr::kable(sum, 
-             caption = "Table 10: Univariate summary statistics (median popular)") %>%
+             caption = "Table 9: Univariate summary statistics (median popular)") %>%
   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
 ```
 
-In Table 10, notice that the daily rental count for the median popular station is also right skewed, similar to the daily rental count for all stations and most popular station.
+In Table 9, notice that the daily rental count for the median popular station is also right skewed, similar to the daily rental count for all stations and most popular station.
+
+<br>
+```{r Table 10 univariate summary statistics (least popular), warning = FALSE}
+sum  <- df_least %>% dplyr::select(Rental_count) %>%
+  vtable::sumtable(summ = list(c("min(x)",
+                                      "pctile(x)[25]",
+                                      "median(x)",
+                                      "mean(x)",
+                                      "pctile(x)[75]",
+                                      "max(x)")),
+                        summ.names = list(c("Min",
+                                            "Q1",
+                                            "Median",
+                                            "Mean",
+                                            "Q3",
+                                            "Max")),
+                        out = "return")
+
+sum$Min[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Min), 0), nsmall = 0)
+sum$Q1[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q1), 0), nsmall = 0)
+sum$Median[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Median), 0), nsmall = 0)
+sum$Mean[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Mean), 0), nsmall = 0)
+sum$Q3[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Q3), 0), nsmall = 0)
+sum$Max[sum$Variable == "Rental_count"] <- format(round(as.numeric(sum$Max), 0), nsmall = 0)
+
+sum$Variable <- c("Rental Count")
+
+knitr::kable(sum, 
+             caption = "Table 10: Univariate summary statistics (least popular)") %>%
+  kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
+```
+Notice that in table 10, there are no zeros as we'd expect, since there are only a total of two rentals so there can only be two nonzero entries over the three years. It follows that the dataset we have doesn't record if there were no bike rentals on some day. This makes sense, as we calculated count by summing up the number of rentals recorded. Thus we must take into consideration that none of the data we plot will record these zero days. 
+
+Also, only having two rentals is very strange. After taking a closer look at the information for that station, we discovered that station 7758 is not actually a station people can rent bikes from, it is instead labelled as a "VAULT", perhaps indicative of a place the bikshare company uses to store bikes not for public use. In this case, having two rentals is still strange, and perhaps was due to internal testing. This is potentially something to look into more in the future.
+
+Thus conclude that this station is not a good station to analyze daily bike ridership. This report will not be further analyzing this specific bike station. Therefore, in later analysis, we will only see if the relationship between the temporal and weather factors differs between the counts of the most popular, median popular, and all bike stations. 
 
 Now let us take a closer look at Figure 1 below, which is a visualization of the variables of interest in the data. These visualizations are the same for all stations because they are by date. Note that variable "Weekday_num" is omitted as "Weekday" contains the same information. Note that along the diagonal of Figure 1 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
 

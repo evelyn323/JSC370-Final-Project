@@ -361,7 +361,7 @@ div.tocify {
 
 <style>
 .vscroll-plot {
-    width: 700px;
+    width: 750px;
     height: 300px;
     overflow-y: scroll;
     overflow-x: scroll;
@@ -709,10 +709,10 @@ data.stations.cross_street
 <tbody>
 <tr>
 <td style="text-align:right;">
-1681573625
+1681694279
 </td>
 <td style="text-align:right;">
-25
+2
 </td>
 <td style="text-align:left;">
 7000
@@ -764,10 +764,10 @@ NA
 </tr>
 <tr>
 <td style="text-align:right;">
-1681573625
+1681694279
 </td>
 <td style="text-align:right;">
-25
+2
 </td>
 <td style="text-align:left;">
 7001
@@ -819,10 +819,10 @@ NA
 </tr>
 <tr>
 <td style="text-align:right;">
-1681573625
+1681694279
 </td>
 <td style="text-align:right;">
-25
+2
 </td>
 <td style="text-align:left;">
 7002
@@ -874,10 +874,10 @@ NA
 </tr>
 <tr>
 <td style="text-align:right;">
-1681573625
+1681694279
 </td>
 <td style="text-align:right;">
-25
+2
 </td>
 <td style="text-align:left;">
 7003
@@ -929,10 +929,10 @@ NA
 </tr>
 <tr>
 <td style="text-align:right;">
-1681573625
+1681694279
 </td>
 <td style="text-align:right;">
-25
+2
 </td>
 <td style="text-align:left;">
 7004
@@ -985,10 +985,10 @@ NA
 </tr>
 <tr>
 <td style="text-align:right;">
-1681573625
+1681694279
 </td>
 <td style="text-align:right;">
-25
+2
 </td>
 <td style="text-align:left;">
 7005
@@ -2177,16 +2177,22 @@ especially near the harbor front.</p>
 <div id="summary-statistics" class="section level3">
 <h3>Summary Statistics</h3>
 <p>We will then select the most popular bike station (station with most
-total rentals over the three years), and the least popular bike station
-(station with least total rentals over the three years). In later
-analysis, we will see if the relationship between the temporal and
-weather factors differs between the counts of the most popular, least
-popular, and all bike stations.</p>
+total rentals over the three years), the median most popular bike
+station (station with the median number of total rentals over the three
+years) and the least popular bike station (station with least total
+rentals over the three years). After looking at some brief summary
+statistics, we establish below that the least popular bike station is
+not suitable, so only the most popular and median popular station are
+used. In later analysis, we will see if the relationship between the
+temporal and weather factors differs between the counts of the most
+popular, median popular, and all bike stations.</p>
 <p>After computation, we obtain that station 7076 (“York St / Queens
 Quay W”) is the most popular with a total of 101551 bike rentals
-recorded for the three years, and station 7758 (“Driftwood Ave / Finch
-Hydro Trail”) is the least popular with only 2 bike rentals recorded for
-the three years.</p>
+recorded for the three years, station 7685 (“King St W / Brant St”) with
+total 10450 bike rentals recorded for the three years is the station
+with median popularity, and station 7758 (“Driftwood Ave / Finch Hydro
+Trail”) is the least popular with only 2 bike rentals recorded for the
+three years.</p>
 Now look at univariate summary statistics of our variables for the
 rental count including all stations in Table 7 below. <br>
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -2371,9 +2377,9 @@ omitted, as it does not provide meaningful information.
 which is vastly more than the minimum rental count of 425 in a day. The
 rental count also appears to be right skewed. Notice that variables for
 precipitation and snow also appear severely right skewed.</p>
-<p>For the most popular and least popular stations, we will only look at
-the summaries rental count, as all other variables (e.g. temperature)
-are the same across all bike stations.</p>
+<p>For the most popular, median popular, and least popular stations, we
+will only look at the summaries of rental count, as all other variables
+(e.g. temperature) are the same across all bike stations.</p>
 <br>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -2436,88 +2442,7 @@ stations.</p>
 <br>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <caption>
-Table 9: Univariate summary statistics (least popular)
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-Variable
-</th>
-<th style="text-align:left;">
-Min
-</th>
-<th style="text-align:left;">
-Q1
-</th>
-<th style="text-align:left;">
-Median
-</th>
-<th style="text-align:left;">
-Mean
-</th>
-<th style="text-align:left;">
-Q3
-</th>
-<th style="text-align:left;">
-Max
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Rental Count
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:left;">
-1
-</td>
-</tr>
-</tbody>
-</table>
-<p>Notice that there are no zeros as we’d expect, since there are only a
-total of two rentals so there can only be two nonzero entries over the
-three years. It follows that the dataset we have doesn’t record if there
-were no bike rentals on some day. This makes sense, as we calculated
-count by summing up the number of rentals recorded. Thus we must take
-into consideration that none of the data we plot will record these zero
-days.</p>
-<p>Also, only having two rentals is very strange. After taking a closer
-look at the information for that station, we discovered that station
-7758 is not actually a station people can rent bikes from, it is instead
-labelled as a “VAULT”, perhaps indicative of a place the bikshare
-company uses to store bikes not for public use. In this case, having two
-rentals is still strange, and perhaps was due to internal testing. This
-is potentially something to look into more in the future.</p>
-<p>Thus conclude that this station is not a good station to analyze
-daily bike ridership. This report will not be further analyzing this
-specific bike station. Perhaps the station with the median popularity
-(called the “median station” from now on) will be a better choice, and
-as seen below, the median station indeed does produce more reasonable
-bike ridership counts. Therefore, in later analysis, we will see if the
-relationship between the temporal and weather factors differs between
-the counts of the most popular, median popular, and all bike
-stations.</p>
-<p>Obtain that median station 7685 (“King St W / Brant St”) has total
-10450 bike rentals recorded.</p>
-<br>
-<table class="table" style="margin-left: auto; margin-right: auto;">
-<caption>
-Table 10: Univariate summary statistics (median popular)
+Table 9: Univariate summary statistics (median popular)
 </caption>
 <thead>
 <tr>
@@ -2570,9 +2495,85 @@ Rental Count
 </tr>
 </tbody>
 </table>
-<p>In Table 10, notice that the daily rental count for the median
-popular station is also right skewed, similar to the daily rental count
-for all stations and most popular station.</p>
+<p>In Table 9, notice that the daily rental count for the median popular
+station is also right skewed, similar to the daily rental count for all
+stations and most popular station.</p>
+<br>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>
+Table 10: Univariate summary statistics (least popular)
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:left;">
+Min
+</th>
+<th style="text-align:left;">
+Q1
+</th>
+<th style="text-align:left;">
+Median
+</th>
+<th style="text-align:left;">
+Mean
+</th>
+<th style="text-align:left;">
+Q3
+</th>
+<th style="text-align:left;">
+Max
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Rental Count
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that in table 10, there are no zeros as we’d expect, since
+there are only a total of two rentals so there can only be two nonzero
+entries over the three years. It follows that the dataset we have
+doesn’t record if there were no bike rentals on some day. This makes
+sense, as we calculated count by summing up the number of rentals
+recorded. Thus we must take into consideration that none of the data we
+plot will record these zero days.</p>
+<p>Also, only having two rentals is very strange. After taking a closer
+look at the information for that station, we discovered that station
+7758 is not actually a station people can rent bikes from, it is instead
+labelled as a “VAULT”, perhaps indicative of a place the bikshare
+company uses to store bikes not for public use. In this case, having two
+rentals is still strange, and perhaps was due to internal testing. This
+is potentially something to look into more in the future.</p>
+<p>Thus conclude that this station is not a good station to analyze
+daily bike ridership. This report will not be further analyzing this
+specific bike station. Therefore, in later analysis, we will only see if
+the relationship between the temporal and weather factors differs
+between the counts of the most popular, median popular, and all bike
+stations.</p>
 <p>Now let us take a closer look at Figure 1 below, which is a
 visualization of the variables of interest in the data. These
 visualizations are the same for all stations because they are by date.
@@ -2586,7 +2587,7 @@ For example, “*” is “slightly significant” (alpha = 0.05) while “***�
 scatter plots between each pair of variables.</p>
 <br>
 <div class="vscroll-plot">
-<p><img src="methods_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 <p><br></p>
 <p>From Figure 4, note that the “Rental_count”, “Precipitation”, and
