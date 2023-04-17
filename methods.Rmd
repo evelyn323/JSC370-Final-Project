@@ -731,15 +731,15 @@ knitr::kable(sum,
 ```
 Notice that in table 10, there are no zeros as we'd expect, since there are only a total of two rentals so there can only be two nonzero entries over the three years. It follows that the dataset we have doesn't record if there were no bike rentals on some day. This makes sense, as we calculated count by summing up the number of rentals recorded. Thus we must take into consideration that none of the data we plot will record these zero days. 
 
-Also, only having two rentals is very strange. After taking a closer look at the information for that station, we discovered that station 7758 is not actually a station people can rent bikes from, it is instead labelled as a "VAULT", perhaps indicative of a place the bikshare company uses to store bikes not for public use. In this case, having two rentals is still strange, and perhaps was due to internal testing. This is potentially something to look into more in the future.
+Also, only having two rentals is very strange. After taking a closer look at the information for that station, we discovered that station 7758 is not actually a station people can rent bikes from, it is instead labelled as a "VAULT", perhaps indicative of a place the bikeshare company uses to store bikes not for public use. In this case, having two rentals is still strange, and perhaps was due to internal testing. This is potentially something to look into more in the future.
 
 Thus conclude that this station is not a good station to analyze daily bike ridership. This report will not be further analyzing this specific bike station. Therefore, in later analysis, we will only see if the relationship between the temporal and weather factors differs between the counts of the most popular, median popular, and all bike stations. 
 
-Now let us take a closer look at Figure 1 below, which is a visualization of the variables of interest in the data. These visualizations are the same for all stations because they are by date. Note that variable "Weekday_num" is omitted as "Weekday" contains the same information. Note that along the diagonal of Figure 1 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
+Now let us take a closer look at Figure 4 below, which is a visualization of the variables of interest in the data. These visualizations are the same for all stations because they are by date. Note that variable "Weekday_num" is omitted as "Weekday" contains the same information. Note that along the diagonal of Figure 4 is a line graph of the number of observations. The top right corner contains the Pearson correlation coefficient between each pair of variables. The more significant the correlation coefficient is, the more stars there are. For example, "\*" is "slightly significant" (alpha = 0.05) while "\*\*\*" is "very significant" (alpha = 0.001). The bottom left corner contains the scatter plots between each pair of variables. 
 
 <br>
 <div class="vscroll-plot">
-```{r, height = 40, width = 40}
+```{r figure 4, height = 40, width = 40}
 ggpairs(df[, -8], progress = FALSE) +
   theme_minimal() + 
   labs(title = "Figure 4") + 

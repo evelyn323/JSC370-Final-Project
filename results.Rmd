@@ -60,7 +60,7 @@ knitr::kable(max,
 ```
 <br>
 
-From Table 11, notice that all the days have a reasonable minimum and maximum temperature (not too cold and not too hot), no (or very little) rain, no snow, and most interestingly, all days are on a Saturday. Furthermore, all 5 days are in 2022, only one is in 2021, and there are none in 2020 and 2021. This may be due to increase in ridership over time, or the COVID situation in 2020 and 2021. 
+From Table 11, notice that all the days have a reasonable minimum and maximum temperature (not too cold and not too hot), no (or very little) rain, no snow, and most interestingly, all days are on a Saturday. Furthermore, all 5 days are in 2022, and there are none in 2020 and 2021. This may be due to increase in ridership over time, or the COVID situation in 2020 and 2021. 
 
 <br>
 ```{r Table 12 conditions for maximum bike share riders (most popular)}
@@ -139,7 +139,7 @@ knitr::kable(min,
 ```
 <br>
 
-From Table 14, notice that all days are very cold, and have some snow or precipitation. The day of the week appears to have less effect here than in Table 12, as there is a wide range here. Notice that these dates also all occur in Dec-Feb winter months. 
+From Table 14, notice that all days are very cold, and have some snow or precipitation. The day of the week appears to have less effect here than in Table 11, as there is a wide range here. Notice that these dates also all occur in Dec-Feb winter months. 
 
 
 <br>
@@ -165,7 +165,7 @@ knitr::kable(min,
 ```
 <br>
 
-From Table 15, notice that the minimum daily rental counts are very small. Similar to Table 14, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 11, as there is a wide range here.
+From Table 15, notice that the minimum daily rental counts are very small. Similar to Table 14, notice that all days are very cold, and often have some snow or precipitation. The day of the week appears to have less effect here than in Table 12, as there is a wide range here.
 
 <br>
 <div class="vscroll-plot">
@@ -395,14 +395,14 @@ models <- list("All Spline, All Predictors" = sallmodelfull,
 Table 17:
 <br>
 <div class="vscroll-plot">
-```{r}
+```{r table 17}
 modelsummary::modelsummary(list("Full model" = smodelfull, "Reduced model" = smodelreduced), estimate = "{estimate}", statistic = c("{p.value}{stars}"), stars = TRUE, output = "kableExtra")  %>%
   kableExtra::kable_styling(latex_options = c("scale_down", "hold_position"))
 ```
 </div>
 <br>
 
-Note that there is no estimate value for the spline on Date in the full model, as the spline does not provide such an estimate. After fitting the full model, we observe that the predictor for Snow is statistically insignificant, so we use the reduced model instead.
+Note that there is no estimate value for the spline on Date for the two models, as the spline does not provide such an estimate. Instead, only the p-value is provided next to `s(as.numeric(Date))` in the bale. After fitting the full model, we observed that the predictor for Snow is statistically insignificant, so we use the reduced model instead.
 
 ```{r, results = "asis"}
 # itsadug::gamtabs(smodelreduced, type = "HTML")
