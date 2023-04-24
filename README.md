@@ -16,4 +16,4 @@ To do this, I will collect Toronto's Open data repository data on Bike Share Tor
 
 Website: https://evelyn323.github.io/JSC370-Final-Project/
 
-Pdf: 
+Pdf: https://github.com/evelyn323/JSC370-Final-Project/raw/main/Report/Report.pdf
