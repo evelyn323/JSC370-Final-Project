@@ -22,7 +22,7 @@ To do this, I will collect Toronto's Open data repository data on Bike Share Tor
 
 
 ## Access the Project
-To view a complete pdf of the report, click HERE
+To view a complete pdf of the report, [click here](https://github.com/evelyn323/JSC370-Final-Project/raw/main/Report/Report.pdf).
 
 Note that many of the visualizations are interactive, which is not rendered in the pdf report. Please refer to the relevant visualization in the website for the interactive version. All content in the pdf report is also contained on the webpage.
 
