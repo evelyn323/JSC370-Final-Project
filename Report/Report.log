@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.3.21)  24 APR 2023 17:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Homebrew) (preloaded format=pdflatex 2023.3.21)  24 APR 2023 18:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -299,13 +299,191 @@ Package graphics Info: Driver file: pdftex.def on input line 107.
 \Gin@req@height=\dimen159
 \Gin@req@width=\dimen160
 )
-(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/bookmark/book
-mark.sty
-Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/booktabs/book
+tabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen161
+\lightrulewidth=\dimen162
+\cmidrulewidth=\dimen163
+\belowrulesep=\dimen164
+\belowbottomsep=\dimen165
+\aboverulesep=\dimen166
+\abovetopsep=\dimen167
+\cmidrulesep=\dimen168
+\cmidrulekern=\dimen169
+\defaultaddspace=\dimen170
+\@cmidla=\count277
+\@cmidlb=\count278
+\@aboverulesep=\dimen171
+\@belowrulesep=\dimen172
+\@thisruleclass=\count279
+\@lastruleclass=\count280
+\@thisrulewidth=\dimen173
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/tools/longtab
+le.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip54
+\LTright=\skip55
+\LTpre=\skip56
+\LTpost=\skip57
+\LTchunksize=\count281
+\LTcapwidth=\dimen174
+\LT@head=\box54
+\LT@firsthead=\box55
+\LT@foot=\box56
+\LT@lastfoot=\box57
+\LT@gbox=\box58
+\LT@cols=\count282
+\LT@rows=\count283
+\c@LT@tables=\count284
+\c@LT@chunks=\count285
+\LT@p@ftn=\toks27
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/tools/array.s
+ty
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen175
+\ar@mcellbox=\box59
+\extrarowheight=\dimen176
+\NC@list=\toks28
+\extratabsurround=\skip58
+\backup@length=\skip59
+\ar@cellbox=\box60
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/multirow/mult
+irow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip60
+\multirow@cntb=\count286
+\multirow@dima=\skip61
+\bigstrutjot=\dimen177
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/wrapfig/wrapf
+ig.sty
+\wrapoverhang=\dimen178
+\WF@size=\dimen179
+\c@WF@wrappedlines=\count287
+\WF@box=\box61
+\WF@everypar=\toks29
+Package: wrapfig 2003/01/31  v 3.6
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/float/float.s
+ty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count288
+\float@exts=\toks30
+\float@box=\box62
+\@float@everytoks=\toks31
+\@floatcapt=\box63
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/colortbl/colo
+rtbl.sty
+Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
+\everycr=\toks32
+\minrowclearance=\skip62
+\rownum=\count289
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/pdflscape/pdf
+lscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
 
-(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/hyperref/hype
-rref.sty
-Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/pdflscape/pdf
+lscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
+F (HO)
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/graphics/lsca
+pe.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+))
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/varwidth/varw
+idth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box64
+\sift@deathcycles=\count290
+\@vwid@loff=\dimen180
+\@vwid@roff=\dimen181
+)
+\c@taburow=\count291
+\tabu@nbcols=\count292
+\tabu@cnt=\count293
+\tabu@Xcol=\count294
+\tabu@alloc=\count295
+\tabu@nested=\count296
+\tabu@target=\dimen182
+\tabu@spreadtarget=\dimen183
+\tabu@naturalX=\dimen184
+\tabucolX=\dimen185
+\tabu@Xsum=\dimen186
+\extrarowdepth=\dimen187
+\abovetabulinesep=\dimen188
+\belowtabulinesep=\dimen189
+\tabustrutrule=\dimen190
+\tabu@thebody=\toks33
+\tabu@footnotes=\toks34
+\tabu@box=\box65
+\tabu@arstrutbox=\box66
+\tabu@hleads=\box67
+\tabu@vleads=\box68
+\tabu@cellskip=\skip63
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/threeparttabl
+e/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box69
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/threeparttabl
+ex/threeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/environ/envir
+on.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/trimspaces/tr
+imspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip64
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/generic/ulem/ulem.s
+ty
+\UL@box=\box70
+\UL@hyphenbox=\box71
+\UL@skip=\skip65
+\UL@hook=\toks35
+\UL@height=\dimen191
+\UL@pe=\count297
+\UL@pixel=\dimen192
+\ULC@box=\box72
+Package: ulem 2019/11/18
+\ULdepth=\dimen193
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/makecell/make
+cell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen194
+\c@nlinenum=\count298
+\TeXr@lab=\toks36
+)
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/siunitx/siuni
+tx.sty
+Package: siunitx 2023-03-04 v3.2.2 A comprehensive (SI) units package
+\l__siunitx_angle_tmp_dim=\dimen195
+\l__siunitx_angle_marker_box=\box73
+\l__siunitx_angle_unit_box=\box74
+\l__siunitx_compound_count_int=\count299
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/translations/
+translations.sty
+Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages
+ (CN)
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/generic/pdftexcmds/
 pdftexcmds.sty
@@ -319,7 +497,38 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
+))
+\l__siunitx_number_exponent_fixed_int=\count300
+\l__siunitx_number_min_decimal_int=\count301
+\l__siunitx_number_min_integer_int=\count302
+\l__siunitx_number_round_precision_int=\count303
+\l__siunitx_number_lower_threshold_int=\count304
+\l__siunitx_number_upper_threshold_int=\count305
+\l__siunitx_number_group_first_int=\count306
+\l__siunitx_number_group_size_int=\count307
+\l__siunitx_number_group_minimum_int=\count308
+\l__siunitx_table_tmp_box=\box75
+\l__siunitx_table_tmp_dim=\dimen196
+\l__siunitx_table_column_width_dim=\dimen197
+\l__siunitx_table_integer_box=\box76
+\l__siunitx_table_decimal_box=\box77
+\l__siunitx_table_uncert_box=\box78
+\l__siunitx_table_before_box=\box79
+\l__siunitx_table_after_box=\box80
+\l__siunitx_table_before_dim=\dimen198
+\l__siunitx_table_carry_dim=\dimen199
+\l__siunitx_unit_tmp_int=\count309
+\l__siunitx_unit_position_int=\count310
+\l__siunitx_unit_total_int=\count311
 )
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/bookmark/book
+mark.sty
+Package: bookmark 2020-11-06 v1.29 PDF bookmarks (HO)
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/hyperref/hype
+rref.sty
+Package: hyperref 2023-02-07 v7.00v Hypertext links for LaTeX
+
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/generic/kvdefinekey
 s/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
@@ -352,11 +561,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ing/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count277
+\c@section@level=\count312
 )
-\@linkdim=\dimen161
-\Hy@linkcounter=\count278
-\Hy@pagecounter=\count279
+\@linkdim=\dimen256
+\Hy@linkcounter=\count313
+\Hy@pagecounter=\count314
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/hyperref/pd1e
 nc.def
@@ -372,7 +581,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 excmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count280
+\Hy@SavedSpaceFactor=\count315
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/hyperref/puen
 c.def
@@ -388,13 +597,13 @@ Package hyperref Info: Plain pages OFF on input line 4192.
 Package hyperref Info: Backreferencing OFF on input line 4197.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4425.
-\c@Hy@tempcnt=\count281
+\c@Hy@tempcnt=\count316
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4763.
-\XeTeXLinkMargin=\dimen162
+\XeTeXLinkMargin=\dimen257
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/generic/bitset/bits
 et.sty
@@ -405,9 +614,9 @@ bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count282
-\Field@Width=\dimen163
-\Fld@charsize=\dimen164
+\Fld@menulength=\count317
+\Field@Width=\dimen258
+\Fld@charsize=\dimen259
 Package hyperref Info: Hyper figures OFF on input line 6042.
 Package hyperref Info: Link nesting OFF on input line 6047.
 Package hyperref Info: Hyper index ON on input line 6050.
@@ -421,9 +630,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6072.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count283
-\c@Item=\count284
-\c@Hfootnote=\count285
+\Hy@abspage=\count318
+\c@Item=\count319
+\c@Hfootnote=\count320
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
@@ -437,8 +646,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count286
-\c@bookmark@seq@number=\count287
+\Fld@listcount=\count321
+\c@bookmark@seq@number=\count322
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/rerunfilechec
 k/rerunfilecheck.sty
@@ -451,56 +660,58 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 85.
 )
-\Hy@SectionHShift=\skip54
+\Hy@SectionHShift=\skip66
 )
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/bookmark/bkm-
 pdftex.def
 File: bkm-pdftex.def 2020-11-06 v1.29 bookmark driver for pdfTeX (HO)
-\BKM@id=\count288
+\BKM@id=\count323
 ))
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
 )
+Package translations Info: No language package found. I am going to use `englis
+h' as default language. on input line 94.
+
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/l3backend/l3b
 ackend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count289
-\l__pdf_internal_box=\box54
-)
-No file Report.aux.
+\l__color_backend_stack_int=\count324
+\l__pdf_internal_box=\box81
+) (./Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Info: Redefining \microtypecontext on input line 70.
-Package microtype Info: Applying patch `item' on input line 70.
-Package microtype Info: Applying patch `toc' on input line 70.
-Package microtype Info: Applying patch `eqnum' on input line 70.
-Package microtype Info: Applying patch `footnote' on input line 70.
-Package microtype Info: Applying patch `verbatim' on input line 70.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 94.
+LaTeX Font Info:    ... okay on input line 94.
+LaTeX Info: Redefining \microtypecontext on input line 94.
+Package microtype Info: Applying patch `item' on input line 94.
+Package microtype Info: Applying patch `toc' on input line 94.
+Package microtype Info: Applying patch `eqnum' on input line 94.
+Package microtype Info: Applying patch `footnote' on input line 94.
+Package microtype Info: Applying patch `verbatim' on input line 94.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 70.
+LaTeX Info: Redefining \showhyphens on input line 94.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -513,17 +724,17 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/context/base/mkii/s
 upp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count290
-\scratchdimen=\dimen165
-\scratchbox=\box55
-\nofMPsegments=\count291
-\nofMParguments=\count292
-\everyMPshowfont=\toks27
-\MPscratchCnt=\count293
-\MPscratchDim=\dimen166
-\MPnumerator=\count294
-\makeMPintoPDFobject=\count295
-\everyMPtoPDFconversion=\toks28
+\scratchcounter=\count325
+\scratchdimen=\dimen260
+\scratchbox=\box82
+\nofMPsegments=\count326
+\nofMParguments=\count327
+\everyMPshowfont=\toks37
+\MPscratchCnt=\count328
+\MPscratchDim=\dimen261
+\MPnumerator=\count329
+\makeMPintoPDFobject=\count330
+\everyMPtoPDFconversion=\toks38
 )
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/epstopdf-pkg/
 epstopdf-base.sty
@@ -570,36 +781,44 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 70.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 7
-2.
+
+(/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/translations/
+translations-basic-dictionary-english.trsl
+File: translations-basic-dictionary-english.trsl (english translation file `tra
+nslations-basic-dictionary')
+)
+Package translations Info: loading dictionary `translations-basic-dictionary' f
+or `english'. on input line 94.
+Package hyperref Info: Link coloring OFF on input line 94.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 9
+6.
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 7
-2.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9
+6.
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-72.
+96.
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-72.
+96.
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 72.
+(Font)              <12> on input line 96.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 72.
+(Font)              <8> on input line 96.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 72.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 72.
+(Font)              <6> on input line 96.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 96.
 
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/amsfonts/umsa
@@ -610,7 +829,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 72.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 96.
 
 
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/amsfonts/umsb
@@ -622,12 +841,12 @@ msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-03.
+27.
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-34.
+58.
 (/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [1
@@ -637,23 +856,23 @@ File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 vips/lm/lm-ec.enc}{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts
 /enc/dvips/lm/lm-ts1.enc}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 151.
+(Font)              <10> on input line 175.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 151.
+(Font)              <7> on input line 175.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 151.
+(Font)              <5> on input line 175.
 
-Overfull \hbox (423.63313pt too wide) in paragraph at lines 151--168
+Overfull \hbox (427.23293pt too wide) in paragraph at lines 175--192
  [][] 
  []
 
 
-Overfull \hbox (1852.222pt too wide) in paragraph at lines 187--204
+Overfull \hbox (1859.4216pt too wide) in paragraph at lines 211--228
  [][] 
  []
 
 
-Overfull \hbox (1070.47829pt too wide) in paragraph at lines 230--247
+Overfull \hbox (1075.678pt too wide) in paragraph at lines 254--271
  [][] 
  []
 
@@ -661,7 +880,7 @@ Overfull \hbox (1070.47829pt too wide) in paragraph at lines 230--247
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [2]
-Overfull \hbox (3332.6369pt too wide) in paragraph at lines 329--344
+Overfull \hbox (3338.23659pt too wide) in paragraph at lines 353--368
  [][] 
  []
 
@@ -669,7 +888,7 @@ Overfull \hbox (3332.6369pt too wide) in paragraph at lines 329--344
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [3]
-Overfull \hbox (457.21837pt too wide) in paragraph at lines 387--404
+Overfull \hbox (462.41808pt too wide) in paragraph at lines 411--428
  [][] 
  []
 
@@ -678,61 +897,55 @@ Overfull \hbox (457.21837pt too wide) in paragraph at lines 387--404
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [5]
-<Report_files/figure-latex/figure 4-1.pdf, id=68, 281.05pt x 207.77625pt>
+<Report_files/figure-latex/figure 4-1.pdf, id=68, 461.725pt x 316.18124pt>
 File: Report_files/figure-latex/figure 4-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/figure 4-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/figure 4-1.pdf  used on inpu
-t line 568.
-(pdftex.def)             Requested size: 281.06216pt x 207.78523pt.
-[6 <./Report_files/figure-latex/figure 4-1.pdf>]
-Overfull \hbox (208.82756pt too wide) in paragraph at lines 612--627
- [][] 
- []
+t line 592.
+(pdftex.def)             Requested size: 461.72388pt x 316.18047pt.
+[6 <./Report_files/figure-latex/figure 4-1.pdf>] [7]
 
-
-Overfull \hbox (208.82756pt too wide) in paragraph at lines 640--655
- [][] 
- []
-
-
-Overfull \hbox (218.30002pt too wide) in paragraph at lines 667--682
- [][] 
- []
-
-[7]
-Overfull \hbox (208.52252pt too wide) in paragraph at lines 694--709
- [][] 
- []
-
-
-Overfull \hbox (218.30002pt too wide) in paragraph at lines 720--737
- [][] 
- []
-
-
-Overfull \hbox (210.82726pt too wide) in paragraph at lines 748--777
- [][] 
- []
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [8]
-<Report_files/figure-latex/unnamed-chunk-15-1.pdf, id=100, 279.0425pt x 208.78p
+<Report_files/figure-latex/unnamed-chunk-15-1.pdf, id=99, 459.7175pt x 317.185p
 t>
 File: Report_files/figure-latex/unnamed-chunk-15-1.pdf Graphic file (type pdf)
 <use Report_files/figure-latex/unnamed-chunk-15-1.pdf>
 Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-15-1.pdf  used
- on input line 812.
-(pdftex.def)             Requested size: 279.05032pt x 208.78583pt.
-[9 <./Report_files/figure-latex/unnamed-chunk-15-1.pdf>]
-! Undefined control sequence.
-l.914 \toprule
-               
-Here is how much of TeX's memory you used:
- 13578 strings out of 476025
- 218954 string characters out of 5780034
- 1890388 words of memory out of 5000000
- 33641 multiletter control sequences out of 15000+600000
- 560151 words of font info for 130 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 77i,12n,81p,1003b,449s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ on input line 842.
+(pdftex.def)             Requested size: 459.74442pt x 317.20355pt.
+[9] [10 <./Report_files/figure-latex/unnamed-chunk-15-1.pdf>]
 
-!  ==> Fatal error occurred, no output PDF file produced!
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[11] [12{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/enc/dvips
+/lm/lm-rm.enc}{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/enc
+/dvips/lm/lm-mathit.enc}{/opt/homebrew/Cellar/texlive/20230313/share/texmf-dist
+/fonts/enc/dvips/lm/lm-mathsy.enc}] [13] (./Report.aux) ) 
+Here is how much of TeX's memory you used:
+ 18927 strings out of 476025
+ 362097 string characters out of 5780034
+ 1901388 words of memory out of 5000000
+ 38881 multiletter control sequences out of 15000+600000
+ 560571 words of font info for 135 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 77i,13n,81p,1003b,972s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</opt/homebrew/Cellar/
+texlive/20230313/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></opt/homebr
+ew/Cellar/texlive/20230313/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></
+opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/type1/public/lm/lmm
+i10.pfb></opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/type1/pub
+lic/lm/lmr10.pfb></opt/homebrew/Cellar/texlive/20230313/share/texmf-dist/fonts/
+type1/public/lm/lmr12.pfb></opt/homebrew/Cellar/texlive/20230313/share/texmf-di
+st/fonts/type1/public/lm/lmr17.pfb></opt/homebrew/Cellar/texlive/20230313/share
+/texmf-dist/fonts/type1/public/lm/lmr7.pfb></opt/homebrew/Cellar/texlive/202303
+13/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></opt/homebrew/Cellar/texl
+ive/20230313/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Report.pdf (13 pages, 1582457 bytes).
+PDF statistics:
+ 271 PDF objects out of 1000 (max. 8388607)
+ 227 compressed objects within 3 object streams
+ 72 named destinations out of 1000 (max. 500000)
+ 26795 words of extra memory for PDF output out of 29859 (max. 10000000)
+
